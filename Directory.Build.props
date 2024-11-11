@@ -1,0 +1,21 @@
+<Project>
+
+    <PropertyGroup>
+        <LangVersion>latest</LangVersion>
+		<AvaloniaVersion>11.2.0</AvaloniaVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GitHubOrganization>BiblioNexusStudio</GitHubOrganization>
+        <RepositoryName>bible-well-mobile</RepositoryName>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/$(GitHubOrganization)/$(RepositoryName).git</RepositoryUrl>
+        <Authors>BiblioNexus</Authors>
+        <Copyright>Copyright $(Authors)</Copyright>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>false</IsTestProject>
+    </PropertyGroup>
+
+</Project>
