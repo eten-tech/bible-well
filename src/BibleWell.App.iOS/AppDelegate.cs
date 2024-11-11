@@ -1,9 +1,5 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.iOS;
-using Avalonia.Media;
-using Foundation;
-using UIKit;
 
 namespace BibleWell.App.iOS;
 // The UIApplicationDelegate for the application. This class is responsible for launching the 
