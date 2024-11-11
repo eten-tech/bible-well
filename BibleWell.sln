@@ -3,21 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.App", "src\BibleWell.App\BibleWell.App.csproj", "{98DA04E8-EA58-4D52-9DE2-EF1FF6E29A6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App", "src\BibleWell.App\BibleWell.App.csproj", "{98DA04E8-EA58-4D52-9DE2-EF1FF6E29A6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.App.Android", "src\BibleWell.App.Android\BibleWell.App.Android.csproj", "{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App.Android", "src\BibleWell.App.Android\BibleWell.App.Android.csproj", "{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.App.Desktop", "src\BibleWell.App.Desktop\BibleWell.App.Desktop.csproj", "{37EE9029-8A86-4F3F-9115-9842B02B8F47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App.Desktop", "src\BibleWell.App.Desktop\BibleWell.App.Desktop.csproj", "{37EE9029-8A86-4F3F-9115-9842B02B8F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.App.iOS", "src\BibleWell.App.iOS\BibleWell.App.iOS.csproj", "{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App.iOS", "src\BibleWell.App.iOS\BibleWell.App.iOS.csproj", "{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.App.Browser", "src\BibleWell.App.Browser\BibleWell.App.Browser.csproj", "{7339069C-36C7-4D32-A8C5-FAB04B579E82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App.Browser", "src\BibleWell.App.Browser\BibleWell.App.Browser.csproj", "{7339069C-36C7-4D32-A8C5-FAB04B579E82}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{97DC52D2-AAAC-47AA-9912-701BC7465BF8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E7B33CD9-74EA-4287-A83F-42B9CE97EC49}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Build.props = tests\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{50E00028-435D-430C-998C-365DC2906EBC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
