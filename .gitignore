@@ -121,6 +121,9 @@ ipch/
 # Visual Studio Trace Files
 *.e2e
 
+# Visual Studio Code Debugger launch file
+.vscode/
+
 # TFS 2012 Local Workspace
 $tf/
 
@@ -396,3 +399,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+*.DotSettings.user
+appsettings.Development.json
+.idea/
