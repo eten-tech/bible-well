@@ -37,7 +37,6 @@ public class App : Application
             {
                 DataContext = mainViewModel
             };
-            services.AddSingleton<IFilesService>(x => new FilesService(desktop.MainWindow));
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
@@ -45,7 +44,6 @@ public class App : Application
             {
                 DataContext = mainViewModel
             };
-            services.AddSingleton<IFilesService>(x => new FilesService(singleViewPlatform.MainView));
         }
 
         Ioc.Default.ConfigureServices(serviceProvider);
