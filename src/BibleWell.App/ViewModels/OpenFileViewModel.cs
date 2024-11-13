@@ -1,7 +1,7 @@
 using BibleWell.App.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace BibleWell.App.ViewModels;
 
@@ -16,7 +16,7 @@ public partial class OpenFileViewModel : ViewModelBase
         ErrorMessages?.Clear();
         try
         {
-            var filesService = App.Current?.Services?.GetService<IFilesService>();
+            var filesService = Ioc.Default.GetService<IFilesService>();
             if (filesService is null)
             {
                 throw new NullReferenceException(nameof(filesService));

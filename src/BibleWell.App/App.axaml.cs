@@ -12,10 +12,6 @@ namespace BibleWell.App;
 // this is the Avalonia equivalent of a Program.cs file
 public class App : Application
 {
-
-    public static new App? Current => Application.Current as App;
-    public IServiceProvider? Services { get; private set; }
-
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -51,7 +47,7 @@ public class App : Application
             services.AddSingleton<IFilesService>(x => new FilesService(singleViewPlatform.MainView));
         }
 
-        Services = services.BuildServiceProvider();
+        services.BuildServiceProvider();
 
         base.OnFrameworkInitializationCompleted();
     }
