@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
@@ -9,12 +9,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia" />
+        <PackageReference Include="Avalonia.Themes.Fluent" />
+        <PackageReference Include="Avalonia.Fonts.Inter" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
+        <PackageReference Include="CommunityToolkit.Mvvm" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     </ItemGroup>
 </Project>
