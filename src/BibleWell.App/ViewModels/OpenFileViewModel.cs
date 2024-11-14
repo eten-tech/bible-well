@@ -1,4 +1,3 @@
-using Avalonia.Media;
 using BibleWell.App.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
