@@ -1,3 +1,4 @@
+using Avalonia.Media;
 using BibleWell.App.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -11,7 +12,35 @@ public partial class OpenFileViewModel : ViewModelBase
     private string? _fileText;
 
     [RelayCommand]
-    private async Task OpenFile(CancellationToken ct)
+    private async Task OpenFileWithStorageProvider(CancellationToken ct)
+    {
+        ErrorMessages?.Clear();
+        try
+        {
+            var filesService = Ioc.Default.GetService<IFilesService>();
+            if (filesService is null)
+            {
+                throw new NullReferenceException(nameof(filesService));
+            }
+
+            var file = await filesService.OpenStorageProviderFileAsync();
+            if (file is null)
+            {
+                return;
+            }
+
+            await using var readStream = await file.OpenReadAsync();
+            using var reader = new StreamReader(readStream);
+            FileText = await reader.ReadToEndAsync(ct);
+        }
+        catch (Exception e)
+        {
+            ErrorMessages?.Add(e.Message);
+        }
+    }
+
+    [RelayCommand]
+    private async Task OpenFileWithMauiFilePicker(CancellationToken ct)
     {
         ErrorMessages?.Clear();
         try
@@ -34,7 +63,8 @@ public partial class OpenFileViewModel : ViewModelBase
         }
         catch (Exception e)
         {
-            ErrorMessages?.Add(e.Message);
+            Console.WriteLine(e);
+            throw;
         }
     }
 }
