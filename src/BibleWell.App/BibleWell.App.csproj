@@ -6,17 +6,33 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia"/>
-        <PackageReference Include="Avalonia.Themes.Fluent"/>
-        <PackageReference Include="Avalonia.Fonts.Inter"/>
+        <AvaloniaXaml Remove="Assets\Icons.axaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" />
+        <PackageReference Include="Avalonia.Themes.Fluent" />
+        <PackageReference Include="Avalonia.Fonts.Inter" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics"/>
-        <PackageReference Include="CommunityToolkit.Mvvm"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
-        <PackageReference Include="Microsoft.Maui.Essentials"/>
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
+        <PackageReference Include="CommunityToolkit.Labs.Extensions.DependencyInjection" />
+        <PackageReference Include="CommunityToolkit.Mvvm" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BibleWell.Aquifer.Api\BibleWell.Aquifer.Api.csproj" />
+        <ProjectReference Include="..\BibleWell.Aquifer.Data\BibleWell.Aquifer.Data.csproj" />
+        <ProjectReference Include="..\BibleWell\BibleWell.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AvaloniaResource Update="Assets\Icons.axaml">
+            <SubType>Designer</SubType>
+        </AvaloniaResource>
     </ItemGroup>
 </Project>
