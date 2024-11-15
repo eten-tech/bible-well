@@ -8,9 +8,6 @@
              x:DataType="viewModels:OpenFileViewModel">
     <DockPanel LastChildFill="True">
         <DockPanel DockPanel.Dock="Bottom">
-            <Button DockPanel.Dock="Left" Command="{Binding OpenFileWithStorageProviderCommand}">Open File (Storage Provider)</Button>
-        </DockPanel>
-        <DockPanel DockPanel.Dock="Bottom">
             <Button DockPanel.Dock="Left" Command="{Binding OpenFileWithMauiFilePickerCommand}">Open File (Maui)</Button>
         </DockPanel>
         <ListBox DockPanel.Dock="Bottom" ItemsSource="{Binding ErrorMessages}" />
