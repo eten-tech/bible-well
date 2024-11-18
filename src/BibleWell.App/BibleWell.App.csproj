@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-        <UseMauiEssentials>true</UseMauiEssentials>
+        <UseMauiEssentials>true</UseMauiEssentials> 
     </PropertyGroup>
 
     <ItemGroup>

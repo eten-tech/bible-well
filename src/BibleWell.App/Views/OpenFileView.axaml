@@ -12,6 +12,6 @@
         </DockPanel>
         <ListBox DockPanel.Dock="Bottom" ItemsSource="{Binding ErrorMessages}" />
         <TextBox Text="{Binding FileText, Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True" />
-        <Image Source="{Binding Image}" IsVisible="{Binding IsImageVisible}" />
+        <!-- <Image Source="{Binding Image}" IsVisible="{Binding IsImageVisible}" /> -->
     </DockPanel>
 </UserControl>

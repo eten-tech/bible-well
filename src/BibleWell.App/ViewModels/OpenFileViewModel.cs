@@ -24,7 +24,7 @@ public partial class OpenFileViewModel : ViewModelBase
         try
         {
             var file = await FilePicker.PickAsync();
-            ;
+
             if (file is null)
             {
                 return;
@@ -36,7 +36,7 @@ public partial class OpenFileViewModel : ViewModelBase
 
             if (fileExtension is ".png" or ".jpg" or ".jpeg")
             {
-                Image = Bitmap.DecodeToWidth(readStream, 400);
+                Image = Bitmap.DecodeToWidth(readStream, 800);
                 IsImageVisible = true;
             }
             else
