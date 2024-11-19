@@ -23,6 +23,7 @@ public sealed partial class MainViewModel : ViewModelBase
         new(typeof(GuidePageViewModel)),
         new(typeof(ResourcesPageViewModel)),
         new(typeof(LibraryPageViewModel)),
+        new(typeof(SqlitePageViewModel)),
     ];
 
     partial void OnSelectedMenuItemChanged(MenuItemTemplate? value)

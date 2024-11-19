@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using BibleWell.App.Data;
 using BibleWell.App.ViewModels;
 using BibleWell.App.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,5 +50,6 @@ public partial class App : Application
     internal static void ConfigureServices(IServiceCollection services)
     {
         services.AddTransient<MainViewModel>();
+        services.AddSingleton<BibleWellSqlite>();
     }
 }
