@@ -41,5 +41,11 @@ public class BibleWellSqlite
             return await _database!.InsertAsync(item);
         }
     }
+
+    public async Task<int> DeleteItemAsync(ExampleItem item)
+    {
+        await InitAsync();
+        return await _database!.DeleteAsync(item);
+    }
 }
 

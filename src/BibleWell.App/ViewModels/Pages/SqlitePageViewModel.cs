@@ -14,35 +14,22 @@ public sealed partial class SqlitePageViewModel : PageViewModelBase
     private string _tableText = "Click the button to fetch from the Db.";
     
     public ObservableCollection<ExampleItem> ExampleItems { get; set; }
+
     private readonly BibleWellSqlite _dbContext;
     
-    
+    // todo: hide grid until populated?
+    // todo: show simple text 'loading ...'?
+    // todo: update items?
     public SqlitePageViewModel()
     {
         _dbContext = new BibleWellSqlite();
-        var fakeItems = new List<ExampleItem>
-        {
-            new() {
-                Id = 2,
-                Name = "Thing Two"
-            },
-            new() {
-                Id = 3,
-                Name = "Thing Three"
-            },
-            new() {
-                Id = 1,
-                Name = "Thing One"
-            },
-        };
-        
-        ExampleItems = new ObservableCollection<ExampleItem>(fakeItems);
+        ExampleItems = new ObservableCollection<ExampleItem>([]);
     }
     
     [RelayCommand]
     private async Task GetItemsButtonClick()
     {
-        TableText = "Here is a list of items from the database.";
+        TableText = "Items fetched. Click again to refresh the list from the DB.";
         ExampleItems.Clear();
         
         var dbItems = await _dbContext.GetItemsAsync();
@@ -53,14 +40,35 @@ public sealed partial class SqlitePageViewModel : PageViewModelBase
         }
     }
 
+    [ObservableProperty]
+    private string _newItemText = "";
     [RelayCommand]
-    private async Task SaveNewItem()
+    private async Task CreateItem()
     {
-        // working here 
         await _dbContext.SaveItemAsync(new ExampleItem()
         {
-            Name = "Thing four",
+            Name = NewItemText,
         });
+        
+        NewItemText = string.Empty;
+        
+        await GetItemsButtonClick();
+    }
+    
+    // todo: generic save item fn that can be used for create or update?
+
+    [RelayCommand]
+    private async Task DeleteItem(int itemId)
+    {
+        var item = ExampleItems.FirstOrDefault(i => i.Id == itemId);
+
+        if (item is null)
+        {
+            return;
+        }
+        
+        await _dbContext.DeleteItemAsync(item);
+        await GetItemsButtonClick();
     }
 }
 
