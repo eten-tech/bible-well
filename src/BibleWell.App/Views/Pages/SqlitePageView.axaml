@@ -21,6 +21,12 @@
             Fetch Items from DB
         </Button>
         
+        <Button 
+            Margin="20 10"
+            Command="{Binding WriteCollectionToLogCommand}">
+            log Items from collection
+        </Button>
+        
         <TextBox 
             Margin="20 20 20 5" Width="250"
             HorizontalAlignment="Left"
@@ -32,6 +38,7 @@
         </Button>
         
         <DataGrid
+            IsVisible="{Binding IsDataGridEnabled}"
             x:Name="ExampleItemDataGrid"
             Margin="20" 
             Height="300"
@@ -40,7 +47,7 @@
             CanUserResizeColumns="True"
             GridLinesVisibility="All"
             BorderThickness="1"
-            BorderBrush="Gray">
+            BorderBrush="Gray" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Width="75" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}" />
@@ -48,7 +55,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="model:ExampleItem">
                             <Button
-                                Command="{Binding Path=#ExampleItemDataGrid.((vm:SqlitePageViewModel)DataContext).DeleteItemCommand}" 
+                                Command="{Binding Path=#ExampleItemDataGrid.((vm:SqlitePageViewModel)DataContext).DeleteItemCommand,
+                                    FallbackValue='Delete Button placeholder'}" 
                                 CommandParameter="{Binding Id }">
                                 Delete
                             </Button>
@@ -58,8 +66,5 @@
             </DataGrid.Columns>
         </DataGrid>
         
-        <ListBox></ListBox>
     </StackPanel>
-
-
 </UserControl>
