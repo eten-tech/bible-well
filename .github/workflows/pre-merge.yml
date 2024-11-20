@@ -6,8 +6,8 @@ on:
             - '**'
 
 jobs:
-    lint_and_test:
-        name: Lint and test
+    build_and_test:
+        name: Build and test
         runs-on: windows-latest
         steps:
 

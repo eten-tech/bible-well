@@ -1,4 +1,4 @@
-# This workflow runs automatically on pushes to master.
+# This workflow runs automatically on pushes to main.
 # It can also be run manually via workflow_dispatch. It uses check-if-branch-should-deploy
 # to prevent cluttering the deployments list with initial release-hotfix- branches.
 #
@@ -9,7 +9,7 @@ name: Post-merge
 on:
     push:
         branches:
-            - master
+            - main
             - 'release-hotfix-*'
     workflow_dispatch:
 
@@ -21,8 +21,8 @@ permissions:
 
 jobs:
 
-    build:
-        name: Build
+    build_and_test:
+        name: Build and test
         runs-on: windows-latest
         steps:
 
