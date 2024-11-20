@@ -7,11 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App", "src\BibleW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App.Android", "src\BibleWell.App.Android\BibleWell.App.Android.csproj", "{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App.Desktop", "src\BibleWell.App.Desktop\BibleWell.App.Desktop.csproj", "{37EE9029-8A86-4F3F-9115-9842B02B8F47}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App.iOS", "src\BibleWell.App.iOS\BibleWell.App.iOS.csproj", "{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibleWell.App.Browser", "src\BibleWell.App.Browser\BibleWell.App.Browser.csproj", "{7339069C-36C7-4D32-A8C5-FAB04B579E82}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{97DC52D2-AAAC-47AA-9912-701BC7465BF8}"
 EndProject
@@ -34,32 +30,33 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Release-Optimized|Any CPU = Release-Optimized|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{98DA04E8-EA58-4D52-9DE2-EF1FF6E29A6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98DA04E8-EA58-4D52-9DE2-EF1FF6E29A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98DA04E8-EA58-4D52-9DE2-EF1FF6E29A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98DA04E8-EA58-4D52-9DE2-EF1FF6E29A6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98DA04E8-EA58-4D52-9DE2-EF1FF6E29A6F}.Release-Optimized|Any CPU.ActiveCfg = Release-Optimized|Any CPU
+		{98DA04E8-EA58-4D52-9DE2-EF1FF6E29A6F}.Release-Optimized|Any CPU.Build.0 = Release-Optimized|Any CPU
 		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{37EE9029-8A86-4F3F-9115-9842B02B8F47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37EE9029-8A86-4F3F-9115-9842B02B8F47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37EE9029-8A86-4F3F-9115-9842B02B8F47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37EE9029-8A86-4F3F-9115-9842B02B8F47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}.Release-Optimized|Any CPU.ActiveCfg = Release-Optimized|Any CPU
+		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}.Release-Optimized|Any CPU.Build.0 = Release-Optimized|Any CPU
+		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1}.Release-Optimized|Any CPU.Deploy.0 = Release-Optimized|Any CPU
 		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{7339069C-36C7-4D32-A8C5-FAB04B579E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7339069C-36C7-4D32-A8C5-FAB04B579E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7339069C-36C7-4D32-A8C5-FAB04B579E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7339069C-36C7-4D32-A8C5-FAB04B579E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}.Release-Optimized|Any CPU.ActiveCfg = Release-Optimized|Any CPU
+		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}.Release-Optimized|Any CPU.Build.0 = Release-Optimized|Any CPU
+		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284}.Release-Optimized|Any CPU.Deploy.0 = Release-Optimized|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,9 +64,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{98DA04E8-EA58-4D52-9DE2-EF1FF6E29A6F} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
 		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
-		{37EE9029-8A86-4F3F-9115-9842B02B8F47} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
 		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
-		{7339069C-36C7-4D32-A8C5-FAB04B579E82} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D34B3E09-1D09-437F-AF13-C71E677DEA6E}
