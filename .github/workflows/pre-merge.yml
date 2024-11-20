@@ -18,6 +18,10 @@ jobs:
               uses: actions/setup-dotnet@v4.0.1
               with:
                   dotnet-version: '9.x'
+            - name: Setup .NET Workloads
+              run: |
+                  dotnet workload update
+                  dotnet workload restore
             - name: Build
               run: dotnet build --no-incremental --configuration Release /p:WarningsAsErrors=true /warnaserror
             - name: Test
