@@ -10,19 +10,25 @@ jobs:
         name: Lint and test
         runs-on: windows-latest
         steps:
+
             - name: Checkout source code
               uses: actions/checkout@v4.1.7
               with:
                   ref: ${{ github.event.pull_request.head.sha }}
+
             - name: Setup .NET
               uses: actions/setup-dotnet@v4.0.1
               with:
                   dotnet-version: '9.x'
+
+            # This could also first call `dotnet workload update` in order to install the latest workloads.
+            # Instead, use the workloads pre-installed on the image to save time because installing takes 2 minutes.
             - name: Setup .NET Workloads
-              run: |
-                  dotnet workload update
-                  dotnet workload restore
+              run: dotnet workload restore
+
+            # Use Release configuration for pre-merge because it doesn't perform expensive operations.
             - name: Build
               run: dotnet build --no-incremental --configuration Release /p:WarningsAsErrors=true /warnaserror
+
             - name: Test
               run: dotnet test

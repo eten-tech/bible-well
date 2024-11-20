@@ -25,13 +25,23 @@ jobs:
         name: Build
         runs-on: windows-latest
         steps:
+
             - name: Checkout source code
               uses: actions/checkout@v4.1.7
+
             - name: Setup .NET
               uses: actions/setup-dotnet@v4.0.1
               with:
                   dotnet-version: '9.x'
+
+            # This could also first call `dotnet workload update` in order to install the latest workloads.
+            # Instead, use the workloads pre-installed on the image to save time because installing takes 2 minutes.
+            - name: Setup .NET Workloads
+              run: dotnet workload restore
+
+            # Use Release-Optimized configuration for post-merge which performs expensive optimization and trimming operations.
             - name: Build
-              run: dotnet build --no-incremental --configuration Release /p:WarningsAsErrors=true /warnaserror
+              run: dotnet build --no-incremental --configuration Release-Optimized /p:WarningsAsErrors=true /warnaserror
+
             - name: Test
               run: dotnet test

@@ -3,12 +3,27 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net9.0-android</TargetFramework>
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
-        <ApplicationId>com.CompanyName.BibleWell.App</ApplicationId>
+        <ApplicationId>com.BiblioNexus.BibleWell.App</ApplicationId>
         <ApplicationVersion>1</ApplicationVersion>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <AndroidPackageFormat>apk</AndroidPackageFormat>
         <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
         <NoWarn>$(NoWarn);XA0141</NoWarn>
+        <Configurations>Debug;Release;Release-Optimized</Configurations>
+    </PropertyGroup>
+
+    <!-- Use for creating a deployment package. Performs expensive trimming and optimization operations. -->
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Optimized|AnyCPU'">
+        <RunAOTCompilation>True</RunAOTCompilation>
+        <PublishTrimmed>True</PublishTrimmed>
+        <Optimize>True</Optimize>
+    </PropertyGroup>
+
+    <!-- Use for release build testing but not for creating deployment packages. Does not perform expensive trimming and optimization operations. -->
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <RunAOTCompilation>False</RunAOTCompilation>
+        <PublishTrimmed>False</PublishTrimmed>
+        <Optimize>False</Optimize>
     </PropertyGroup>
 
     <ItemGroup>
