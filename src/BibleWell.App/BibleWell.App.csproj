@@ -3,6 +3,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <Configurations>Debug;Release;Release-Optimized</Configurations>
+        <UseMauiEssentials>true</UseMauiEssentials>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,6 +23,7 @@
         <PackageReference Include="CommunityToolkit.Labs.Extensions.DependencyInjection" />
         <PackageReference Include="CommunityToolkit.Mvvm" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Microsoft.Maui.Essentials" />
     </ItemGroup>
 
     <ItemGroup>

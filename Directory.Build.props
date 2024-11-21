@@ -15,7 +15,6 @@
         <Copyright>Copyright $(Authors)</Copyright>
         <IsPackable>false</IsPackable>
         <IsTestProject>false</IsTestProject>
-        <UseMauiEssentials>true</UseMauiEssentials>
     </PropertyGroup>
 
 </Project>
