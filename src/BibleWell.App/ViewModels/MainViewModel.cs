@@ -12,7 +12,7 @@ public sealed partial class MainViewModel : ViewModelBase
     public MainViewModel()
     {
         // TODO figure out how to load this in the constructor
-        CurrentPage = GetPageViewModelFromMenuItemTemplate(MenuItems[0]);
+        //CurrentPage = GetPageViewModelFromMenuItemTemplate(MenuItems[0]);
     }
 
     [ObservableProperty]
