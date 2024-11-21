@@ -1,3 +1,6 @@
+using System.Globalization;
+using Avalonia.Data;
+using Avalonia.Data.Converters;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -51,5 +54,25 @@ public partial class OpenFileViewModel : ViewModelBase
             Console.WriteLine(e);
             throw;
         }
+    }
+}
+
+public class InverseBooleanConverter : IValueConverter
+{
+    public static readonly InverseBooleanConverter Instance = new();
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool b && targetType.IsAssignableTo(typeof(bool)))
+        {
+            return !b;
+        }
+
+        return new BindingNotification(new InvalidCastException(), BindingErrorType.Error, "The value must be a boolean");
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }
