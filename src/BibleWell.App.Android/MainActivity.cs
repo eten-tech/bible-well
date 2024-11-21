@@ -1,8 +1,10 @@
 ﻿using Android.Content.PM;
 using Avalonia;
 using Avalonia.Android;
+using Microsoft.Maui.ApplicationModel;
 
 namespace BibleWell.App.Android;
+
 [Activity(
     Label = "BibleWell.App.Android",
     Theme = "@style/MyTheme.NoActionBar",
@@ -15,5 +17,11 @@ public class MainActivity : AvaloniaMainActivity<App>
     {
         return base.CustomizeAppBuilder(builder)
             .WithInterFont();
+    }
+
+    protected override void OnCreate(Bundle? savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+        Platform.Init(this, savedInstanceState);
     }
 }

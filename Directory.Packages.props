@@ -21,5 +21,6 @@
         <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.13" />
         <PackageVersion Include="xunit" Version="2.5.3" />
         <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
+        <PackageVersion Include="Microsoft.Maui.Essentials" Version="9.0.10"/>
     </ItemGroup>
 </Project>
