@@ -4,6 +4,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using BibleWell.App.ViewModels;
 using BibleWell.App.Views;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BibleWell.App;
@@ -17,13 +18,10 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        // configure dependency injection
-        var services = new ServiceCollection();
-        ConfigureServices(services);
-        var serviceProvider = services.BuildServiceProvider();
+        Ioc.Default.ConfigureServices(ConfigureServices());
 
         // configure Avalonia app main window
-        var mainViewModel = serviceProvider.GetRequiredService<MainViewModel>();
+        var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Line below is needed to remove Avalonia data validation.
@@ -46,8 +44,10 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
-    internal static void ConfigureServices(IServiceCollection services)
+    internal static IServiceProvider ConfigureServices()
     {
-        services.AddTransient<MainViewModel>();
+        return new ServiceCollection()
+            .AddTransient<MainViewModel>()
+            .BuildServiceProvider();
     }
 }
