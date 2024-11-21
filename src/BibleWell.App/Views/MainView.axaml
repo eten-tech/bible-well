@@ -33,6 +33,7 @@
                     <PathIcon Data="{StaticResource LineHorizontal3Regular}"></PathIcon>
                 </Button>
                 <ListBox
+                    Name="MenuItemsListBox"
                     ItemsSource="{Binding MenuItems}"
                     SelectedItem="{Binding SelectedMenuItem}">
                     <ListBox.ItemTemplate>

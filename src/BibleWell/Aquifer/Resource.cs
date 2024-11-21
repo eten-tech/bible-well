@@ -1,3 +1,3 @@
 ﻿namespace BibleWell.Aquifer;
 
-public sealed record Resource(int Id);
+public sealed record Resource(int Id, string Content);

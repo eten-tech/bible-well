@@ -10,6 +10,15 @@
     x:Class="BibleWell.App.Views.Pages.ResourcesPageView"
     x:DataType="vm:ResourcesPageViewModel">
 
-    <TextBlock Margin="10 20">Resources Page</TextBlock>
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock
+                Margin="10 20"
+                Text="{Binding ResourceContent}" />
+            <Button Command="{Binding PopulateResourceContentAsync}">
+                Click Me
+            </Button>
+        </StackPanel>
+    </ScrollViewer>
 
 </UserControl>

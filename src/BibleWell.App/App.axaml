@@ -6,10 +6,6 @@
     RequestedThemeVariant="Default">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
-    <Application.DataTemplates>
-        <local:ViewLocator/>
-    </Application.DataTemplates>
-
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://BibleWell.App/Assets/Icons.axaml"></StyleInclude>
