@@ -23,8 +23,7 @@ public sealed partial class SqlitePageViewModel : PageViewModelBase
 
     [ObservableProperty]
     private bool _isDataGridEnabled;
-
-    // todo: update items?
+    
     public SqlitePageViewModel()
     {
         IsDataGridEnabled = false;

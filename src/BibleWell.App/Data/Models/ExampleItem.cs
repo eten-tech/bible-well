@@ -17,5 +17,7 @@ public class ExampleItem: ObservableObject
         get => _name;
         set => SetProperty(ref _name, value);
     }
+    
+    public string? Description { get; set; }
 }
 

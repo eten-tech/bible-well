@@ -51,6 +51,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Width="75" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Desc" Width="*" Binding="{Binding Description}" />
                 <DataGridTemplateColumn Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="model:ExampleItem">
