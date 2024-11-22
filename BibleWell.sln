@@ -23,10 +23,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		LICENSE = LICENSE
+		nuget.config = nuget.config
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.App.Desktop", "src\BibleWell.App.Desktop\BibleWell.App.Desktop.csproj", "{7848DF21-6C01-41EE-A24C-ADABEFC0A479}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell", "src\BibleWell\BibleWell.csproj", "{7EFE0B91-F21A-4E16-AEFE-40DCF690054E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.Aquifer.Api", "src\BibleWell.Aquifer.Api\BibleWell.Aquifer.Api.csproj", "{3B2120D0-ADB2-4228-B859-C56689C8A997}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.Utility", "src\BibleWell.Utility\BibleWell.Utility.csproj", "{CB84251B-A5E5-4A28-A021-6C32A7DED95E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.Aquifer.Data", "src\BibleWell.Aquifer.Data\BibleWell.Aquifer.Data.csproj", "{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +72,30 @@ Global
 		{7848DF21-6C01-41EE-A24C-ADABEFC0A479}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7848DF21-6C01-41EE-A24C-ADABEFC0A479}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7848DF21-6C01-41EE-A24C-ADABEFC0A479}.Release-Optimized|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFE0B91-F21A-4E16-AEFE-40DCF690054E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFE0B91-F21A-4E16-AEFE-40DCF690054E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFE0B91-F21A-4E16-AEFE-40DCF690054E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFE0B91-F21A-4E16-AEFE-40DCF690054E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFE0B91-F21A-4E16-AEFE-40DCF690054E}.Release-Optimized|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFE0B91-F21A-4E16-AEFE-40DCF690054E}.Release-Optimized|Any CPU.Build.0 = Release|Any CPU
+		{3B2120D0-ADB2-4228-B859-C56689C8A997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B2120D0-ADB2-4228-B859-C56689C8A997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B2120D0-ADB2-4228-B859-C56689C8A997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B2120D0-ADB2-4228-B859-C56689C8A997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B2120D0-ADB2-4228-B859-C56689C8A997}.Release-Optimized|Any CPU.ActiveCfg = Release|Any CPU
+		{3B2120D0-ADB2-4228-B859-C56689C8A997}.Release-Optimized|Any CPU.Build.0 = Release|Any CPU
+		{CB84251B-A5E5-4A28-A021-6C32A7DED95E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB84251B-A5E5-4A28-A021-6C32A7DED95E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB84251B-A5E5-4A28-A021-6C32A7DED95E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB84251B-A5E5-4A28-A021-6C32A7DED95E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB84251B-A5E5-4A28-A021-6C32A7DED95E}.Release-Optimized|Any CPU.ActiveCfg = Release|Any CPU
+		{CB84251B-A5E5-4A28-A021-6C32A7DED95E}.Release-Optimized|Any CPU.Build.0 = Release|Any CPU
+		{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A}.Release-Optimized|Any CPU.ActiveCfg = Release|Any CPU
+		{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A}.Release-Optimized|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +105,10 @@ Global
 		{8E3CC1B0-02F7-4E4F-BAFC-CBEDB1C561F1} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
 		{7E82462B-8192-4EB5-BFF6-A1A4C6B5E284} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
 		{7848DF21-6C01-41EE-A24C-ADABEFC0A479} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
+		{7EFE0B91-F21A-4E16-AEFE-40DCF690054E} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
+		{3B2120D0-ADB2-4228-B859-C56689C8A997} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
+		{CB84251B-A5E5-4A28-A021-6C32A7DED95E} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
+		{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D34B3E09-1D09-437F-AF13-C71E677DEA6E}

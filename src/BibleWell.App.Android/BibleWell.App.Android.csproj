@@ -10,6 +10,7 @@
         <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
         <NoWarn>$(NoWarn);XA0141</NoWarn>
         <Configurations>Debug;Release;Release-Optimized</Configurations>
+        <UseMauiEssentials>true</UseMauiEssentials>
     </PropertyGroup>
 
     <!-- Use for creating a deployment package. Performs expensive trimming and optimization operations. -->

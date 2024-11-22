@@ -4,6 +4,7 @@
         <TargetFramework>net9.0-ios</TargetFramework>
         <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
         <Configurations>Debug;Release;Release-Optimized</Configurations>
+        <UseMauiEssentials>true</UseMauiEssentials>
     </PropertyGroup>
 
     <!-- Use for creating a deployment package. Performs expensive trimming and optimization operations. -->
