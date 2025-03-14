@@ -2,11 +2,13 @@ name: Pre-merge
 
 on:
     pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
         branches:
             - '**'
 
 jobs:
     build_and_test:
+        if: ${{ !github.event.pull_request.draft }}
         name: Build and test
         runs-on: windows-latest
         steps:
