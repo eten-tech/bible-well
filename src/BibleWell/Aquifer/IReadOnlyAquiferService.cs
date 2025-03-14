@@ -2,5 +2,5 @@
 
 public interface IReadOnlyAquiferService
 {
-    public Task<Resource?> GetResourceAsync(int id);
+    Task<Resource?> GetResourceAsync(int id);
 }
