@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
 		LICENSE = LICENSE
 		nuget.config = nuget.config
 		README.md = README.md
@@ -36,6 +37,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.Utility", "src\BibleWell.Utility\BibleWell.Utility.csproj", "{CB84251B-A5E5-4A28-A021-6C32A7DED95E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleWell.Aquifer.Data", "src\BibleWell.Aquifer.Data\BibleWell.Aquifer.Data.csproj", "{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\CODEOWNERS = .github\CODEOWNERS
+		.github\settings.yml = .github\settings.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{039EFAFA-389F-4FEC-B995-E7ECC730C2DF}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\post-merge.yml = .github\workflows\post-merge.yml
+		.github\workflows\pre-merge.yml = .github\workflows\pre-merge.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,6 +122,8 @@ Global
 		{3B2120D0-ADB2-4228-B859-C56689C8A997} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
 		{CB84251B-A5E5-4A28-A021-6C32A7DED95E} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
 		{BC5A0DFD-1503-4EB9-9D04-BBBFAE1CE89A} = {97DC52D2-AAAC-47AA-9912-701BC7465BF8}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {50E00028-435D-430C-998C-365DC2906EBC}
+		{039EFAFA-389F-4FEC-B995-E7ECC730C2DF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D34B3E09-1D09-437F-AF13-C71E677DEA6E}

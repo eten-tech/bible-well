@@ -14,14 +14,16 @@ jobs:
         steps:
 
             - name: Checkout source code
-              uses: actions/checkout@v4.1.7
+              uses: actions/checkout@v4.2.2
               with:
                   ref: ${{ github.event.pull_request.head.sha }}
 
             - name: Setup .NET
-              uses: actions/setup-dotnet@v4.0.1
+              uses: actions/setup-dotnet@v4.3.0
               with:
-                  dotnet-version: '9.x'
+                  global-json-file: "./global.json"
+                  cache: true
+                  cache-dependency-path: "Directory.Packages.props"
 
             # This could also first call `dotnet workload update` in order to ensure we have the latest workloads.
             # Instead, this will hopefully use the workloads pre-installed on the image to save time because installing takes 2 minutes.
@@ -33,4 +35,4 @@ jobs:
               run: dotnet build --no-incremental --configuration Release /p:WarningsAsErrors=true /warnaserror
 
             - name: Test
-              run: dotnet test
+              run: dotnet test --configuration Release --no-build
