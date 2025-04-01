@@ -25,12 +25,7 @@ jobs:
                   cache: true
                   cache-dependency-path: "Directory.Packages.props"
 
-            # This could also first call `dotnet workload update` in order to ensure we have the latest workloads.
-            # Instead, this will hopefully use the workloads pre-installed on the image to save time because installing takes 2 minutes.
-            - name: Setup .NET Workloads
-              run: dotnet workload install android ios
-
-            # Use Release configuration for pre-merge because it doesn't perform expensive operations.
+            # Use Release configuration for pre-merge because it doesn't perform expensive optimizations (compared to Release-Optimized).
             - name: Build
               run: dotnet build --no-incremental --configuration Release /p:WarningsAsErrors=true /warnaserror
 

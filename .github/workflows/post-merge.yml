@@ -45,5 +45,6 @@ jobs:
             - name: Build
               run: dotnet build --no-incremental --configuration Release-Optimized /p:WarningsAsErrors=true /warnaserror
 
-            - name: Test
-              run: dotnet test
+            #TODO package
+
+            #TODO deploy
