@@ -8,13 +8,14 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GitHubOrganization>BiblioNexusStudio</GitHubOrganization>
-        <RepositoryName>bible-well-mobile</RepositoryName>
+        <RepositoryName>bible-well</RepositoryName>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/$(GitHubOrganization)/$(RepositoryName).git</RepositoryUrl>
         <Authors>BiblioNexus</Authors>
         <Copyright>Copyright $(Authors)</Copyright>
         <IsPackable>false</IsPackable>
         <IsTestProject>false</IsTestProject>
+        <NoWarn>NU1900</NoWarn>
     </PropertyGroup>
 
 </Project>
