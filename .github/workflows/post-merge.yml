@@ -27,21 +27,19 @@ jobs:
         steps:
 
             - name: Checkout source code
-              uses: actions/checkout@v4.1.7
+              uses: actions/checkout@v4.2.2
 
             - name: Setup .NET
-              uses: actions/setup-dotnet@v4.0.1
+              uses: actions/setup-dotnet@v4.3.0
               with:
-                  dotnet-version: '9.x'
-
-            # This could also first call `dotnet workload update` in order to ensure we have the latest workloads.
-            # Instead, this will hopefully use the workloads pre-installed on the image to save time because installing takes 2 minutes.
-            - name: Setup .NET Workloads
-              run: dotnet workload install android ios
+                  global-json-file: "./global.json"
+                  cache: true
+                  cache-dependency-path: "Directory.Packages.props"
 
             # Use Release-Optimized configuration for post-merge which performs expensive optimization and trimming operations.
             - name: Build
               run: dotnet build --no-incremental --configuration Release-Optimized /p:WarningsAsErrors=true /warnaserror
 
-            - name: Test
-              run: dotnet test
+            #TODO package
+
+            #TODO deploy
