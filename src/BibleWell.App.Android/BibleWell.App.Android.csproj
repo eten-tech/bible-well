@@ -35,6 +35,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Android" />
+        <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True" />
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" />
     </ItemGroup>
 
