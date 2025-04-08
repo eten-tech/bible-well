@@ -16,6 +16,7 @@
         <PackageReference Include="Avalonia.Desktop" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
+        <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True" />
     </ItemGroup>
 
     <ItemGroup>
