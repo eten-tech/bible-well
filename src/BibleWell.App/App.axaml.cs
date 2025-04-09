@@ -66,8 +66,6 @@ public partial class App : Application
     {
         var configurationBuilder = new ConfigurationBuilder();
 
-        // The environment must be explicitly set as it will not default to "Development".
-        // On the build server this environment variable should be explicitly populated.
         var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production";
 
         using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream("appsettings.json");
