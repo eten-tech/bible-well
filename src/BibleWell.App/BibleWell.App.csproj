@@ -7,14 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <AvaloniaXaml Remove="Assets\Icons.axaml" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Avalonia" />
         <PackageReference Include="Avalonia.Markup.Xaml.Loader" PrivateAssets="All" />
         <PackageReference Include="Avalonia.Themes.Fluent" />
@@ -24,7 +16,9 @@
         <PackageReference Include="CommunityToolkit.Labs.Extensions.DependencyInjection" />
         <PackageReference Include="CommunityToolkit.Mvvm" />
         <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
         <PackageReference Include="Microsoft.Maui.Essentials" />
     </ItemGroup>
 
@@ -35,8 +29,24 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Remove="appsettings.json" />
+        <EmbeddedResource Include="appsettings.json" />
+        <None Remove="appsettings.Development.json" />
+        <EmbeddedResource Include="appsettings.Development.json" />
+        <None Remove="appsettings.Dev.json" />
+        <EmbeddedResource Include="appsettings.Dev.json" />
+        <None Remove="appsettings.QA.json" />
+        <EmbeddedResource Include="appsettings.QA.json" />
+        <None Remove="appsettings.Production.json" />
+        <EmbeddedResource Include="appsettings.Production.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+        <AvaloniaXaml Remove="Assets\Icons.axaml" />
         <AvaloniaResource Update="Assets\Icons.axaml">
             <SubType>Designer</SubType>
         </AvaloniaResource>
     </ItemGroup>
+
 </Project>
