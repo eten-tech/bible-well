@@ -11,6 +11,8 @@ jobs:
         if: ${{ !github.event.pull_request.draft }}
         name: Build and test
         runs-on: windows-latest
+        environment:
+            name: qa-tests
         steps:
 
             - name: Checkout source code
@@ -30,4 +32,8 @@ jobs:
               run: dotnet build --no-incremental --configuration Release /p:WarningsAsErrors=true /warnaserror
 
             - name: Test
-              run: dotnet test --configuration Release --no-build
+              run: |
+                  dotnet test \
+                      --configuration Release \
+                      --no-build \
+                      -e DOTNET_ENVIRONMENT="${{ vars.DOTNET_ENVIRONMENT }}"
