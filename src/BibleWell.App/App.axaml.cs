@@ -1,8 +1,9 @@
+using System.Reflection;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Templates;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using BibleWell.App.Configuration;
 using BibleWell.App.ViewModels;
 using BibleWell.App.ViewModels.Pages;
 using BibleWell.App.Views;
@@ -12,6 +13,7 @@ using BibleWell.Aquifer.Api;
 using BibleWell.Aquifer.Data;
 using CommunityToolkit.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BibleWell.App;
@@ -25,7 +27,11 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        Ioc.Default.ConfigureServices(ConfigureServiceProvider());
+        var config = ConfigureConfiguration();
+
+        var serviceProvider = ConfigureServiceProvider(config);
+        Ioc.Default.ConfigureServices(serviceProvider);
+
         var viewLocator = ConfigureViewLocator();
         DataTemplates.Add(viewLocator);
 
@@ -56,9 +62,33 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
-    private static ServiceProvider ConfigureServiceProvider()
+    private static IConfiguration ConfigureConfiguration()
+    {
+        var configurationBuilder = new ConfigurationBuilder();
+
+        var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production";
+
+        using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream("appsettings.json");
+        configurationBuilder.AddJsonStream(globalConfigurationSettingsFileStream);
+
+        using var environmentConfigurationSettingsFileStream = GetAppSettingsFileStream($"appsettings.{environment}.json");
+        configurationBuilder.AddJsonStream(environmentConfigurationSettingsFileStream);
+
+        return configurationBuilder.Build();
+
+        static Stream GetAppSettingsFileStream(string appSettingsFileName)
+        {
+            var appSettingsEmbeddedResourceFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.{appSettingsFileName}";
+            var configurationStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(appSettingsEmbeddedResourceFileName);
+            return configurationStream ?? throw new InvalidOperationException($"The embedded resource \"{appSettingsEmbeddedResourceFileName}\" was not found.");
+        }
+    }
+
+    private static ServiceProvider ConfigureServiceProvider(IConfiguration configuration)
     {
         var services = new ServiceCollection();
+
+        services.AddOptions<ConfigurationOptions>().Bind(configuration);
 
         ConfigureServices(services);
         ConfigureViewModels(services);
