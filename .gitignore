@@ -400,5 +400,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 *.DotSettings.user
-appsettings.Development.json
 .idea/
