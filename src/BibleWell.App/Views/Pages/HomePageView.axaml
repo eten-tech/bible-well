@@ -10,6 +10,13 @@
     x:Class="BibleWell.App.Views.Pages.HomePageView"
     x:DataType="vm:HomePageViewModel">
 
-    <TextBlock Margin="10 20">Home Page</TextBlock>
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock Margin="10 20">Home Page</TextBlock>
+            <Button Command="{Binding ChangeTheme}">
+                Change Theme
+            </Button>
+        </StackPanel>
+    </ScrollViewer>
 
 </UserControl>
