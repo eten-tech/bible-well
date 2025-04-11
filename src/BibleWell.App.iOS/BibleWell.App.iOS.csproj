@@ -5,6 +5,7 @@
         <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
         <Configurations>Debug;Release;Release-Optimized</Configurations>
         <UseMauiEssentials>true</UseMauiEssentials>
+        <HotAvalonia>false</HotAvalonia>
     </PropertyGroup>
 
     <!-- Use for creating a deployment package. Performs expensive trimming and optimization operations. -->
