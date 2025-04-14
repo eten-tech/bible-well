@@ -1,15 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
-            One for Windows with net9.0-windows TFM, one for MacOS with net9.0-macos and one with net9.0 TFM for Linux.-->
-        <TargetFramework>net9.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <!--We only use the desktop app for testing so customize per developer OS.-->
+        <TargetFramework Condition="!$([MSBuild]::IsOSPlatform('Windows'))">net9.0</TargetFramework>
+        <TargetFramework Condition="$([MSBuild]::IsOSPlatform('Windows'))">net9.0-windows10.0.19041.0</TargetFramework>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <UseMauiEssentials>true</UseMauiEssentials>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+        <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+        <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
+        <NoWarn>$(NoWarn);NETSDK1206</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
