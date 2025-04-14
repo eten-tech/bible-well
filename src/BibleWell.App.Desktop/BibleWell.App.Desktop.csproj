@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <!--We only use the desktop app for testing so customize per developer OS.-->
         <TargetFramework Condition="$([MSBuild]::IsOSPlatform('Linux'))">net9.0</TargetFramework>
         <TargetFramework Condition="$([MSBuild]::IsOSPlatform('OSX'))">net9.0-maccatalyst</TargetFramework>
