@@ -11,13 +11,12 @@
     x:Class="BibleWell.App.Views.Pages.ResourcesPageView"
     x:DataType="vm:ResourcesPageViewModel">
 
-    <ScrollViewer>
-        <StackPanel>
-            <Button Command="{Binding PopulateResourceContentAsync}">
-                Click Me
-            </Button>
-            <avalonia:HtmlPanel Text="{Binding ResourceContentHtml}" />
-        </StackPanel>
-    </ScrollViewer>
+    <StackPanel>
+        <TextBlock Classes="h2">Resources Page</TextBlock>
+        <Button Command="{Binding PopulateResourceContentAsync}">
+            Click Me
+        </Button>
+        <avalonia:HtmlPanel Text="{Binding ResourceContentHtml}" />
+    </StackPanel>
 
 </UserControl>

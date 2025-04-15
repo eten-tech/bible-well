@@ -52,7 +52,9 @@
         <!-- Pages -->
         <SplitView.Content>
             <Border>
-                <TransitioningContentControl Content="{Binding CurrentPage}" />
+                <ScrollViewer>
+                    <TransitioningContentControl Content="{Binding CurrentPage}" Padding="15" />
+                </ScrollViewer>
             </Border>
         </SplitView.Content>
     </SplitView>
