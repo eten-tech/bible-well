@@ -2,8 +2,10 @@
 
 namespace BibleWell.App.ViewModels;
 
-public sealed class MenuItemTemplate(Type _type)
+public sealed class MenuItemTemplate(Type _type, string _iconName)
 {
+    public string IconName { get; } = _iconName;
+
     // TODO localization
     public string Label { get; } = _type.Name.Replace("PageViewModel", "");
 

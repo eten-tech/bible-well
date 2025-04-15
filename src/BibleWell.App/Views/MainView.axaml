@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
+    xmlns:conv="clr-namespace:BibleWell.App.Converters"
     mc:Ignorable="d"
     d:DesignWidth="540"
     d:DesignHeight="960"
@@ -18,7 +19,7 @@
 
     <SplitView
         IsPaneOpen="{Binding IsMenuPaneOpen}"
-        OpenPaneLength="100"
+        OpenPaneLength="130"
         CompactPaneLength="48"
         DisplayMode="CompactInline">
 
@@ -28,7 +29,7 @@
                 Spacing="5"
                 Margin="5">
                 <Button Command="{Binding TriggerMenuPaneCommand}">
-                    <PathIcon Data="{StaticResource LineHorizontal3Regular}"></PathIcon>
+                    <PathIcon Data="{StaticResource LineHorizontal3Regular}" />
                 </Button>
                 <ListBox
                     Name="MenuItemsListBox"
@@ -37,8 +38,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type vm:MenuItemTemplate}">
                             <StackPanel
-                                Spacing="15"
+                                Spacing="10"
                                 Orientation="Horizontal">
+                                <PathIcon Data="{Binding IconName, Converter={x:Static conv:FuncValueConverters.StringToIconConverter}}" />
                                 <TextBlock Text="{Binding Label}" />
                             </StackPanel>
                         </DataTemplate>

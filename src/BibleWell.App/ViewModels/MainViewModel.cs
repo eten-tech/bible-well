@@ -26,11 +26,11 @@ public sealed partial class MainViewModel : ViewModelBase
 
     public ObservableCollection<MenuItemTemplate> MenuItems { get; } =
     [
-        new(typeof(HomePageViewModel)),
-        new(typeof(BiblePageViewModel)),
-        new(typeof(GuidePageViewModel)),
-        new(typeof(ResourcesPageViewModel)),
-        new(typeof(LibraryPageViewModel)),
+        new(typeof(HomePageViewModel), "HomeRegular"),
+        new(typeof(BiblePageViewModel), "BookOpenRegular"),
+        new(typeof(GuidePageViewModel), "CompassNorthwestRegular"),
+        new(typeof(ResourcesPageViewModel), "ClipboardRegular"),
+        new(typeof(LibraryPageViewModel), "LibraryRegular"),
     ];
 
     partial void OnSelectedMenuItemChanged(MenuItemTemplate? value)
