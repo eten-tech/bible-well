@@ -20,7 +20,7 @@
     <SplitView
         IsPaneOpen="{Binding IsMenuPaneOpen}"
         OpenPaneLength="130"
-        CompactPaneLength="52"
+        CompactPaneLength="50"
         DisplayMode="CompactInline">
 
         <!-- Menu -->
@@ -28,13 +28,22 @@
             <StackPanel
                 Spacing="5"
                 Margin="5">
-                <Button Command="{Binding TriggerMenuPaneCommand}">
+                <Button
+                    Padding="15 10 15 10"
+                    Height="35"
+                    Width="40"
+                    Command="{Binding TriggerMenuPaneCommand}">
                     <PathIcon Data="{StaticResource LineHorizontal3Regular}" />
                 </Button>
                 <ListBox
                     Name="MenuItemsListBox"
                     ItemsSource="{Binding MenuItems}"
                     SelectedItem="{Binding SelectedMenuItem}">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="10" />
+                        </Style>
+                    </ListBox.Styles>
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type vm:MenuItemTemplate}">
                             <StackPanel
