@@ -11,6 +11,7 @@
         <NoWarn>$(NoWarn);XA0141</NoWarn>
         <Configurations>Debug;Release;Release-Optimized</Configurations>
         <UseMauiEssentials>true</UseMauiEssentials>
+        <HotAvalonia Condition="$([MSBuild]::IsOSPlatform('Windows'))">false</HotAvalonia>
     </PropertyGroup>
 
     <!-- Use for creating a deployment package. Performs expensive trimming and optimization operations. -->
