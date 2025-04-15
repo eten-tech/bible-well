@@ -5,111 +5,111 @@
         <Border Padding="20">
             <StackPanel Spacing="15" Orientation="Vertical">
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource AddRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource AddRegular}" />
                     <TextBlock>AddRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource ArrowDownRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource ArrowDownRegular}" />
                     <TextBlock>ArrowDownRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource ArrowDownloadRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource ArrowDownloadRegular}" />
                     <TextBlock>ArrowDownloadRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource ArrowRightRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource ArrowRightRegular}" />
                     <TextBlock>ArrowRightRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource BookOpenRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource BookOpenRegular}" />
                     <TextBlock>BookOpenRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource CheckboxCheckedRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource CheckboxCheckedRegular}" />
                     <TextBlock>CheckboxCheckedRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource CheckboxUncheckedRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource CheckboxUncheckedRegular}" />
                     <TextBlock>CheckboxUncheckedRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource ClipboardRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource ClipboardRegular}" />
                     <TextBlock>ClipboardRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource CommentRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource CommentRegular}" />
                     <TextBlock>CommentRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource CompassNorthwestRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource CompassNorthwestRegular}" />
                     <TextBlock>CompassNorthwestRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource DeleteRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource DeleteRegular}" />
                     <TextBlock>DeleteRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource DocumentOnePageRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource DocumentOnePageRegular}" />
                     <TextBlock>DocumentOnePageRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource HomeRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource HomeRegular}" />
                     <TextBlock>HomeRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource ImageRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource ImageRegular}" />
                     <TextBlock>ImageRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource LibraryRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource LibraryRegular}" />
                     <TextBlock>LibraryRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource LineHorizontal3Regular}"></PathIcon>
+                    <PathIcon Data="{StaticResource LineHorizontal3Regular}" />
                     <TextBlock>LineHorizontal3Regular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource LocalLanguageRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource LocalLanguageRegular}" />
                     <TextBlock>LocalLanguageRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource PauseRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource PauseRegular}" />
                     <TextBlock>PauseRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource PersonFeedbackRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource PersonFeedbackRegular}" />
                     <TextBlock>PersonFeedbackRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource PlayRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource PlayRegular}" />
                     <TextBlock>PlayRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource SearchRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource SearchRegular}" />
                     <TextBlock>SearchRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource SettingsRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource SettingsRegular}" />
                     <TextBlock>SettingsRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource ShareAndroidRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource ShareAndroidRegular}" />
                     <TextBlock>ShareAndroidRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource SpeakerRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource SpeakerRegular}" />
                     <TextBlock>SpeakerRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource StarRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource StarRegular}" />
                     <TextBlock>StarRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource TextChangeNextRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource TextChangeNextRegular}" />
                     <TextBlock>TextChangeNextRegular</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
-                    <PathIcon Data="{StaticResource WindowDevToolsRegular}"></PathIcon>
+                    <PathIcon Data="{StaticResource WindowDevToolsRegular}" />
                     <TextBlock>WindowDevToolsRegular</TextBlock>
                 </StackPanel>
             </StackPanel>
