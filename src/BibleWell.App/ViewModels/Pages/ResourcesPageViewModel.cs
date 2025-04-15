@@ -8,20 +8,20 @@ public sealed partial class ResourcesPageViewModel(ICachingAquiferService _cachi
     : PageViewModelBase
 {
     [ObservableProperty]
-    private string _resourceContent = "Click the button to view resource text...";
+    private string _resourceContentHtml = "<p>Click the button to view resource text...</p>";
 
     [RelayCommand]
     public async Task PopulateResourceContentAsync()
     {
         try
         {
-            ResourceContent = (await _cachingAquiferService.GetResourceAsync(42))
+            ResourceContentHtml = (await _cachingAquiferService.GetResourceContentAsync(366960))
                 ?.Content
                 ?? "Resource not found.";
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(ex);
             throw;
         }
     }
