@@ -10,7 +10,9 @@
     d:DesignHeight="960"
     x:Class="BibleWell.App.Views.MainWindow"
     Icon="/Assets/well-icon.png"
-    Title="Bible Well">
+    Title="Bible Well"
+    Width="540"
+    Height="960">
 
     <!-- The Main Window is only used by Desktop applications so just load in the Main View. -->
     <views:MainView></views:MainView>
