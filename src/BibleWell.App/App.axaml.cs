@@ -105,6 +105,7 @@ public partial class App : Application
 
     [Singleton(typeof(MainViewModel))]
     [Transient(typeof(BiblePageViewModel))]
+    [Transient(typeof(DevPageViewModel))]
     [Transient(typeof(GuidePageViewModel))]
     [Transient(typeof(HomePageViewModel))]
     [Transient(typeof(LibraryPageViewModel))]
@@ -113,6 +114,7 @@ public partial class App : Application
 
     [Singleton(typeof(MainView))]
     [Transient(typeof(BiblePageView))]
+    [Transient(typeof(DevPageView))]
     [Transient(typeof(GuidePageView))]
     [Transient(typeof(HomePageView))]
     [Transient(typeof(LibraryPageView))]
@@ -126,6 +128,7 @@ public partial class App : Application
 
         viewLocator.RegisterViewFactory<MainViewModel, MainView>();
         viewLocator.RegisterViewFactory<BiblePageViewModel, BiblePageView>();
+        viewLocator.RegisterViewFactory<DevPageViewModel, DevPageView>();
         viewLocator.RegisterViewFactory<GuidePageViewModel, GuidePageView>();
         viewLocator.RegisterViewFactory<HomePageViewModel, HomePageView>();
         viewLocator.RegisterViewFactory<LibraryPageViewModel, LibraryPageView>();

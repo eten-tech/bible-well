@@ -20,7 +20,7 @@
     <SplitView
         IsPaneOpen="{Binding IsMenuPaneOpen}"
         OpenPaneLength="130"
-        CompactPaneLength="48"
+        CompactPaneLength="52"
         DisplayMode="CompactInline">
 
         <!-- Menu -->

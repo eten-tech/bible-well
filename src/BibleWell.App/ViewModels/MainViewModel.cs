@@ -19,7 +19,7 @@ public sealed partial class MainViewModel : ViewModelBase
     private ViewModelBase _currentPage = new HomePageViewModel(); // TODO figure out how to load this in the constructor
 
     [ObservableProperty]
-    private bool _isMenuPaneOpen = true;
+    private bool _isMenuPaneOpen = false;
 
     [ObservableProperty]
     private MenuItemTemplate? _selectedMenuItem;
@@ -31,6 +31,7 @@ public sealed partial class MainViewModel : ViewModelBase
         new(typeof(GuidePageViewModel), "CompassNorthwestRegular"),
         new(typeof(ResourcesPageViewModel), "ClipboardRegular"),
         new(typeof(LibraryPageViewModel), "LibraryRegular"),
+        new(typeof(DevPageViewModel), "WindowDevToolsRegular"),
     ];
 
     partial void OnSelectedMenuItemChanged(MenuItemTemplate? value)
