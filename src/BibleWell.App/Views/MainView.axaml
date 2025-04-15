@@ -20,16 +20,14 @@
         IsPaneOpen="{Binding IsMenuPaneOpen}"
         OpenPaneLength="100"
         CompactPaneLength="48"
-        DisplayMode="CompactInline"
-        Background="#D0D5DD"
-        PaneBackground="#D0D5DD">
+        DisplayMode="CompactInline">
 
         <!-- Menu -->
         <SplitView.Pane>
             <StackPanel
                 Spacing="5"
                 Margin="5">
-                <Button Background="#F4F5F7" Command="{Binding TriggerMenuPaneCommand}">
+                <Button Command="{Binding TriggerMenuPaneCommand}">
                     <PathIcon Data="{StaticResource LineHorizontal3Regular}"></PathIcon>
                 </Button>
                 <ListBox
@@ -51,9 +49,7 @@
 
         <!-- Pages -->
         <SplitView.Content>
-            <Border
-                CornerRadius="12 0 0 0"
-                Background="#ffffff">
+            <Border>
                 <TransitioningContentControl Content="{Binding CurrentPage}" />
             </Border>
         </SplitView.Content>
