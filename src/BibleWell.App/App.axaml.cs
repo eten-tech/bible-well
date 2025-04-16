@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Reflection;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -15,6 +16,9 @@ using CommunityToolkit.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.Contrib.WaitAndRetry;
+using Polly.Extensions.Http;
 
 namespace BibleWell.App;
 
@@ -88,14 +92,36 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
+        var configurationOptions = configuration.Get<ConfigurationOptions>() ??
+            throw new InvalidOperationException($"Unable to bind {nameof(ConfigurationOptions)}.");
+
         services.AddOptions<ConfigurationOptions>().Bind(configuration);
 
         ConfigureServices(services);
         ConfigureViewModels(services);
         ConfigureViews(services);
 
+        services
+            .AddHttpClient<IReadOnlyAquiferService, AquiferApiService>(
+                client =>
+                {
+                    client.BaseAddress = new Uri(configurationOptions.AquiferApiBaseUri);
+                    client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name ?? "", Assembly.GetExecutingAssembly().GetName().Version?.ToString())));
+                    client.DefaultRequestHeaders.Add("api-key", configurationOptions.AquiferApiKey);
+                })
+            .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+            .AddPolicyHandler(GetRetryPolicy());
+
         return services
             .BuildServiceProvider();
+    }
+
+    private static AsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+    {
+        return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromSeconds(0.5), retryCount: 2));
     }
 
     [Singleton(typeof(AquiferApiService), typeof(IReadOnlyAquiferService))]
@@ -105,6 +131,7 @@ public partial class App : Application
 
     [Singleton(typeof(MainViewModel))]
     [Transient(typeof(BiblePageViewModel))]
+    [Transient(typeof(DevPageViewModel))]
     [Transient(typeof(GuidePageViewModel))]
     [Transient(typeof(HomePageViewModel))]
     [Transient(typeof(LibraryPageViewModel))]
@@ -113,6 +140,7 @@ public partial class App : Application
 
     [Singleton(typeof(MainView))]
     [Transient(typeof(BiblePageView))]
+    [Transient(typeof(DevPageView))]
     [Transient(typeof(GuidePageView))]
     [Transient(typeof(HomePageView))]
     [Transient(typeof(LibraryPageView))]
@@ -126,6 +154,7 @@ public partial class App : Application
 
         viewLocator.RegisterViewFactory<MainViewModel, MainView>();
         viewLocator.RegisterViewFactory<BiblePageViewModel, BiblePageView>();
+        viewLocator.RegisterViewFactory<DevPageViewModel, DevPageView>();
         viewLocator.RegisterViewFactory<GuidePageViewModel, GuidePageView>();
         viewLocator.RegisterViewFactory<HomePageViewModel, HomePageView>();
         viewLocator.RegisterViewFactory<LibraryPageViewModel, LibraryPageView>();

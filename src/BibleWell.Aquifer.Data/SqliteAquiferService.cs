@@ -2,13 +2,13 @@
 
 public sealed class SqliteAquiferService : IReadWriteAquiferService
 {
-    public Task<Resource?> GetResourceAsync(int id)
+    public Task<ResourceContent?> GetResourceContentAsync(int contentId)
     {
-        return Task.FromResult<Resource?>(new Resource(42, "Really cool resource text!"));
+        return Task.FromResult<ResourceContent?>(null);
     }
 
-    public Task SaveResource(Resource resource)
+    public Task SaveResourceContent(ResourceContent resource)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }

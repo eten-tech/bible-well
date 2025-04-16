@@ -1,0 +1,17 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <!-- When it makes sense, keep this list updated with style examples to enable design previews -->
+        <Border Padding="20">
+            <StackPanel Spacing="15" Orientation="Vertical">
+                <TextBlock Classes="h2">h2</TextBlock>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="TextBlock.h2">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="0 0 0 10"/>
+    </Style>
+</Styles>

@@ -4,21 +4,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels.Pages"
+    xmlns:avalonia="clr-namespace:TheArtOfDev.HtmlRenderer.Avalonia;assembly=Avalonia.HtmlRenderer"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
     x:Class="BibleWell.App.Views.Pages.ResourcesPageView"
     x:DataType="vm:ResourcesPageViewModel">
 
-    <ScrollViewer>
-        <StackPanel>
-            <TextBlock
-                Margin="10 20"
-                Text="{Binding ResourceContent}" />
-            <Button Command="{Binding PopulateResourceContentAsync}">
-                Click Me
-            </Button>
-        </StackPanel>
-    </ScrollViewer>
+    <StackPanel>
+        <TextBlock Classes="h2">Resources Page</TextBlock>
+        <Button Command="{Binding PopulateResourceContentAsync}">
+            Click Me
+        </Button>
+        <avalonia:HtmlPanel Text="{Binding ResourceContentHtml}" />
+    </StackPanel>
 
 </UserControl>
