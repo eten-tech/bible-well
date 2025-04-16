@@ -1,12 +1,13 @@
 namespace BibleWell.Aquifer.Data;
 
-internal class ResourceRepository
+internal class ResourceContentRepository
 {
+    private const string tableName = "ResourceContents";
     private bool _hasBeenInitialized  = false;
     private readonly SqliteDbManager _dbManager;
     // private readonly ILogger _logger;
 
-    public ResourceRepository(SqliteDbManager dbManager)
+    public ResourceContentRepository(SqliteDbManager dbManager)
     {
         // _logger = logger;
         _dbManager = dbManager;
@@ -26,9 +27,10 @@ internal class ResourceRepository
         try
         {
             await using var command = connection.CreateCommand();
-            command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS Resources (
+            command.CommandText = $@"
+                CREATE TABLE IF NOT EXISTS {tableName} (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Name TEXT NOT NULL,
                     Content TEXT NOT NULL
                 );";
            await command.ExecuteNonQueryAsync();
@@ -43,11 +45,11 @@ internal class ResourceRepository
         _hasBeenInitialized = true;
     }
     
-    public async Task<Resource?> GetByIdAsync(int id)
+    public async Task<ResourceContent?> GetByIdAsync(int id)
     {
         await using var connection = _dbManager.CreateConnection();
         await using var command = connection.CreateCommand();
-        command.CommandText = "SELECT Id, Content FROM Resources WHERE Id = @Id;";
+        command.CommandText = $@"SELECT Id, Name, Content FROM {tableName} WHERE Id = @Id;";
         command.Parameters.AddWithValue("@Id", id);
 
         await using var reader = await command.ExecuteReaderAsync();
@@ -57,63 +59,67 @@ internal class ResourceRepository
         }
 
         var resourceId = reader.GetInt32(0);
-        var content = reader.GetString(1);
+        var name = reader.GetString(1);
+        var content = reader.GetString(2);
 
-        return new Resource(resourceId, content);
+        return new ResourceContent(resourceId, name, content);
     }
     
-    public async Task<int> SaveAsync(Resource resource)
+    public async Task<int> SaveAsync(ResourceContent resourceContent)
     {
-        ArgumentNullException.ThrowIfNull(resource);
+        ArgumentNullException.ThrowIfNull(resourceContent);
 
-        if (resource.Id <= 0)
+        if (resourceContent.Id <= 0)
         {
-            return await InsertAsync(resource);
+            return await InsertAsync(resourceContent);
         }
         
-        return await UpdateAsync(resource);
+        return await UpdateAsync(resourceContent);
     }
 
-    private async Task<int> InsertAsync(Resource resource) 
+    private async Task<int> InsertAsync(ResourceContent resourceContent) 
     {
         await using var connection = _dbManager.CreateConnection();
         await using var command = connection.CreateCommand();
 
-        command.CommandText = "INSERT INTO Resources (Id, Content) VALUES (@Id, @Content);";
-        command.Parameters.AddWithValue("@Content", resource.Content);
+        command.CommandText = $@"INSERT INTO {tableName} (Name, Content) VALUES (@Name, @Content);";
+        command.Parameters.AddWithValue("@Name", resourceContent.Name);
+        command.Parameters.AddWithValue("@Content", resourceContent.Content);
         // todo: error handling
         return await command.ExecuteNonQueryAsync();
     }
 
-    private async Task<int> UpdateAsync(Resource resource)
+    private async Task<int> UpdateAsync(ResourceContent resourceContent)
     {
         await using var connection = _dbManager.CreateConnection();
         await using var command = connection.CreateCommand();
 
-        command.CommandText = "UPDATE Resources SET Content = @Content WHERE Id = @Id;";
-        command.Parameters.AddWithValue("@Id", resource.Id);
-        command.Parameters.AddWithValue("@Content", resource.Content);
+        command.CommandText = $@"UPDATE {tableName} SET Content = @Content, Name = @Name WHERE Id = @Id;";
+        command.Parameters.AddWithValue("@Id", resourceContent.Id);
+        command.Parameters.AddWithValue("@Name", resourceContent.Name);
+        command.Parameters.AddWithValue("@Content", resourceContent.Content);
         // todo: error handling 
         return await command.ExecuteNonQueryAsync();
     }
 
     
-    public async Task<IEnumerable<Resource>> GetAllAsync()
+    public async Task<IEnumerable<ResourceContent>> GetAllAsync()
     {
-        var resources = new List<Resource>();
+        var resourceContents = new List<ResourceContent>();
 
         await using var connection = _dbManager.CreateConnection();
         await using var command = connection.CreateCommand();
-        command.CommandText = "SELECT Id, Content FROM Resources;";
+        command.CommandText = $@"SELECT Id, Name, Content FROM {tableName};";
 
         await using var reader = await command.ExecuteReaderAsync();
         while (await reader.ReadAsync())
         {
             var id = reader.GetInt32(0);
-            var content = reader.GetString(1);
-            resources.Add(new Resource(id, content));
+            var name = reader.GetString(1);
+            var content = reader.GetString(2);
+            resourceContents.Add(new ResourceContent(id, name, content));
         }
 
-        return resources;
+        return resourceContents;
     }
 }

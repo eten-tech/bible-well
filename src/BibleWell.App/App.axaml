@@ -8,6 +8,7 @@
 
     <Application.Styles>
         <FluentTheme />
-        <StyleInclude Source="avares://BibleWell.App/Assets/Icons.axaml"></StyleInclude>
+        <StyleInclude Source="Assets/AppStyles.axaml"/>
+        <StyleInclude Source="Assets/Icons.axaml"></StyleInclude>
     </Application.Styles>
 </Application>

@@ -10,6 +10,6 @@
     x:Class="BibleWell.App.Views.Pages.LibraryPageView"
     x:DataType="vm:LibraryPageViewModel">
 
-    <TextBlock Margin="10 20">Library Page</TextBlock>
+    <TextBlock Classes="h2">Library Page</TextBlock>
 
 </UserControl>

@@ -1,26 +1,23 @@
 ﻿namespace BibleWell.Aquifer.Data;
 
-/// <summary>
-/// Main service implementation that uses repositories to access data
-/// </summary>
 public sealed class SqliteAquiferService : IReadWriteAquiferService
 {
-    private readonly ResourceRepository _resourceRepository;
+    private readonly ResourceContentRepository _resourceContentRepository;
 
     public SqliteAquiferService()
     {
         var dbManager = new SqliteDbManager(Constants.ConnectionString);
-        _resourceRepository = new ResourceRepository(dbManager);
+        _resourceContentRepository = new ResourceContentRepository(dbManager);
     }
 
-    public Task<Resource?> GetResourceAsync(int id)
+    public Task<ResourceContent?> GetResourceContentAsync(int id)
     {
-        return _resourceRepository.GetByIdAsync(id);
+        return _resourceContentRepository.GetByIdAsync(id);
     }
 
-    public Task SaveResource(Resource resource)
+    public Task SaveResourceContentAsync(ResourceContent resourceContent)
     {
-        return _resourceRepository.SaveAsync(resource);
+        return _resourceContentRepository.SaveAsync(resourceContent);
     }
 
     // add other repositories here ...

@@ -12,7 +12,7 @@
 
     <ScrollViewer>
         <StackPanel>
-            <TextBlock Margin="10 20">Home Page</TextBlock>
+            <TextBlock Classes="h2">Home Page</TextBlock>
             <Button Command="{Binding ChangeTheme}">
                 Change Theme
             </Button>
