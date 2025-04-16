@@ -33,6 +33,7 @@
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
         <PackageVersion Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
         <PackageVersion Include="Polly.Extensions.Http" Version="3.0.0" />
+        <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
         <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />
         <PackageVersion Include="xunit" Version="2.5.3" />
         <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
