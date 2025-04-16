@@ -1,5 +1,20 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:avalonia="clr-namespace:TheArtOfDev.HtmlRenderer.Avalonia;assembly=Avalonia.HtmlRenderer">
+
+    <!--
+        Loading resources here instead of at the application level allows global styles to also reference global resources.
+        Example: `<Setter Property="Background" Value="{StaticResource InfoColor}"/>`
+        (where `InfoColor` would be defined in AppResources.axaml)
+    -->
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Assets/AppResources.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+
     <Design.PreviewWith>
         <!-- When it makes sense, keep this list updated with style examples to enable design previews -->
         <Border Padding="20">
@@ -10,8 +25,9 @@
     </Design.PreviewWith>
 
     <Style Selector="TextBlock.h2">
-        <Setter Property="FontSize" Value="24"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Margin" Value="0 0 0 10"/>
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="0 0 0 10" />
     </Style>
+
 </Styles>
