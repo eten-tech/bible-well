@@ -25,6 +25,7 @@
         <PackageReference Include="Microsoft.Maui.Essentials" />
         <PackageReference Include="Polly.Contrib.WaitAndRetry" />
         <PackageReference Include="Polly.Extensions.Http" />
+        <PackageReference Include="System.Private.Uri" />
     </ItemGroup>
 
     <ItemGroup>
