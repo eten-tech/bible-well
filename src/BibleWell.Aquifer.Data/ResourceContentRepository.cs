@@ -34,6 +34,8 @@ internal class ResourceContentRepository
                     Content TEXT NOT NULL
                 );";
            await command.ExecuteNonQueryAsync();
+
+           await InsertAsync(new ResourceContent(0, "Genesis test RC", "Genesis Test RC Content"));
         }
         catch (Exception e)
         {

@@ -12,6 +12,8 @@ internal class SqliteDbManager
     public SqliteDbManager(string connectionString)
     {
         _connectionString = connectionString;
+        // todo remove this ln - used to see cnx string for development
+        Console.WriteLine($"Connection string: {connectionString}");
         InitializeDatabase();
     }
 

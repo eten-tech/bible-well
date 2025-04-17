@@ -10,6 +10,7 @@ public static class Constants
     //     SQLite.SQLiteOpenFlags.Create |
     //     SQLite.SQLiteOpenFlags.SharedCache;
 
+    // Might have to add a application specific dir to this path
     public static string DatabasePath =>
         Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
