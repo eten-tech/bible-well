@@ -49,6 +49,10 @@
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
+        <AvaloniaXaml Remove="Assets\AppResources.axaml" />
+        <AvaloniaResource Update="Assets\AppResources.axaml">
+          <SubType>Designer</SubType>
+        </AvaloniaResource>
         <AvaloniaXaml Remove="Assets\Icons.axaml" />
         <AvaloniaResource Update="Assets\Icons.axaml">
             <SubType>Designer</SubType>
