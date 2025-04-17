@@ -7,8 +7,26 @@
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Styles>
-        <FluentTheme />
-        <StyleInclude Source="Assets/AppStyles.axaml"/>
-        <StyleInclude Source="Assets/Icons.axaml"></StyleInclude>
+        <FluentTheme>
+            <!--
+            The default theme colors can be overridden if desired. There is a theme editor available at https://theme.xaml.live/.
+            See https://docs.avaloniaui.net/docs/basics/user-interface/styling/themes/fluent for details.
+            -->
+            <!--
+            <FluentTheme.Palettes>
+                <ColorPaletteResources
+                    x:Key="Light"
+                    AltHigh="White"
+                    .../>
+                <ColorPaletteResources
+                    x:Key="Dark"
+                    AltHigh="Black"
+                    .../>
+            </FluentTheme.Palettes>
+            -->
+        </FluentTheme>
+        <StyleInclude Source="/Assets/AppStyles.axaml"/>
+        <StyleInclude Source="/Assets/Icons.axaml"></StyleInclude>
     </Application.Styles>
+
 </Application>
