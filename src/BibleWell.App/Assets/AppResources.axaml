@@ -1,0 +1,47 @@
+<!-- Note that hot reload using HotAvalonia does not work for modifications to this file. -->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+    This is an example of how to override the Avalonia fluent theme values.
+    In this example the default background color for windows is overriden for both light and dark themes.
+    See https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Themes.Fluent/Accents/
+    for files containing list of keys used by the Fluent theme and their default values.
+    -->
+    <!--
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="SystemRegionBrush">LightGreen</SolidColorBrush>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="SystemRegionBrush">DarkGreen</SolidColorBrush>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+    -->
+
+    <!-- Control themes can also be overriden. This example overrides all buttons. -->
+    <!--
+    <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+        <Setter Property="Background" Value="Blue"/>
+        <Setter Property="Foreground" Value="Yellow"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Ellipse Fill="{TemplateBinding Background}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"/>
+                    <ContentPresenter x:Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Content}"
+                        Margin="{TemplateBinding Padding}"/>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </ControlTheme>
+    -->
+</ResourceDictionary>
