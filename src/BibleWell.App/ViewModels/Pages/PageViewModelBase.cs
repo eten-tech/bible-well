@@ -1,7 +1,7 @@
 ﻿namespace BibleWell.App.ViewModels.Pages;
 
 /// <summary>
-/// All pages should derive from this class.
+/// All page view models should derive from this class.
 /// </summary>
 public abstract class PageViewModelBase : ViewModelBase
 {
