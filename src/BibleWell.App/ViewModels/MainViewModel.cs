@@ -8,6 +8,14 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace BibleWell.App.ViewModels;
 
+/// <summary>
+/// Design-time view model for use with the <see cref="Views.MainView"/>.
+/// </summary>
+public sealed class DesignMainViewModel() : MainViewModel();
+
+/// <summary>
+/// View model for use with the <see cref="Views.MainView"/>.
+/// </summary>
 public partial class MainViewModel : ViewModelBase
 {
     public MainViewModel()
