@@ -15,54 +15,76 @@
         <vm:DesignMainViewModel />
     </Design.DataContext>
 
-    <SplitView
-        IsPaneOpen="{Binding IsMenuPaneOpen}"
-        OpenPaneLength="130"
-        CompactPaneLength="50"
-        DisplayMode="CompactInline">
+    <Grid RowDefinitions="*, Auto">
 
-        <!-- Menu -->
-        <SplitView.Pane>
-            <StackPanel
-                Spacing="5"
-                Margin="5">
-                <Button
-                    Padding="15 10 15 10"
-                    Height="35"
-                    Width="40"
-                    Command="{Binding TriggerMenuPaneCommand}">
-                    <PathIcon Data="{StaticResource LineHorizontal3Regular}" />
-                </Button>
-                <ListBox
-                    Name="MenuItemsListBox"
-                    ItemsSource="{Binding MenuItems}"
-                    SelectedItem="{Binding SelectedMenuItem}">
-                    <ListBox.Styles>
-                        <Style Selector="ListBoxItem">
-                            <Setter Property="Padding" Value="10" />
-                        </Style>
-                    </ListBox.Styles>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type vm:MenuItemTemplate}">
-                            <StackPanel
-                                Spacing="10"
-                                Orientation="Horizontal">
-                                <PathIcon Data="{Binding IconName, Converter={x:Static conv:FuncValueConverters.StringToIconConverter}}" />
-                                <TextBlock Text="{Binding Label}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-        </SplitView.Pane>
+        <!-- Page Content -->
+        <Border Grid.Row="0">
+            <ScrollViewer>
+                <TransitioningContentControl Content="{Binding CurrentPage}" Padding="15" />
+            </ScrollViewer>
+        </Border>
 
-        <!-- Pages -->
-        <SplitView.Content>
-            <Border>
-                <ScrollViewer>
-                    <TransitioningContentControl Content="{Binding CurrentPage}" Padding="15" />
-                </ScrollViewer>
-            </Border>
-        </SplitView.Content>
-    </SplitView>
+        <!-- Bottom Navigation -->
+        <Border Grid.Row="1"
+                Background="LightGray"
+                Height="60">
+            <Border.Effect>
+                <DropShadowEffect
+                    Color="Black"
+                    BlurRadius="8"
+                    Opacity="0.2" />
+
+            </Border.Effect>
+
+            <ListBox
+                Name="MenuItemsListBox"
+                ItemsSource="{Binding MenuItems}"
+                SelectedItem="{Binding SelectedMenuItem}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                SelectionMode="Single"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="1" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Padding" Value="10" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Focusable" Value="False" />
+                    </Style>
+                </ListBox.Styles>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="vm:MenuItemTemplate">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24"
+                                      Data="{Binding IconName, Converter={x:Static conv:FuncValueConverters.StringToIconConverter}}">
+                                <PathIcon.Styles>
+                                    <Style Selector="PathIcon">
+                                        <Setter Property="Foreground" Value="Gray" />
+                                    </Style>
+                                    <Style Selector="ListBoxItem:selected PathIcon">
+                                        <Setter Property="Foreground" Value="DodgerBlue" />
+                                    </Style>
+                                </PathIcon.Styles>
+                            </PathIcon>
+
+                            <TextBlock Text="{Binding Label}" FontSize="12" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+    </Grid>
 </UserControl>
