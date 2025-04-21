@@ -10,6 +10,10 @@
     x:Class="BibleWell.App.Views.Pages.DevPageView"
     x:DataType="vm:DevPageViewModel">
 
+    <Design.DataContext>
+        <vm:DesignDevPageViewModel />
+    </Design.DataContext>
+
     <StackPanel>
         <TextBlock Classes="h2">Dev Page</TextBlock>
     </StackPanel>
