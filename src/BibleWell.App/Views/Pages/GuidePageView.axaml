@@ -10,6 +10,10 @@
     x:Class="BibleWell.App.Views.Pages.GuidePageView"
     x:DataType="vm:GuidePageViewModel">
 
+    <Design.DataContext>
+        <vm:DesignGuidePageViewModel />
+    </Design.DataContext>
+
     <TextBlock Classes="h2">Guide Page</TextBlock>
 
 </UserControl>
