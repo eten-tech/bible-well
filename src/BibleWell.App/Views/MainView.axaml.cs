@@ -43,7 +43,7 @@ public partial class MainView : UserControl
     private static void MainView_BackRequested(object? sender, RoutedEventArgs e)
     {
         var router = Ioc.Default.GetRequiredService<Router<ViewModelBase>>();
-        if (router.HasPrevious)
+        if (router.CanGoBack)
         {
             router.Back();
             e.Handled = true;

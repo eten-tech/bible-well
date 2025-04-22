@@ -24,6 +24,7 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel(Router<ViewModelBase> router)
     {
         _router = router;
+        _router.CurrentViewModelChanged += (vm) => CurrentPage = vm;
         SelectedMenuItem = MenuItems[0];
     }
 
@@ -44,7 +45,7 @@ public partial class MainViewModel : ViewModelBase
             return;
         }
 
-        CurrentPage = _router.GoTo<PageViewModelBase>(value.ViewModelType);
+        _router.GoTo<PageViewModelBase>(value.ViewModelType);
     }
 
     [RelayCommand]

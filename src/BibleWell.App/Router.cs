@@ -17,50 +17,34 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
     private List<TViewModelBase> _history = [];
     private const uint MaxHistorySize = 20;
 
-    public bool HasNext => _history.Count > 0 && _currentIndex < _history.Count - 1;
-    public bool HasPrevious => _currentIndex > 0;
+    public bool CanGoBack => _currentIndex > 0;
+    public bool CanGoForward => _history.Count > 0 && _currentIndex < _history.Count - 1;
+
     public TViewModelBase? Current => _currentIndex < 0 ? null : _history[_currentIndex];
 
-    public void Push(TViewModelBase item)
-    {
-        // After navigating back the current index may not be the most forward position.
-        // Delete all "forward" items in the history when this happens.
-        if (HasNext)
-        {
-            _history = [.. _history.Take(_currentIndex + 1)];
-        }
-
-        // add the item and recalculate the index
-        _history.Add(item);
-
-        // history exceeded the max size
-        if (_history.Count > MaxHistorySize)
-        {
-            _history.RemoveAt(0);
-        }
-
-        _currentIndex = _history.Count - 1;
-    }
+    public event Action<TViewModelBase>? CurrentViewModelChanged;
 
     public TViewModelBase? Back()
     {
-        if (!HasPrevious)
+        if (!CanGoBack)
         {
             return null;
         }
 
         _currentIndex--;
+        OnCurrentViewModelChanged(Current!);
         return Current;
     }
 
     public TViewModelBase? Forward()
     {
-        if (!HasNext)
+        if (!CanGoForward)
         {
             return null;
         }
 
         _currentIndex++;
+        OnCurrentViewModelChanged(Current!);
         return Current;
     }
 
@@ -101,5 +85,32 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
 
         return viewModel as T
             ?? throw new InvalidOperationException($"Unable to create {viewModelType.Name}.  Ensure that it derives from {typeof(T).FullName}.");
+    }
+
+    private void OnCurrentViewModelChanged(TViewModelBase viewModel)
+    {
+        CurrentViewModelChanged?.Invoke(viewModel);
+    }
+
+    private void Push(TViewModelBase item)
+    {
+        // After navigating back the current index may not be the most forward position.
+        // Delete all "forward" items in the history when this happens.
+        if (CanGoForward)
+        {
+            _history = [.. _history.Take(_currentIndex + 1)];
+        }
+
+        // add the item and recalculate the index
+        _history.Add(item);
+
+        // history exceeded the max size
+        if (_history.Count > MaxHistorySize)
+        {
+            _history.RemoveAt(0);
+        }
+
+        _currentIndex = _history.Count - 1;
+        OnCurrentViewModelChanged(Current!);
     }
 }
