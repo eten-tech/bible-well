@@ -117,6 +117,8 @@ public partial class App : Application
 
         services.AddOptions<ConfigurationOptions>().Bind(configuration);
 
+        services.AddSingleton(new Router<ViewModelBase>());
+
         ConfigureServices(services);
         ConfigureViewModels(services);
         ConfigureViews(services);

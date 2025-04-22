@@ -20,6 +20,6 @@ public static class DesignData
     public static ResourcesPageViewModel DesignResourcesPageViewModel { get; } = new(A.Fake<ICachingAquiferService>());
 
     // this must be last because it references the above view models
-    public static MainViewModel DesignMainViewModel { get; } = new();
+    public static MainViewModel DesignMainViewModel { get; } = new(new Router<ViewModelBase>());
 }
 #endif
