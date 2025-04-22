@@ -1,8 +1,11 @@
+using BibleWell.Aquifer.Data.DbModels;
+using Dapper;
+
 namespace BibleWell.Aquifer.Data;
 
 internal class ResourceContentRepository
 {
-    private const string tableName = "ResourceContents";
+    private const string TableName = "ResourceContents";
     private bool _hasBeenInitialized  = false;
     private readonly SqliteDbManager _dbManager;
     // private readonly ILogger _logger;
@@ -11,31 +14,32 @@ internal class ResourceContentRepository
     {
         // _logger = logger;
         _dbManager = dbManager;
-        _ = InitAsync();
+        Init();
     }
 
-    private async Task InitAsync()
+    private void Init()
     {
         if (_hasBeenInitialized)
         {
             return;
         }
 
-        await using var connection = _dbManager.CreateConnection();
+        using var connection = _dbManager.CreateConnection();
         connection.Open();
 
         try
         {
-            await using var command = connection.CreateCommand();
-            command.CommandText = $@"
-                CREATE TABLE IF NOT EXISTS {tableName} (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Name TEXT NOT NULL,
-                    Content TEXT NOT NULL
-                );";
-           await command.ExecuteNonQueryAsync();
+            const string sql = $"""
+                                CREATE TABLE IF NOT EXISTS {TableName} (
+                                    Id INTEGER UNIQUE NOT NULL,
+                                    Name TEXT NOT NULL,
+                                    Content TEXT NOT NULL
+                                );
+                                """;
 
-           await InsertAsync(new ResourceContent(0, "Genesis test RC", "Genesis Test RC Content"));
+            connection.Execute(sql);
+
+            Insert(new DbResourceContent(1, "Genesis test RC", "Genesis Test RC Content"));
         }
         catch (Exception e)
         {
@@ -47,80 +51,47 @@ internal class ResourceContentRepository
         _hasBeenInitialized = true;
     }
     
-    public async Task<ResourceContent?> GetByIdAsync(int id)
+    public DbResourceContent? GetById(int id)
     {
-        await using var connection = _dbManager.CreateConnection();
-        await using var command = connection.CreateCommand();
-        command.CommandText = $@"SELECT Id, Name, Content FROM {tableName} WHERE Id = @Id;";
-        command.Parameters.AddWithValue("@Id", id);
+        using var connection = _dbManager.CreateConnection();
+        const string sql = $"SELECT Id, Name, Content FROM {TableName} WHERE Id = @Id;";
+        var resourceContent = connection.QuerySingleOrDefault<DbResourceContent>(sql, new { Id = id });
 
-        await using var reader = await command.ExecuteReaderAsync();
-        if (!await reader.ReadAsync())
-        {
-            return null;
-        }
-
-        var resourceId = reader.GetInt32(0);
-        var name = reader.GetString(1);
-        var content = reader.GetString(2);
-
-        return new ResourceContent(resourceId, name, content);
+        return resourceContent;
     }
     
-    public async Task<int> SaveAsync(ResourceContent resourceContent)
+    public int Save(DbResourceContent resourceContent)
     {
         ArgumentNullException.ThrowIfNull(resourceContent);
 
-        if (resourceContent.Id <= 0)
-        {
-            return await InsertAsync(resourceContent);
-        }
-        
-        return await UpdateAsync(resourceContent);
+        return resourceContent.Id <= 0 ? Insert(resourceContent) : Update(resourceContent);
     }
 
-    private async Task<int> InsertAsync(ResourceContent resourceContent) 
+    private int Insert(DbResourceContent resourceContent) 
     {
-        await using var connection = _dbManager.CreateConnection();
-        await using var command = connection.CreateCommand();
+        using var connection = _dbManager.CreateConnection();
+        const string sql = $"INSERT INTO {TableName} (Id, Name, Content) VALUES (@Id, @Name, @Content) ON CONFLICT (Id) DO NOTHING;";
 
-        command.CommandText = $@"INSERT INTO {tableName} (Name, Content) VALUES (@Name, @Content);";
-        command.Parameters.AddWithValue("@Name", resourceContent.Name);
-        command.Parameters.AddWithValue("@Content", resourceContent.Content);
         // todo: error handling
-        return await command.ExecuteNonQueryAsync();
+        return connection.Execute(sql, resourceContent);
     }
 
-    private async Task<int> UpdateAsync(ResourceContent resourceContent)
+    private int Update(DbResourceContent resourceContent)
     {
-        await using var connection = _dbManager.CreateConnection();
-        await using var command = connection.CreateCommand();
-
-        command.CommandText = $@"UPDATE {tableName} SET Content = @Content, Name = @Name WHERE Id = @Id;";
-        command.Parameters.AddWithValue("@Id", resourceContent.Id);
-        command.Parameters.AddWithValue("@Name", resourceContent.Name);
-        command.Parameters.AddWithValue("@Content", resourceContent.Content);
-        // todo: error handling 
-        return await command.ExecuteNonQueryAsync();
+        using var connection = _dbManager.CreateConnection();
+        const string sql = $"UPDATE {TableName} SET Content = @Content, Name = @Name WHERE Id = @Id;";
+        
+        // todo: error handling
+        return connection.Execute(sql, resourceContent);
     }
 
     
-    public async Task<IEnumerable<ResourceContent>> GetAllAsync()
+    public IEnumerable<DbResourceContent> GetAll()
     {
-        var resourceContents = new List<ResourceContent>();
+        using var connection = _dbManager.CreateConnection();
+        const string sql = $"SELECT Id, Name, Content FROM {TableName};";
 
-        await using var connection = _dbManager.CreateConnection();
-        await using var command = connection.CreateCommand();
-        command.CommandText = $@"SELECT Id, Name, Content FROM {tableName};";
-
-        await using var reader = await command.ExecuteReaderAsync();
-        while (await reader.ReadAsync())
-        {
-            var id = reader.GetInt32(0);
-            var name = reader.GetString(1);
-            var content = reader.GetString(2);
-            resourceContents.Add(new ResourceContent(id, name, content));
-        }
+        var resourceContents = connection.Query<DbResourceContent>(sql).AsList();
 
         return resourceContents;
     }

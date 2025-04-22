@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
+        <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Dapper.AOT</InterceptorsPreviewNamespaces>
     </PropertyGroup>
 
     <ItemGroup>
@@ -9,14 +10,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Dapper" />
+        <PackageReference Include="Dapper.AOT" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" />
     </ItemGroup>
-
-    <!-- <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-    </ItemGroup> -->
-
 
 </Project>

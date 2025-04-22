@@ -1,4 +1,6 @@
-﻿namespace BibleWell.Aquifer.Data;
+﻿using BibleWell.Aquifer.Data.DbModels;
+
+namespace BibleWell.Aquifer.Data;
 
 public sealed class SqliteAquiferService : IReadWriteAquiferService
 {
@@ -10,15 +12,37 @@ public sealed class SqliteAquiferService : IReadWriteAquiferService
         _resourceContentRepository = new ResourceContentRepository(dbManager);
     }
 
-    public Task<ResourceContent?> GetResourceContentAsync(int id)
+// SQLite is not async, we have a common interface that does interact with an async API.
+// This might change as we develop the application further. For now, we are telling the comiler to ignore this.
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+    public async Task<ResourceContent?> GetResourceContentAsync(int id)
+
     {
-        return _resourceContentRepository.GetByIdAsync(id);
+        var resourceContent = _resourceContentRepository.GetById(id);
+
+        if (resourceContent == null)
+        {
+            return null;
+        }
+        return MapToResourceContent(resourceContent);
     }
 
-    public Task SaveResourceContentAsync(ResourceContent resourceContent)
+    public async Task SaveResourceContentAsync(ResourceContent resourceContent)
     {
-        return _resourceContentRepository.SaveAsync(resourceContent);
+        _resourceContentRepository.Save(MapToDbResourceContent(resourceContent));
     }
+
+    private static ResourceContent MapToResourceContent(DbResourceContent source)
+    {
+        // SQLite INTEGER data type is always 64-bit. So, we have to account for potential overflows using `checked`
+        return new ResourceContent(checked((int)source.Id), source.Name, source.Content);
+    }
+
+    private static DbResourceContent MapToDbResourceContent(ResourceContent source)
+    {
+        return new DbResourceContent(source.Id, source.Name, source.Content);
+    }
+    #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
     // add other repositories here ...
 }

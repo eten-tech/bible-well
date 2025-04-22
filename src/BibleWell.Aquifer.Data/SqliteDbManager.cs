@@ -1,3 +1,4 @@
+using Dapper;
 using Microsoft.Data.Sqlite;
 
 namespace BibleWell.Aquifer.Data;
@@ -9,8 +10,6 @@ internal class SqliteDbManager
     public SqliteDbManager(string connectionString)
     {
         _connectionString = connectionString;
-        // todo remove this ln - used to see cnx string for development
-        Console.WriteLine($"Connection string: {connectionString}");
         InitializeDatabase();
     }
 
@@ -29,6 +28,11 @@ internal class SqliteDbManager
         {
             Directory.CreateDirectory(directory);
         }
+
+        // ensure DB is in WAL mode
+        using var connection = new SqliteConnection(_connectionString);
+        const string sql = "PRAGMA journal_mode = WAL;";
+        connection.Execute(sql);
         
         // ensure all tables have been created using repositories?
         
