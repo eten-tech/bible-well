@@ -2,7 +2,9 @@
 using System.Reflection;
 #endif
 using Avalonia.Controls;
+#if DEBUG
 using BibleWell.App.ViewModels;
+#endif
 using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace BibleWell.App;
@@ -75,7 +77,7 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
                     ?.GetValue(null, null)
                 ?? throw new InvalidOperationException($"No design-time view model is defined for {viewModelType} in {typeof(DesignData).FullName}.");
 #else
-            viewModel = Activator.CreateInstance(value.ViewModelType);
+            viewModel = Activator.CreateInstance(viewModelType);
 #endif
         }
         else
