@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+#if DEBUG
 using System.Reflection;
+#endif
 using Avalonia.Controls;
 using BibleWell.App.ViewModels.Pages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -7,11 +9,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 
 namespace BibleWell.App.ViewModels;
-
-/// <summary>
-/// Design-time view model for use with the <see cref="Views.MainView"/>.
-/// </summary>
-public sealed class DesignMainViewModel() : MainViewModel();
 
 /// <summary>
 /// View model for use with the <see cref="Views.MainView"/>.
@@ -59,17 +56,16 @@ public partial class MainViewModel : ViewModelBase
         object? viewModel;
         if (Design.IsDesignMode)
         {
-            // look for a design-time view model in the same assembly
-            var designTimeViewModelType = Assembly
-                    .GetAssembly(value.ViewModelType)
-                    ?.GetTypes()
-                    .FirstOrDefault(t =>
-                        t != value.ViewModelType &&
-                        value.ViewModelType.IsAssignableFrom(t) &&
-                        t.Name.StartsWith("Design"))
-                ?? value.ViewModelType;
-
-            viewModel = Activator.CreateInstance(designTimeViewModelType);
+#if DEBUG
+            // get the DesignData view model property for this type (if it exists)
+            viewModel = typeof(DesignData)
+                    .GetProperties(BindingFlags.Public | BindingFlags.Static)
+                    .FirstOrDefault(pi => pi.PropertyType == value.ViewModelType)
+                    ?.GetValue(null, null)
+                ?? throw new InvalidOperationException($"No design-time view model is defined for {value.ViewModelType} in {typeof(DesignData).FullName}.");
+#else
+            viewModel = Activator.CreateInstance(value.ViewModelType);
+#endif
         }
         else
         {

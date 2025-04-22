@@ -18,13 +18,6 @@ public sealed class ViewLocator : IDataTemplate
 
         var viewModelType = data.GetType();
 
-        // If this is design-time then the view model we received might be a "Design*" view model and the base
-        // view model is the one actually registered.
-        if (Design.IsDesignMode && viewModelType.BaseType != null && viewModelType.Name.StartsWith("Design"))
-        {
-            viewModelType = viewModelType.BaseType;
-        }
-
         return _locator.GetValueOrDefault(viewModelType)?.Invoke()
             ?? new TextBlock { Text = $"Error: ViewModel \"{viewModelType.Name}\" not registered." };
     }
