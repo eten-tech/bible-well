@@ -12,10 +12,13 @@
         <PackageReference Include="Avalonia.Markup.Xaml.Loader" PrivateAssets="All" />
         <PackageReference Include="Avalonia.Themes.Fluent" />
         <PackageReference Include="Avalonia.Fonts.Inter" />
-        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
         <PackageReference Include="CommunityToolkit.Labs.Extensions.DependencyInjection" />
         <PackageReference Include="CommunityToolkit.Mvvm" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="FakeItEasy" />
+        <PackageReference Include="FakeItEasy.Analyzer.CSharp" PrivateAssets="All">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />

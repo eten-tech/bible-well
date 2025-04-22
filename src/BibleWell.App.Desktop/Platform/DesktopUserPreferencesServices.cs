@@ -1,9 +1,11 @@
-﻿namespace BibleWell.Preferences;
+﻿using BibleWell.Preferences;
+
+namespace BibleWell.App.Desktop.Platform;
 
 /// <summary>
-/// A fake implementation of <see cref="IUserPreferencesService"/> for design-time use.
+/// A fake implementation of <see cref="IUserPreferencesService"/> that does not store any user preferences.
 /// </summary>
-public class FakeUserPreferencesService : IUserPreferencesService
+public sealed class DesktopUserPreferencesServices : IUserPreferencesService
 {
     public bool ContainsKey(string key)
     {

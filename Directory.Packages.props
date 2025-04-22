@@ -21,6 +21,8 @@
         <PackageVersion Include="coverlet.collector" Version="6.0.0" />
         <PackageVersion Include="Dapper" Version="2.1.66" />
         <PackageVersion Include="Dapper.AOT" Version="1.0.48" />
+        <PackageVersion Include="FakeItEasy" Version="8.3.0" />
+        <PackageVersion Include="FakeItEasy.Analyzer.CSharp" Version="6.1.1" />
         <PackageVersion Include="HotAvalonia" Version="3.0.0" />
         <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="9.0.4" />
         <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.4" />

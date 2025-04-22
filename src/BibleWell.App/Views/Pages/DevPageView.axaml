@@ -8,12 +8,9 @@
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
+    d:DataContext="{x:Static vm:DesignData.DesignDevPageViewModel}"
     x:Class="BibleWell.App.Views.Pages.DevPageView"
-    x:DataType="vm:DevPageViewModel">
-
-    <Design.DataContext>
-        <vm:DesignDevPageViewModel />
-    </Design.DataContext>
+    x:DataType="vm:Pages.DevPageViewModel">
 
     <StackPanel>
         <TextBlock Classes="h2">Dev Page</TextBlock>

@@ -8,12 +8,9 @@
     mc:Ignorable="d"
     d:DesignWidth="540"
     d:DesignHeight="960"
+    d:DataContext="{x:Static vm:DesignData.DesignMainViewModel}"
     x:Class="BibleWell.App.Views.MainView"
     x:DataType="vm:MainViewModel">
-
-    <Design.DataContext>
-        <vm:DesignMainViewModel />
-    </Design.DataContext>
 
     <SplitView
         IsPaneOpen="{Binding IsMenuPaneOpen}"
