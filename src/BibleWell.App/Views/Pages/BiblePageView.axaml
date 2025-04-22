@@ -10,6 +10,10 @@
     x:Class="BibleWell.App.Views.Pages.BiblePageView"
     x:DataType="vm:BiblePageViewModel">
 
+    <Design.DataContext>
+        <vm:DesignBiblePageViewModel />
+    </Design.DataContext>
+
     <TextBlock Classes="h2">Bible Page</TextBlock>
 
 </UserControl>
