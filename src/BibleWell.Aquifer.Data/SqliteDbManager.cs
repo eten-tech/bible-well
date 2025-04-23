@@ -11,9 +11,9 @@ internal class SqliteDbManager
 
     public SqliteDbManager(IStorageService storageService)
     {
-        var Constants = new Constants(storageService);
-        _connectionString = Constants.ConnectionString;
-        _databasePath = Constants.DatabasePath;
+        var constants = new Constants(storageService);
+        _connectionString = constants.ConnectionString;
+        _databasePath = constants.DatabasePath;
         InitializeDatabase();
     }
 
