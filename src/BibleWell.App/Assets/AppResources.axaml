@@ -19,6 +19,21 @@
     </ResourceDictionary.ThemeDictionaries>
     -->
 
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="IconActiveBrush">DodgerBlue</SolidColorBrush>
+            <SolidColorBrush x:Key="IconInactiveBrush">Gray</SolidColorBrush>
+            <Color x:Key="DropShadowEffectColor">Black</Color>
+            <Color x:Key="Transparent">Transparent</Color>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="IconActiveBrush">DodgerBlue</SolidColorBrush>
+            <SolidColorBrush x:Key="IconInactiveBrush">Gray</SolidColorBrush>
+            <Color x:Key="DropShadowEffectColor">Black</Color>
+            <Color x:Key="Transparent">Transparent</Color>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
     <!-- Control themes can also be overriden. This example overrides all buttons. -->
     <!--
     <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
