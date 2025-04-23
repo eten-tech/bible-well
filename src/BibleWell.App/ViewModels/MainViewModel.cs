@@ -1,11 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-#if DEBUG
-using System.Reflection;
-#endif
-using Avalonia.Controls;
 using BibleWell.App.ViewModels.Pages;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 
 namespace BibleWell.App.ViewModels;
@@ -15,21 +10,23 @@ namespace BibleWell.App.ViewModels;
 /// </summary>
 public partial class MainViewModel : ViewModelBase
 {
-    public MainViewModel()
-    {
-        // TODO figure out how to load this in the constructor
-        //CurrentPage = GetPageViewModelFromMenuItemTemplate(MenuItems[0]);
-    }
-
-    // TODO figure out how to load this in the constructor
     [ObservableProperty]
-    private ViewModelBase _currentPage = GetPageViewModelFromMenuItemTemplate(MenuItems[0]);
+    private ViewModelBase _currentPage = null!;
 
     [ObservableProperty]
-    private bool _isMenuPaneOpen = false;
+    private bool _isMenuPaneOpen;
 
     [ObservableProperty]
     private MenuItemTemplate? _selectedMenuItem;
+
+    private readonly Router<ViewModelBase> _router;
+
+    public MainViewModel(Router<ViewModelBase> router)
+    {
+        _router = router;
+        _router.CurrentViewModelChanged += (vm) => CurrentPage = vm;
+        SelectedMenuItem = MenuItems[0];
+    }
 
     public static ObservableCollection<MenuItemTemplate> MenuItems { get; } =
     [
@@ -48,33 +45,7 @@ public partial class MainViewModel : ViewModelBase
             return;
         }
 
-        CurrentPage = GetPageViewModelFromMenuItemTemplate(value);
-    }
-
-    private static PageViewModelBase GetPageViewModelFromMenuItemTemplate(MenuItemTemplate value)
-    {
-        object? viewModel;
-        if (Design.IsDesignMode)
-        {
-#if DEBUG
-            // get the DesignData view model property for this type (if it exists)
-            viewModel = typeof(DesignData)
-                    .GetProperties(BindingFlags.Public | BindingFlags.Static)
-                    .FirstOrDefault(pi => pi.PropertyType == value.ViewModelType)
-                    ?.GetValue(null, null)
-                ?? throw new InvalidOperationException($"No design-time view model is defined for {value.ViewModelType} in {typeof(DesignData).FullName}.");
-#else
-            viewModel = Activator.CreateInstance(value.ViewModelType);
-#endif
-        }
-        else
-        {
-            viewModel = Ioc.Default.GetService(value.ViewModelType);
-        }
-
-        return viewModel as PageViewModelBase
-            ?? throw new InvalidOperationException(
-                $"{nameof(MenuItemTemplate)}.{nameof(MenuItemTemplate.ViewModelType)} must derive from {nameof(PageViewModelBase)} but was {value.ViewModelType.Name}.");
+        _router.GoTo<PageViewModelBase>(value.ViewModelType);
     }
 
     [RelayCommand]
