@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using BibleWell.App.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace BibleWell.App.Views;
 
@@ -13,7 +12,7 @@ public partial class MainView : UserControl
     }
 
     /// <summary>
-    /// Wire handling of back button.
+    /// Register handling of back button.
     /// </summary>
     protected override void OnLoaded(RoutedEventArgs e)
     {
@@ -25,7 +24,7 @@ public partial class MainView : UserControl
     }
 
     /// <summary>
-    /// Unwire handling of back button.
+    /// Unregister handling of back button.
     /// </summary>
     protected override void OnUnloaded(RoutedEventArgs e)
     {
@@ -40,12 +39,11 @@ public partial class MainView : UserControl
     /// <summary>
     /// Handle back button.
     /// </summary>
-    private static void MainView_BackRequested(object? sender, RoutedEventArgs e)
+    private void MainView_BackRequested(object? sender, RoutedEventArgs e)
     {
-        var router = Ioc.Default.GetRequiredService<Router<ViewModelBase>>();
-        if (router.CanGoBack)
+        if (DataContext is MainViewModel viewModel)
         {
-            router.Back();
+            viewModel.NavigateBackCommand.Execute(null);
             e.Handled = true;
         }
     }

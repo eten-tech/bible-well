@@ -52,6 +52,11 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
 
     public TBaseType GoTo<TBaseType>(Type viewModelType) where TBaseType : class, TViewModelBase
     {
+        if (Current?.GetType() == viewModelType)
+        {
+            return (TBaseType)Current;
+        }
+
         var destination = CreateViewModel<TBaseType>(viewModelType);
         Push(destination);
         return destination;
@@ -59,6 +64,11 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
 
     public T GoTo<T>() where T : class, TViewModelBase
     {
+        if (Current?.GetType() == typeof(T))
+        {
+            return (T)Current;
+        }
+
         var destination = CreateViewModel<T>(typeof(T));
         Push(destination);
         return destination;
