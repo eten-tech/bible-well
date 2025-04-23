@@ -82,7 +82,7 @@ internal class ResourceContentRepository
         // todo: error handling
         return connection.Execute(sql, resourceContent);
     }
-    public IEnumerable<DbResourceContent> GetAll()
+    public IReadOnlyList<DbResourceContent> GetAll()
     {
         using var connection = _dbManager.CreateConnection();
         const string sql = $"SELECT Id, Name, Content FROM {TableName};";
