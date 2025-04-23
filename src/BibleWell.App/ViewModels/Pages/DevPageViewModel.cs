@@ -17,7 +17,7 @@ public partial class DevPageViewModel(IReadWriteAquiferService _readWriteAquifer
     {
         try
         {
-            var resourceContent = await _sqliteAquiferService.GetResourceContentAsync(1);
+            var resourceContent = await _readWriteAquiferService.GetResourceContentAsync(1);
             ResourceContentHtml = resourceContent?.Content ?? "resource not found";
         }
         catch (Exception ex)

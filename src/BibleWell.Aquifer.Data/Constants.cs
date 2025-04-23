@@ -11,7 +11,7 @@ internal sealed class Constants(IStorageService _storageService)
                             _storageService.AppDataDirectory,
                             ApplicationDir);
 
-    public string DatabasePath => Path.Combine(ApplicationPath, DatabaseFilename);
+    public string DatabasePath => Path.Combine(ApplicationPath, AquiferDatabaseFilename);
 
     public string ConnectionString => $"Data Source={DatabasePath}";
 }
