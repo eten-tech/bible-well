@@ -14,7 +14,7 @@ public sealed class SqliteAquiferService : IReadWriteAquiferService
     }
 
 // SQLite is not async, we have a common interface that does interact with an async API.
-// This might change as we develop the application further. For now, we are telling the comiler to ignore this.
+// This might change as we develop the application further. For now, we are telling the compiler to ignore this.
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
     public async Task<ResourceContent?> GetResourceContentAsync(int id)
 
