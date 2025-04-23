@@ -62,7 +62,9 @@ internal class ResourceContentRepository
     
     public int Save(DbResourceContent resourceContent)
     {
-        return resourceContent.Id <= 0 ? Insert(resourceContent) : Update(resourceContent);
+        // might want some refacotring here with error handling or db transaction
+        var existingResourceContent = GetById(checked((int)resourceContent.Id));
+        return existingResourceContent != null ? Update(resourceContent) : Insert(resourceContent);
     }
 
     private int Insert(DbResourceContent resourceContent) 
