@@ -26,7 +26,7 @@ internal class SqliteDbManager
 
     private void InitializeDatabase()
     {
-        // ? Ensure the directory exists
+        // Ensure the directory exists
         var directory = Path.GetDirectoryName(_databasePath);
         if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
         {
