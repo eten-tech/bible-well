@@ -6,4 +6,19 @@ public interface IStorageService
     {
         get;
     }
+
+    string ApplicationDirectoryPath
+    {
+        get;
+    }
+
+    string DatabasePath
+    {
+        get;
+    }
+
+    string ConnectionString
+    {
+        get;
+    }
 }
