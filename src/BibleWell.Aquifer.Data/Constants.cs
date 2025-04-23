@@ -2,7 +2,7 @@ using BibleWell.Storage;
 
 namespace BibleWell.Aquifer.Data;
 
-public sealed class Constants(IStorageService _storageService)
+internal sealed class Constants(IStorageService _storageService)
 {
     private const string DatabaseFilename = "BibleWellAquifer.db3";
     private const string ApplicationDir = "BibleWell";
