@@ -49,6 +49,15 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void NavigateBack()
+    {
+        if (_router.CanGoBack)
+        {
+            _router.Back();
+        }
+    }
+
+    [RelayCommand]
     private void TriggerMenuPane()
     {
         IsMenuPaneOpen = !IsMenuPaneOpen;
