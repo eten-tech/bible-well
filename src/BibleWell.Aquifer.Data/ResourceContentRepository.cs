@@ -82,8 +82,6 @@ internal class ResourceContentRepository
         // todo: error handling
         return connection.Execute(sql, resourceContent);
     }
-
-    
     public IEnumerable<DbResourceContent> GetAll()
     {
         using var connection = _dbManager.CreateConnection();
