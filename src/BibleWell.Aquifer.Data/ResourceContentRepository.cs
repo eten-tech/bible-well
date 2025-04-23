@@ -6,7 +6,7 @@ namespace BibleWell.Aquifer.Data;
 internal class ResourceContentRepository
 {
     private const string TableName = "ResourceContents";
-    private bool _hasBeenInitialized  = false;
+    private bool _hasBeenInitialized = false;
     private readonly SqliteDbManager _dbManager;
     // private readonly ILogger _logger;
 
