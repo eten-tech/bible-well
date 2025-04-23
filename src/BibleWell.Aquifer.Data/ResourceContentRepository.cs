@@ -62,8 +62,6 @@ internal class ResourceContentRepository
     
     public int Save(DbResourceContent resourceContent)
     {
-        ArgumentNullException.ThrowIfNull(resourceContent);
-
         return resourceContent.Id <= 0 ? Insert(resourceContent) : Update(resourceContent);
     }
 
