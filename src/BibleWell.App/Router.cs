@@ -54,7 +54,7 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
     {
         if (Current?.GetType() == viewModelType)
         {
-            return (TBaseType) Current;
+            return (TBaseType)Current;
         }
 
         var destination = CreateViewModel<TBaseType>(viewModelType);
