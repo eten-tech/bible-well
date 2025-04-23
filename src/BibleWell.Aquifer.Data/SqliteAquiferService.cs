@@ -1,24 +1,15 @@
 ﻿using BibleWell.Aquifer.Data.DbModels;
-using BibleWell.Storage;
 
 namespace BibleWell.Aquifer.Data;
 
-public sealed class SqliteAquiferService : IReadWriteAquiferService
+public sealed class SqliteAquiferService(ResourceContentRepository resourceContentRepository) : IReadWriteAquiferService
 {
-    private readonly ResourceContentRepository _resourceContentRepository;
-
-    public SqliteAquiferService(IStorageService storageService)
-    {
-        var dbManager = new SqliteDbManager(storageService);
-        _resourceContentRepository = new ResourceContentRepository(dbManager);
-    }
-
 // SQLite is not async, we have a common interface that does interact with an async API.
 // This might change as we develop the application further. For now, we are telling the compiler to ignore this.
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
     public async Task<ResourceContent?> GetResourceContentAsync(int id)
     {
-        var resourceContent = _resourceContentRepository.GetById(id);
+        var resourceContent = resourceContentRepository.GetById(id);
 
         if (resourceContent == null)
         {
@@ -29,7 +20,7 @@ public sealed class SqliteAquiferService : IReadWriteAquiferService
 
     public async Task SaveResourceContentAsync(ResourceContent resourceContent)
     {
-        _resourceContentRepository.Save(MapToDbResourceContent(resourceContent));
+        resourceContentRepository.Save(MapToDbResourceContent(resourceContent));
     }
 
     private static ResourceContent MapToResourceContent(DbResourceContent source)
@@ -42,7 +33,7 @@ public sealed class SqliteAquiferService : IReadWriteAquiferService
     {
         return new DbResourceContent(source.Id, source.Name, source.Content);
     }
-    #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
     // add other repositories here ...
 }

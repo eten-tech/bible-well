@@ -4,7 +4,7 @@ using Microsoft.Data.Sqlite;
 
 namespace BibleWell.Aquifer.Data;
 
-internal class SqliteDbManager
+public class SqliteDbManager
 {
     private readonly IStorageService _storageService;
 

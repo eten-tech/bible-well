@@ -3,7 +3,7 @@ using Dapper;
 
 namespace BibleWell.Aquifer.Data;
 
-internal class ResourceContentRepository
+public class ResourceContentRepository
 {
     private const string TableName = "ResourceContents";
     private bool _hasBeenInitialized = false;
@@ -62,7 +62,7 @@ internal class ResourceContentRepository
     
     public int Save(DbResourceContent resourceContent)
     {
-        // might want some refacotring here with error handling or db transaction
+        // might want some refactoring here with error handling or db transaction
         var existingResourceContent = GetById(checked((int)resourceContent.Id));
         return existingResourceContent != null ? Update(resourceContent) : Insert(resourceContent);
     }
