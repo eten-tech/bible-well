@@ -15,6 +15,6 @@
     Height="960">
 
     <!-- The Main Window is only used by Desktop applications so just load in the Main View. -->
-    <views:MainView />
+    <views:MainView Name="MainView" />
 
 </Window>
