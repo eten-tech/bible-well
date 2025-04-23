@@ -5,11 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 namespace BibleWell.App.ViewModels.Pages;
 
 /// <summary>
-/// Design-time view model for use with the <see cref="Views.Pages.ResourcesPageView"/>.
-/// </summary>
-public sealed class DesignResourcesPageViewModel() : ResourcesPageViewModel(new FakeCachingAquiferService());
-
-/// <summary>
 /// View model for use with the <see cref="Views.Pages.ResourcesPageView"/>.
 /// </summary>
 public partial class ResourcesPageViewModel(ICachingAquiferService _cachingAquiferService)

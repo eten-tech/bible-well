@@ -1,4 +1,5 @@
-﻿using BibleWell.Preferences;
+﻿using BibleWell.App.Desktop.Platform;
+using BibleWell.Preferences;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +14,6 @@ public sealed partial class DesktopApp : App
     protected override void RegisterPlatformServices(IServiceCollection services)
     {
         // For now, desktop won't save user preferences.
-        services.AddSingleton<IUserPreferencesService, FakeUserPreferencesService>();
+        services.AddSingleton<IUserPreferencesService, DesktopUserPreferencesServices>();
     }
 }
