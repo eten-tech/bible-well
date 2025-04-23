@@ -24,8 +24,16 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel(Router<ViewModelBase> router)
     {
         _router = router;
-        _router.CurrentViewModelChanged += (vm) => CurrentPage = vm;
-        SelectedMenuItem = MenuItems[0];
+        _router.CurrentViewModelChanged += OnRouterCurrentViewModelChanged;
+        _router.GoTo<PageViewModelBase>(MenuItems[0].ViewModelType);
+    }
+
+    private void OnRouterCurrentViewModelChanged(ViewModelBase vm)
+    {
+        // It's possible for any view model to use the router to navigate to another view model.
+        // Therefore, if the view model changes we need to update the selected menu item.
+        SelectedMenuItem = MenuItems.FirstOrDefault(mi => mi.ViewModelType == vm.GetType());
+        CurrentPage = vm;
     }
 
     public static ObservableCollection<MenuItemTemplate> MenuItems { get; } =
@@ -45,7 +53,11 @@ public partial class MainViewModel : ViewModelBase
             return;
         }
 
-        _router.GoTo<PageViewModelBase>(value.ViewModelType);
+        // Only route to the menu's view model if it's not already loaded.
+        if (SelectedMenuItem?.ViewModelType != _router.Current?.GetType())
+        {
+            _router.GoTo<PageViewModelBase>(value.ViewModelType);
+        }
     }
 
     [RelayCommand]
