@@ -17,7 +17,6 @@ public sealed class SqliteAquiferService : IReadWriteAquiferService
 // This might change as we develop the application further. For now, we are telling the compiler to ignore this.
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
     public async Task<ResourceContent?> GetResourceContentAsync(int id)
-
     {
         var resourceContent = _resourceContentRepository.GetById(id);
 
