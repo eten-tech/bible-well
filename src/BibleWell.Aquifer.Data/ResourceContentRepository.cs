@@ -30,12 +30,12 @@ internal class ResourceContentRepository
         try
         {
             const string sql = $"""
-                                CREATE TABLE IF NOT EXISTS {TableName} (
-                                    Id INTEGER UNIQUE NOT NULL,
-                                    Name TEXT NOT NULL,
-                                    Content TEXT NOT NULL
-                                );
-                                """;
+                CREATE TABLE IF NOT EXISTS {TableName} (
+                    Id INTEGER UNIQUE NOT NULL,
+                    Name TEXT NOT NULL,
+                    Content TEXT NOT NULL
+                );
+                """;
 
             connection.Execute(sql);
 
