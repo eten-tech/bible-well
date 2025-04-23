@@ -5,5 +5,5 @@ namespace BibleWell.Platform.Maui;
 
 public sealed class MauiStorageService : IStorageService
 {
-    public string AppDataDirectory => FileSystem.AppDataDirectory;
+    public string AppDataDirectory => FileSystem.Current.AppDataDirectory;
 }
