@@ -1,3 +1,4 @@
+using BibleWell.Storage;
 using Dapper;
 using Microsoft.Data.Sqlite;
 
@@ -6,10 +7,13 @@ namespace BibleWell.Aquifer.Data;
 internal class SqliteDbManager
 {
     private readonly string _connectionString;
+    private readonly string _databasePath;
 
-    public SqliteDbManager(string connectionString)
+    public SqliteDbManager(IStorageService storageService)
     {
-        _connectionString = connectionString;
+        var Constants = new Constants(storageService);
+        _connectionString = Constants.ConnectionString;
+        _databasePath = Constants.DatabasePath;
         InitializeDatabase();
     }
 
@@ -23,7 +27,7 @@ internal class SqliteDbManager
     private void InitializeDatabase()
     {
         // ? Ensure the directory exists
-        var directory = Path.GetDirectoryName(Constants.DatabasePath);
+        var directory = Path.GetDirectoryName(_databasePath);
         if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);

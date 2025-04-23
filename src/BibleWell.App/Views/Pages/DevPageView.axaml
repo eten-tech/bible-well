@@ -5,12 +5,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels.Pages"
     xmlns:avalonia="clr-namespace:TheArtOfDev.HtmlRenderer.Avalonia;assembly=Avalonia.HtmlRenderer"
+    xmlns:viewModels="clr-namespace:BibleWell.App.ViewModels"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
-    d:DataContext="{x:Static vm:DesignData.DesignDevPageViewModel}"
+    d:DataContext="{x:Static viewModels:DesignData.DesignDevPageViewModel}"
     x:Class="BibleWell.App.Views.Pages.DevPageView"
-    x:DataType="vm:Pages.DevPageViewModel">
+    x:DataType="vm:DevPageViewModel">
 
     <StackPanel>
         <TextBlock Classes="h2">Dev Page</TextBlock>

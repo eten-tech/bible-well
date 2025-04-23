@@ -1,21 +1,17 @@
+using BibleWell.Storage;
+
 namespace BibleWell.Aquifer.Data;
 
-public static class Constants
+public sealed class Constants(IStorageService _storageService)
 {
     private const string DatabaseFilename = "BibleWellAquifer.db3";
     private const string ApplicationDir = "BibleWell";
 
-    // public static string FsAppDir =>
-    //     Path.Combine(
-    //         FileSystem.AppDataDirectory,
-    //         ApplicationDir);
+    private string ApplicationPath => Path.Combine(
+                            _storageService.AppDataDirectory,
+                            ApplicationDir);
 
-    private static string ApplicationPath =>
-        Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            ApplicationDir);
+    public string DatabasePath => Path.Combine(ApplicationPath, DatabaseFilename);
 
-    public static string DatabasePath => Path.Combine(ApplicationPath, DatabaseFilename);
-
-    public static string ConnectionString => $"Data Source={DatabasePath}";
+    public string ConnectionString => $"Data Source={DatabasePath}";
 }

@@ -1,4 +1,5 @@
 ﻿using BibleWell.Aquifer.Data.DbModels;
+using BibleWell.Storage;
 
 namespace BibleWell.Aquifer.Data;
 
@@ -6,9 +7,9 @@ public sealed class SqliteAquiferService : IReadWriteAquiferService
 {
     private readonly ResourceContentRepository _resourceContentRepository;
 
-    public SqliteAquiferService()
+    public SqliteAquiferService(IStorageService storageService)
     {
-        var dbManager = new SqliteDbManager(Constants.ConnectionString);
+        var dbManager = new SqliteDbManager(storageService);
         _resourceContentRepository = new ResourceContentRepository(dbManager);
     }
 
