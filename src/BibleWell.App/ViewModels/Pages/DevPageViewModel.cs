@@ -7,7 +7,7 @@ namespace BibleWell.App.ViewModels.Pages;
 /// <summary>
 /// View model for use with the <see cref="Views.Pages.DevPageView"/>.
 /// </summary>
-public partial class DevPageViewModel(IReadWriteAquiferService _sqliteAquiferService) : PageViewModelBase
+public partial class DevPageViewModel(IReadWriteAquiferService _readWriteAquiferService) : PageViewModelBase
 {
     [ObservableProperty]
     private string _resourceContentHtml = "<p>Click the button to view content.</p>";
