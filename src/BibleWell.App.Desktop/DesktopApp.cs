@@ -1,5 +1,6 @@
 ﻿using BibleWell.App.Desktop.Platform;
 using BibleWell.Preferences;
+using BibleWell.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,5 +16,6 @@ public sealed partial class DesktopApp : App
     {
         // For now, desktop won't save user preferences.
         services.AddSingleton<IUserPreferencesService, DesktopUserPreferencesServices>();
+        services.AddSingleton<IStorageService, DesktopStorageService>();
     }
 }
