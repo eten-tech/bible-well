@@ -11,14 +11,4 @@ public interface IStorageService
     {
         get;
     }
-
-    string DatabasePath
-    {
-        get;
-    }
-
-    string ConnectionString
-    {
-        get;
-    }
 }

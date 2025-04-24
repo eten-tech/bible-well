@@ -7,16 +7,20 @@ namespace BibleWell.Aquifer.Data;
 public class SqliteDbManager
 {
     private readonly IStorageService _storageService;
+    private readonly string _connectionString;
+    private readonly string _databasePath;
 
     public SqliteDbManager(IStorageService storageService)
     {
         _storageService = storageService;
+        _databasePath = Path.Combine(_storageService.ApplicationDirectoryPath, Constants.AquiferDatabaseFilename);
+        _connectionString = $"Data Source={_databasePath}";
         InitializeDatabase();
     }
 
     public SqliteConnection CreateConnection()
     {
-        var connection = new SqliteConnection(_storageService.ConnectionString);
+        var connection = new SqliteConnection(_connectionString);
         connection.Open();
         return connection;
     }
@@ -24,14 +28,14 @@ public class SqliteDbManager
     private void InitializeDatabase()
     {
         // Ensure the directory exists
-        var directory = Path.GetDirectoryName(_storageService.DatabasePath);
+        var directory = Path.GetDirectoryName(_databasePath);
         if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
         }
 
         // ensure DB is in WAL mode
-        using var connection = new SqliteConnection(_storageService.ConnectionString);
+        using var connection = new SqliteConnection(_connectionString);
         const string sql = "PRAGMA journal_mode = WAL;";
         connection.Execute(sql);
         
