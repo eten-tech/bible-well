@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
         <OutputType>Exe</OutputType>
-        <!-- This needs to match BibleWell.App.Desktop's configuration because we are testing that app in this project. -->
-        <TargetFramework Condition="!$([MSBuild]::IsOSPlatform('Windows'))">net9.0</TargetFramework>
-        <TargetFramework Condition="$([MSBuild]::IsOSPlatform('Windows'))">net9.0-windows10.0.19041.0</TargetFramework>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -28,12 +26,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="FluentAssertions" />
-        <Using Include="Xunit" />
+      <ProjectReference Include="..\..\src\BibleWell.App.Desktop\BibleWell.App.Desktop.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\BibleWell.App.Desktop\BibleWell.App.Desktop.csproj" />
+        <Using Include="FluentAssertions" />
+        <Using Include="Xunit" />
     </ItemGroup>
 
 </Project>
