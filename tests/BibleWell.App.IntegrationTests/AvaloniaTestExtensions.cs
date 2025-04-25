@@ -78,7 +78,8 @@ public static class AvaloniaTestExtensions
         var frame = topLevel.CaptureRenderedFrame()
             ?? throw new InvalidOperationException("No frame is rendered!");
 
-        var testOutputDirectory = $"{AppContext.BaseDirectory}/TestOutput/{DateTime.UtcNow.Date:yyyy'-'MM'-'dd'T'}/{callerName}/";
+        // Get the following directory: "/tests/{projectDir}/TestResults/{callerName}/"
+        var testOutputDirectory = Path.Combine(AppContext.BaseDirectory.Split("bin")[0], $"TestResults/{callerName}/");
         if (!Directory.Exists(testOutputDirectory))
         {
             Directory.CreateDirectory(testOutputDirectory);
