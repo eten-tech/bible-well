@@ -134,6 +134,7 @@ public partial class App : Application
             .SetHandlerLifetime(TimeSpan.FromMinutes(5))
             .AddPolicyHandler(GetRetryPolicy());
 
+        services.AddLocalization(options => options.ResourcesPath = "/Resources");
         RegisterPlatformServices(services);
 
         return services
