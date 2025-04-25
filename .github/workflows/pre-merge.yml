@@ -42,7 +42,7 @@ jobs:
               if: success() || failure()
               with:
                 name: Test Results
-                path: /tests/TestResults/
+                path: tests/**/*.trx
                 reporter: dotnet-trx
 
             - name: Upload Test Results Artifacts
@@ -51,4 +51,4 @@ jobs:
               with:
                   include-hidden-files: true
                   name: test-results-with-screenshots
-                  path: /tests/**/TestResults/
+                  path: tests/**/TestResults/**/*
