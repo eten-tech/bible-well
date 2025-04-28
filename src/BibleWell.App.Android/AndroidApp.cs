@@ -1,4 +1,5 @@
-﻿using BibleWell.Devices;
+﻿using BibleWell.App.Android.Platform;
+using BibleWell.Devices;
 using BibleWell.Platform.Maui;
 using BibleWell.Preferences;
 using BibleWell.Storage;
@@ -16,7 +17,7 @@ public sealed class AndroidApp : App
     protected override void RegisterPlatformServices(IServiceCollection services)
     {
         services.AddSingleton<IApplicationInfoService, MauiApplicationInfoService>();
-        services.AddSingleton<IDeviceService, MauiDeviceService>();
+        services.AddSingleton<IDeviceService, AndroidDeviceService>();
         services.AddSingleton<IStorageService, MauiStorageService>();
         services.AddSingleton<IUserPreferencesService, MauiUserPreferencesService>();
     }

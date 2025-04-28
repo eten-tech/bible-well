@@ -3,8 +3,9 @@ using Microsoft.Maui.Devices;
 
 namespace BibleWell.Platform.Maui;
 
-public sealed class MauiDeviceService : IDeviceService
+public abstract class MauiDeviceService : IDeviceService
 {
+    public abstract string DeviceId { get; }
     public FormFactor FormFactor { get; } = MapToFormFactor(DeviceInfo.Current.Idiom);
     public bool IsEmulated { get; } = DeviceInfo.Current.DeviceType == DeviceType.Virtual;
     public string Manufacturer { get; } = DeviceInfo.Current.Manufacturer;

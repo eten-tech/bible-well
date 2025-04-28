@@ -4,6 +4,7 @@ namespace BibleWell.App.Desktop.Platform;
 
 public sealed class DesktopDeviceService : IDeviceService
 {
+    public string DeviceId { get; } = "";
     public FormFactor FormFactor { get; } = FormFactor.Desktop;
     public bool IsEmulated { get; } = false;
     public string Manufacturer { get; } = "";

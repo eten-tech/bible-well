@@ -2,6 +2,7 @@
 
 public interface IDeviceService
 {
+    string DeviceId { get; }
     FormFactor FormFactor { get; }
     bool IsEmulated { get; }
     string Manufacturer { get; }
