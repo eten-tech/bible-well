@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using BibleWell.Aquifer;
 using BibleWell.Devices;
+using BibleWell.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -13,18 +14,24 @@ namespace BibleWell.App.ViewModels.Pages;
 public partial class DevPageViewModel(
     IApplicationInfoService _applicationInfoService,
     IDeviceService _deviceService,
+    IStorageService _storageService,
     IReadWriteAquiferService _readWriteAquiferService)
     : PageViewModelBase
 {
-    public ObservableCollection<InfoItem> InfoItems { get; } = [.. _applicationInfoService
+    public ObservableCollection<InfoItem> ApplicationInfoItems { get; } = [.. _applicationInfoService
         .GetType()
         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-        .Select(p => new InfoItem($"Application.{p.Name}", p.GetValue(_applicationInfoService)?.ToString() ?? ""))
-        .Concat(
-            _deviceService
-                .GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Select(p => new InfoItem($"Device.{p.Name}", p.GetValue(_deviceService)?.ToString() ?? "")))];
+        .Select(p => new InfoItem(p.Name, p.GetValue(_applicationInfoService)?.ToString() ?? ""))];
+
+    public ObservableCollection<InfoItem> DeviceInfoItems { get; } = [.. _deviceService
+        .GetType()
+        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+        .Select(p => new InfoItem(p.Name, p.GetValue(_deviceService)?.ToString() ?? ""))];
+
+    public ObservableCollection<InfoItem> StorageInfoItems { get; } = [.. _storageService
+        .GetType()
+        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+        .Select(p => new InfoItem(p.Name, p.GetValue(_storageService)?.ToString() ?? ""))];
 
     [ObservableProperty]
     private string _resourceContentHtml = "<p>Click the button to view content.</p>";

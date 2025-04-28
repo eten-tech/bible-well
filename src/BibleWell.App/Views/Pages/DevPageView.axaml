@@ -13,7 +13,7 @@
 
     <StackPanel>
         <TextBlock Classes="h2">Dev Page</TextBlock>
-        <StackPanel Orientation="Horizontal" Spacing="5">
+        <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,0,0,10">
             <Button Command="{Binding LoadResourceContentAsync}"
                 Margin="0 0 0 10">
                 Load from SQLite DB
@@ -21,11 +21,42 @@
             <TextBlock Text="{Binding ResourceContentHtml}"></TextBlock>
         </StackPanel>
 
-        <TextBlock Classes="h2">Device and Application Info</TextBlock>
-        <DataGrid ItemsSource="{Binding InfoItems}">
+        <TextBlock Classes="h2">Application Info</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding ApplicationInfoItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Classes="h2">Device Info</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding DeviceInfoItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Classes="h2">Storage Info</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding StorageInfoItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>
