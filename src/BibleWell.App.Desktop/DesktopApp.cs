@@ -15,6 +15,7 @@ public partial class DesktopApp : App
 
     protected override void RegisterPlatformServices(IServiceCollection services)
     {
+        services.AddSingleton<IApplicationInfoService, DesktopApplicationInfoService>();
         services.AddSingleton<IDeviceService, DesktopDeviceService>();
         services.AddSingleton<IStorageService, DesktopStorageService>();
         services.AddSingleton<IUserPreferencesService, DesktopUserPreferencesServices>();

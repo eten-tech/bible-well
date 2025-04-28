@@ -18,6 +18,7 @@ public sealed class iOSApp : App
 
     protected override void RegisterPlatformServices(IServiceCollection services)
     {
+        services.AddSingleton<IApplicationInfoService, MauiApplicationInfoService>();
         services.AddSingleton<IDeviceService, MauiDeviceService>();
         services.AddSingleton<IStorageService, MauiStorageService>();
         services.AddSingleton<IUserPreferencesService, MauiUserPreferencesService>();
