@@ -2,6 +2,7 @@
 using BibleWell.App.ViewModels.Components;
 using BibleWell.App.ViewModels.Pages;
 using BibleWell.Aquifer;
+using BibleWell.Devices;
 using BibleWell.Preferences;
 using FakeItEasy;
 
@@ -22,7 +23,10 @@ public static class DesignData
 
     // pages
     public static BiblePageViewModel DesignBiblePageViewModel { get; } = new();
-    public static DevPageViewModel DesignDevPageViewModel { get; } = new(A.Fake<IReadWriteAquiferService>());
+    public static DevPageViewModel DesignDevPageViewModel { get; } = new(
+        A.Fake<IApplicationInfoService>(),
+        A.Fake<IDeviceService>(),
+        A.Fake<IReadWriteAquiferService>());
     public static GuidePageViewModel DesignGuidePageViewModel { get; } = new();
     public static HomePageViewModel DesignHomePageViewModel { get; } = new(A.Fake<IUserPreferencesService>());
     public static LibraryPageViewModel DesignLibraryPageViewModel { get; } = new();

@@ -14,11 +14,19 @@
     <StackPanel>
         <TextBlock Classes="h2">Dev Page</TextBlock>
         <StackPanel Orientation="Horizontal" Spacing="5">
-        <Button Command="{Binding LoadResourceContentAsync}"
-            Margin="0 0 0 10">
-            Load from SQLite DB
-        </Button>
+            <Button Command="{Binding LoadResourceContentAsync}"
+                Margin="0 0 0 10">
+                Load from SQLite DB
+            </Button>
             <TextBlock Text="{Binding ResourceContentHtml}"></TextBlock>
         </StackPanel>
+
+        <TextBlock Classes="h2">Device and Application Info</TextBlock>
+        <DataGrid ItemsSource="{Binding InfoItems}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 </UserControl>
