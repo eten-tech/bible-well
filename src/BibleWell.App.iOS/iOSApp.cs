@@ -1,4 +1,5 @@
-﻿using BibleWell.Platform.Maui;
+﻿using BibleWell.Devices;
+using BibleWell.Platform.Maui;
 using BibleWell.Preferences;
 using BibleWell.Storage;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +18,8 @@ public sealed class iOSApp : App
 
     protected override void RegisterPlatformServices(IServiceCollection services)
     {
-        services.AddSingleton<IUserPreferencesService, MauiUserPreferencesService>();
+        services.AddSingleton<IDeviceService, MauiDeviceService>();
         services.AddSingleton<IStorageService, MauiStorageService>();
+        services.AddSingleton<IUserPreferencesService, MauiUserPreferencesService>();
     }
 }
