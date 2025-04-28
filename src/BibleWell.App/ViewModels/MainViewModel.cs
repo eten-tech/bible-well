@@ -43,7 +43,9 @@ public partial class MainViewModel : ViewModelBase
         new(typeof(GuidePageViewModel), "CompassNorthwestRegular"),
         new(typeof(ResourcesPageViewModel), "ClipboardRegular"),
         new(typeof(LibraryPageViewModel), "LibraryRegular"),
+#if DEBUG
         new(typeof(DevPageViewModel), "WindowDevToolsRegular"),
+#endif
     ];
 
     partial void OnSelectedMenuItemChanged(MenuItemTemplate? value)

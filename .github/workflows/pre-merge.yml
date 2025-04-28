@@ -5,7 +5,10 @@ on:
         types: [opened, synchronize, reopened, ready_for_review]
         branches:
             - '**'
-
+permissions:
+    contents: read
+    actions: read
+    checks: write
 jobs:
     build_and_test:
         if: ${{ !github.event.pull_request.draft }}
@@ -32,4 +35,20 @@ jobs:
               run: dotnet build --no-incremental --configuration Release /p:WarningsAsErrors=true /warnaserror
 
             - name: Test
-              run: dotnet test --configuration Release --no-build -e DOTNET_ENVIRONMENT="${{ vars.DOTNET_ENVIRONMENT }}"
+              run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" -e DOTNET_ENVIRONMENT="${{ vars.DOTNET_ENVIRONMENT }}"
+
+            - name: Test Results
+              uses: dorny/test-reporter@v2.0.0
+              if: success() || failure()
+              with:
+                name: Test Results
+                path: tests/**/*.trx
+                reporter: dotnet-trx
+
+            - name: Upload Test Results Artifacts
+              uses: actions/upload-artifact@v4.6.1
+              if: success() || failure()
+              with:
+                  include-hidden-files: true
+                  name: test-results-with-screenshots
+                  path: tests/**/TestResults/**/*
