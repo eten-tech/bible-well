@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" />
         <PackageReference Include="Avalonia.HtmlRenderer" />
         <PackageReference Include="Avalonia.Markup.Xaml.Loader" PrivateAssets="All" />
         <PackageReference Include="Avalonia.Themes.Fluent" />
@@ -28,6 +29,8 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="Microsoft.Extensions.Http" />
         <PackageReference Include="Microsoft.Extensions.Http.Polly" />
+        <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
         <PackageReference Include="Polly.Contrib.WaitAndRetry" />
         <PackageReference Include="Polly.Extensions.Http" />

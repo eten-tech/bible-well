@@ -5,6 +5,7 @@ using BibleWell.Devices;
 using BibleWell.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 
 namespace BibleWell.App.ViewModels.Pages;
 
@@ -15,7 +16,8 @@ public partial class DevPageViewModel(
     IApplicationInfoService _applicationInfoService,
     IDeviceService _deviceService,
     IStorageService _storageService,
-    IReadWriteAquiferService _readWriteAquiferService)
+    IReadWriteAquiferService _readWriteAquiferService,
+    ILogger<DevPageViewModel> _logger)
     : PageViewModelBase
 {
     public ObservableCollection<InfoItem> ApplicationInfoItems { get; } = [.. _applicationInfoService
@@ -49,6 +51,48 @@ public partial class DevPageViewModel(
             Console.WriteLine(ex);
             throw;
         }
+    }
+
+    [RelayCommand]
+    public void LogTrace()
+    {
+        _logger.LogDebug("Test trace log message.");
+    }
+
+    [RelayCommand]
+    public void LogDebug()
+    {
+        _logger.LogDebug("Test debug log message.");
+    }
+
+    [RelayCommand]
+    public void LogInformation()
+    {
+        _logger.LogInformation("Test information log message.");
+    }
+
+    [RelayCommand]
+    public void LogWarning()
+    {
+        _logger.LogWarning("Test warning log message.");
+    }
+
+    [RelayCommand]
+    public void LogError()
+    {
+        _logger.LogError("Test error log message.");
+    }
+
+    [RelayCommand]
+    public void LogCritical()
+    {
+        _logger.LogCritical("Test critical log message.");
+    }
+
+    [RelayCommand]
+    public static void ThrowUnhandledException()
+    {
+        throw new InvalidOperationException("Test unhandled exception.");
     }
 
     public record InfoItem(string Name, string Value);
