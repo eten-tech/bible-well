@@ -1,0 +1,18 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
+    mc:Ignorable="d"
+    d:DesignWidth="800"
+    d:DesignHeight="450"
+    d:DataContext="{x:Static vm:DesignData.DesignTiptapRendererViewModel}"
+    x:Class="BibleWell.App.Views.Components.TiptapRendererView"
+    x:DataType="vm:Components.TiptapRendererViewModel">
+
+    <StackPanel>
+        <TextBlock Text="{Binding ResourceContentTiptapJson}" />
+    </StackPanel>
+
+</UserControl>
