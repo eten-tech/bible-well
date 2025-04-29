@@ -50,6 +50,13 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
         return Current;
     }
 
+    /// <summary>
+    /// Navigates to the view associated with the specified view model type.
+    /// If you directly know the type of the view model at compile time, use <see cref="GoTo{T}()"/> instead.
+    /// </summary>
+    /// <typeparam name="TBaseType">The base type of the view model.</typeparam>
+    /// <param name="viewModelType">The view model type.</param>
+    /// <returns>The created view model cast to the <typeparamref name="TBaseType"/>.</returns>
     public TBaseType GoTo<TBaseType>(Type viewModelType) where TBaseType : class, TViewModelBase
     {
         if (Current?.GetType() == viewModelType)
@@ -62,6 +69,11 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
         return destination;
     }
 
+    /// <summary>
+    /// Navigates to the view associated with the specified view model type.
+    /// </summary>
+    /// <typeparam name="T">The type of the view model.</typeparam>
+    /// <returns>The created view model.</returns>
     public T GoTo<T>() where T : class, TViewModelBase
     {
         if (Current?.GetType() == typeof(T))
@@ -69,12 +81,33 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
             return (T)Current;
         }
 
-        var destination = CreateViewModel<T>(typeof(T));
+        var destination = CreateViewModel<T>();
         Push(destination);
         return destination;
     }
 
-    private static T CreateViewModel<T>(Type viewModelType) where T : class, TViewModelBase
+    /// <summary>
+    /// Use <see cref="GoTo{T}()"/> to navigate to a new view based upon a view model type.
+    /// This method is only used to create a view model instance of the specified type.
+    /// This can be useful for components where you don't need to navigate to a new view.
+    /// </summary>
+    /// <typeparam name="T">The type to return (the type or base type of the view model).</typeparam>
+    /// <returns>The created view model.</returns>
+    public T CreateViewModel<T>() where T : class, TViewModelBase
+    {
+        return CreateViewModel<T>(typeof(T));
+    }
+
+    /// <summary>
+    /// Use <see cref="GoTo{TBaseType}(Type)"/> to navigate to a new view based upon a view model type.
+    /// If you directly know the type of the view model at compile time, use <see cref="CreateViewModel{T}()"/> instead.
+    /// This method is only used to create a view model instance of the specified type.
+    /// This can be useful for components where you don't need to navigate to a new view.
+    /// </summary>
+    /// <typeparam name="TBaseType">The base type of the view model.</typeparam>
+    /// <param name="viewModelType">The type of the view model.</param>
+    /// <returns>The created view model cast to the <typeparamref name="TBaseType"/>.</returns>
+    public TBaseType CreateViewModel<TBaseType>(Type viewModelType) where TBaseType : class, TViewModelBase
     {
         object? viewModel;
         if (Design.IsDesignMode)
@@ -95,8 +128,8 @@ public sealed class Router<TViewModelBase> where TViewModelBase : class
             viewModel = Ioc.Default.GetService(viewModelType);
         }
 
-        return viewModel as T
-            ?? throw new InvalidOperationException($"Unable to create {viewModelType.Name}.  Ensure that it derives from {typeof(T).FullName}.");
+        return viewModel as TBaseType
+            ?? throw new InvalidOperationException($"Unable to create {viewModelType.Name}.  Ensure that it derives from {typeof(TBaseType).FullName}.");
     }
 
     private void OnCurrentViewModelChanged(TViewModelBase viewModel)

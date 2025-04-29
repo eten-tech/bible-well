@@ -7,8 +7,10 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
 using BibleWell.App.Configuration;
 using BibleWell.App.ViewModels;
+using BibleWell.App.ViewModels.Components;
 using BibleWell.App.ViewModels.Pages;
 using BibleWell.App.Views;
+using BibleWell.App.Views.Components;
 using BibleWell.App.Views.Pages;
 using BibleWell.Aquifer;
 using BibleWell.Aquifer.Api;
@@ -156,6 +158,9 @@ public partial class App : Application
     private static partial void ConfigureServices(IServiceCollection services);
 
     [Singleton(typeof(MainViewModel))]
+    // components
+    [Transient(typeof(TiptapRendererViewModel))]
+    // pages
     [Transient(typeof(BiblePageViewModel))]
     [Transient(typeof(DevPageViewModel))]
     [Transient(typeof(GuidePageViewModel))]
@@ -165,6 +170,9 @@ public partial class App : Application
     private static partial void ConfigureViewModels(IServiceCollection services);
 
     [Singleton(typeof(MainView))]
+    // components
+    [Transient(typeof(TiptapRendererView))]
+    // pages
     [Transient(typeof(BiblePageView))]
     [Transient(typeof(DevPageView))]
     [Transient(typeof(GuidePageView))]
@@ -179,6 +187,11 @@ public partial class App : Application
         var viewLocator = new ViewLocator();
 
         viewLocator.RegisterViewFactory<MainViewModel, MainView>();
+
+        // components
+        viewLocator.RegisterViewFactory<TiptapRendererViewModel, TiptapRendererView>();
+
+        // pages
         viewLocator.RegisterViewFactory<BiblePageViewModel, BiblePageView>();
         viewLocator.RegisterViewFactory<DevPageViewModel, DevPageView>();
         viewLocator.RegisterViewFactory<GuidePageViewModel, GuidePageView>();

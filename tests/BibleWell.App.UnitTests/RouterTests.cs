@@ -16,7 +16,7 @@ public sealed class RouterTests
             .AddTransient(_ => new HomePageViewModel(null!))
             .AddTransient(_ => new BiblePageViewModel())
             .AddTransient(_ => new GuidePageViewModel())
-            .AddTransient(_ => new ResourcesPageViewModel(null!));
+            .AddTransient(_ => new ResourcesPageViewModel(new Router<ViewModelBase>(), null!));
 
         Ioc.Default.ConfigureServices(services.BuildServiceProvider());
 
