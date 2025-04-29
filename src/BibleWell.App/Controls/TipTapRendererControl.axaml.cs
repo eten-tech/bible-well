@@ -197,6 +197,68 @@ public partial class TipTapRendererControl : UserControl
                                                                   ]
                                                               },
                                                               {
+                                                                  "type":"bulletList",
+                                                                  "attrs":{
+                                                                      "dir":"rtl"
+                                                                  },
+                                                                  "content":[
+                                                                      {
+                                                                          "type":"listItem",
+                                                                          "attrs":{
+                                                                              "dir":"rtl"
+                                                                          },
+                                                                          "content":[
+                                                                              {
+                                                                                  "type":"paragraph",
+                                                                                  "attrs":{
+                                                                                      "dir":"rtl"
+                                                                                  },
+                                                                                  "content":[
+                                                                                      {
+                                                                                          "type":"text",
+                                                                                          "text":"And here's a right-to-left"
+                                                                                      }
+                                                                                  ]
+                                                                              }
+                                                                          ]
+                                                                      },
+                                                                      {
+                                                                          "type":"listItem",
+                                                                          "attrs":{
+                                                                              "dir":"rtl"
+                                                                          },
+                                                                          "content":[
+                                                                              {
+                                                                                  "type":"paragraph",
+                                                                                  "attrs":{
+                                                                                      "dir":"rtl"
+                                                                                  },
+                                                                                  "content":[
+                                                                                      {
+                                                                                          "type":"text",
+                                                                                          "text":"random "
+                                                                                      },
+                                                                                      {
+                                                                                          "type":"text",
+                                                                                          "marks":[
+                                                                                              {
+                                                                                                  "type":"underline"
+                                                                                              }
+                                                                                          ],
+                                                                                          "text":"bullet"
+                                                                                      },
+                                                                                      {
+                                                                                          "type":"text",
+                                                                                          "text":" list"
+                                                                                      }
+                                                                                  ]
+                                                                              }
+                                                                          ]
+                                                                      }
+                                                                  ]
+                                                              },
+                                                              
+                                                              {
                                                                   "type":"orderedList",
                                                                   "attrs":{
                                                                       "dir":"ltr",
@@ -339,7 +401,7 @@ public partial class TipTapRendererControl : UserControl
     {
         InitializeComponent();
         _container = this.FindControl<StackPanel>("ContentContainer");
-        RenderTipTap(JsonSerializer.Deserialize<TipTapModel>(_tiptapJson, new JsonSerializerOptions()
+        RenderTipTap(JsonSerializer.Deserialize<TipTapModel>(_tiptapJson, new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true
@@ -355,7 +417,7 @@ public partial class TipTapRendererControl : UserControl
 
         _container.Children.Clear();
 
-        var nodes = model.Content?.FirstOrDefault()?.Tiptap?.Content;
+        var nodes = model.Content.FirstOrDefault()?.Tiptap.Content;
         if (nodes is null)
         {
             return;
@@ -385,7 +447,9 @@ public partial class TipTapRendererControl : UserControl
 
     private Control RenderHeading(Node node)
     {
+        var flow = GetFlowDirection(node);
         var headingText = string.Join("", node.Content?.Select(RenderTextNodeTextOnly) ?? []);
+
         return new TextBlock
         {
             Text = headingText,
@@ -397,16 +461,22 @@ public partial class TipTapRendererControl : UserControl
                 _ => 16
             },
             FontWeight = FontWeight.Bold,
-            Margin = new Thickness(0, 8, 0, 4)
+            Margin = new Thickness(0, 8, 0, 4),
+            FlowDirection = flow,
+            TextAlignment = GetTextAlignment(flow)
         };
     }
 
     private Control RenderParagraph(Node node)
     {
+        var flow = GetFlowDirection(node);
+
         var paragraph = new TextBlock
         {
             TextWrapping = TextWrapping.Wrap,
             Margin = new Thickness(0, 4, 0, 4),
+            FlowDirection = flow,
+            TextAlignment = GetTextAlignment(flow),
             Inlines = []
         };
 
@@ -443,9 +513,10 @@ public partial class TipTapRendererControl : UserControl
                     case "underline":
                         run.TextDecorations = TextDecorations.Underline;
                         break;
+                    // ReSharper disable once RedundantEmptySwitchSection
                     default:
                         break;
-                    // You can add bibleReference/resourceReference handling here
+                    // You can handle other marks here like bibleReference, etc.
                 }
             }
         }
@@ -455,9 +526,11 @@ public partial class TipTapRendererControl : UserControl
 
     private Control RenderBulletList(Node node)
     {
+        var flow = GetFlowDirection(node);
         var panel = new StackPanel
         {
-            Margin = new Thickness(16, 4, 0, 4)
+            Margin = new Thickness(16, 4, 0, 4),
+            FlowDirection = flow
         };
 
         if (node.Content is not null)
@@ -468,6 +541,7 @@ public partial class TipTapRendererControl : UserControl
                 panel.Children.Add(new StackPanel
                 {
                     Orientation = Orientation.Horizontal,
+                    FlowDirection = flow,
                     Children =
                     {
                         new TextBlock
@@ -486,9 +560,11 @@ public partial class TipTapRendererControl : UserControl
 
     private Control RenderOrderedList(Node node)
     {
+        var flow = GetFlowDirection(node);
         var panel = new StackPanel
         {
-            Margin = new Thickness(16, 4, 0, 4)
+            Margin = new Thickness(16, 4, 0, 4),
+            FlowDirection = flow
         };
 
         var start = node.Attrs?.Start ?? 1;
@@ -502,6 +578,7 @@ public partial class TipTapRendererControl : UserControl
                 panel.Children.Add(new StackPanel
                 {
                     Orientation = Orientation.Horizontal,
+                    FlowDirection = flow,
                     Children =
                     {
                         new TextBlock
@@ -520,8 +597,10 @@ public partial class TipTapRendererControl : UserControl
 
     private Control RenderListItem(Node node)
     {
+        var flow = GetFlowDirection(node);
         var stack = new StackPanel
         {
+            FlowDirection = flow
         };
 
         if (node.Content is not null)
@@ -538,5 +617,19 @@ public partial class TipTapRendererControl : UserControl
     private string RenderTextNodeTextOnly(Node node)
     {
         return node.Text ?? "";
+    }
+
+    private FlowDirection GetFlowDirection(Node node)
+    {
+        return node.Attrs?.Dir?.ToLowerInvariant() switch
+        {
+            "rtl" => FlowDirection.RightToLeft,
+            _ => FlowDirection.LeftToRight
+        };
+    }
+
+    private TextAlignment GetTextAlignment(FlowDirection flow)
+    {
+        return flow == FlowDirection.RightToLeft ? TextAlignment.Right : TextAlignment.Left;
     }
 }
