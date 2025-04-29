@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <!--We only use the desktop app for testing so customize per developer OS.-->
-        <TargetFramework Condition="!$([MSBuild]::IsOSPlatform('Windows'))">net9.0</TargetFramework>
-        <TargetFramework Condition="$([MSBuild]::IsOSPlatform('Windows'))">net9.0-windows10.0.19041.0</TargetFramework>
+        <TargetFrameworks>net9.0</TargetFrameworks>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <UseMauiEssentials>true</UseMauiEssentials>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+    <!--Also add Windows specific configuration (allows some of MAUI Essentials to work on Windows).-->
+    <PropertyGroup Condition="'$(Configuration)' == 'DEBUG' And $([MSBuild]::IsOSPlatform('Windows'))">
+        <TargetFrameworks>$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
         <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
         <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>

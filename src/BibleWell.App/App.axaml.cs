@@ -150,6 +150,8 @@ public partial class App : Application
 
     [Singleton(typeof(AquiferApiService), typeof(IReadOnlyAquiferService))]
     [Singleton(typeof(CachingAquiferService), typeof(ICachingAquiferService))]
+    [Singleton(typeof(SqliteDbManager), typeof(SqliteDbManager))]
+    [Singleton(typeof(ResourceContentRepository), typeof(ResourceContentRepository))]
     [Singleton(typeof(SqliteAquiferService), typeof(IReadWriteAquiferService))]
     private static partial void ConfigureServices(IServiceCollection services);
 
