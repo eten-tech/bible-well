@@ -1,6 +1,6 @@
 namespace BibleWell.App.Models;
 
-public class ResourceContentModel
+public class TipTapModel
 {
     public List<ContentItem> Content { get; set; } = [];
 }

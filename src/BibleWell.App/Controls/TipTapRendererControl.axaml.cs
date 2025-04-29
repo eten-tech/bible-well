@@ -339,14 +339,14 @@ public partial class TipTapRendererControl : UserControl
     {
         InitializeComponent();
         _container = this.FindControl<StackPanel>("ContentContainer");
-        RenderTipTap(JsonSerializer.Deserialize<ResourceContentModel>(_tiptapJson, new JsonSerializerOptions()
+        RenderTipTap(JsonSerializer.Deserialize<TipTapModel>(_tiptapJson, new JsonSerializerOptions()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true
         }));
     }
 
-    private void RenderTipTap(ResourceContentModel? model)
+    private void RenderTipTap(TipTapModel? model)
     {
         if (_container is null || model is null)
         {
