@@ -2,9 +2,7 @@
 using System.Reflection;
 #endif
 using Avalonia.Controls;
-#if DEBUG
 using BibleWell.App.ViewModels;
-#endif
 using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace BibleWell.App;
