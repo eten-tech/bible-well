@@ -1,11 +1,13 @@
 using System.Collections.ObjectModel;
 using System.Reflection;
+using BibleWell.App.Configuration;
 using BibleWell.Aquifer;
 using BibleWell.Devices;
 using BibleWell.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace BibleWell.App.ViewModels.Pages;
 
@@ -17,23 +19,42 @@ public partial class DevPageViewModel(
     IDeviceService _deviceService,
     IStorageService _storageService,
     IReadWriteAquiferService _readWriteAquiferService,
+    IOptions<ConfigurationOptions> _configurationOptions,
     ILogger<DevPageViewModel> _logger)
     : PageViewModelBase
 {
-    public ObservableCollection<InfoItem> ApplicationInfoItems { get; } = [.. _applicationInfoService
-        .GetType()
-        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-        .Select(p => new InfoItem(p.Name, p.GetValue(_applicationInfoService)?.ToString() ?? ""))];
+    public ObservableCollection<InfoItem> ApplicationInfoItems { get; } =
+        [.. GetInfoItems(_applicationInfoService.GetType(), _applicationInfoService)];
 
-    public ObservableCollection<InfoItem> DeviceInfoItems { get; } = [.. _deviceService
-        .GetType()
-        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-        .Select(p => new InfoItem(p.Name, p.GetValue(_deviceService)?.ToString() ?? ""))];
+    public ObservableCollection<InfoItem> DeviceInfoItems { get; } = [.. GetInfoItems(_deviceService.GetType(), _deviceService)];
 
-    public ObservableCollection<InfoItem> StorageInfoItems { get; } = [.. _storageService
-        .GetType()
-        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-        .Select(p => new InfoItem(p.Name, p.GetValue(_storageService)?.ToString() ?? ""))];
+    public ObservableCollection<InfoItem> EnvironmentConfigurationItems { get; } =
+        [.. GetInfoItems(_configurationOptions.Value.GetType(), _configurationOptions.Value)];
+
+    public ObservableCollection<InfoItem> StorageInfoItems { get; } = [.. GetInfoItems(_storageService.GetType(), _storageService)];
+
+    private static IEnumerable<InfoItem> GetInfoItems(Type serviceType, object service, string prefix = "")
+    {
+        return serviceType
+            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .SelectMany(p =>
+            {
+                var propertyValue = p.GetValue(service);
+                if (propertyValue is null)
+                {
+                    return [];
+                }
+
+                var propertyDisplay = $"{prefix}{(string.IsNullOrEmpty(prefix) ? "" : ".")}{p.Name}";
+
+                if (p.PropertyType.IsClass && p.PropertyType.Assembly.GetName().Name?.StartsWith("BibleWell") == true)
+                {
+                    return GetInfoItems(p.PropertyType, propertyValue, propertyDisplay);
+                }
+
+                return [new InfoItem(propertyDisplay, p.GetValue(service)?.ToString() ?? "")];
+            });
+    }
 
     [ObservableProperty]
     private string _resourceContentHtml = "<p>Click the button to view content.</p>";

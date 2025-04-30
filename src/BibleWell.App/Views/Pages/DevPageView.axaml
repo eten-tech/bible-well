@@ -149,5 +149,23 @@
                 <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <TextBlock Classes="h2">Environment Configuration</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding EnvironmentConfigurationItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 </UserControl>
