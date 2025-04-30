@@ -19,9 +19,9 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private MenuItemTemplate? _selectedMenuItem;
 
-    private readonly Router<ViewModelBase> _router;
+    private readonly Router _router;
 
-    public MainViewModel(Router<ViewModelBase> router)
+    public MainViewModel(Router router)
     {
         _router = router;
         _router.CurrentViewModelChanged += OnRouterCurrentViewModelChanged;

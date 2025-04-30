@@ -4,7 +4,7 @@
         <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
     </PropertyGroup>
     <PropertyGroup>
-        <AvaloniaVersion>11.2.7</AvaloniaVersion>
+        <AvaloniaVersion>11.2.8</AvaloniaVersion>
     </PropertyGroup>
     <ItemGroup>
         <PackageVersion Include="Avalonia" Version="$(AvaloniaVersion)" />
