@@ -218,11 +218,11 @@ public partial class App : Application, IDisposable
     /// Reloads the application services and configuration.
     /// This should only be done in development/admin mode; no normal users should ever be able to do this.
     /// </summary>
-    /// <param name="environment">The default environment to load in if there are no environment variables set.</param>
+    /// <param name="environmentOverride">The environment to use (this will override any environment variables).</param>
     /// <typeparam name="TViewModel">The view model to which to navigate after the reload.</typeparam>
-    public void ReloadApplication<TViewModel>(string environment) where TViewModel : ViewModelBase
+    public void ReloadApplication<TViewModel>(string? environmentOverride = null) where TViewModel : ViewModelBase
     {
-        var config = ConfigureConfiguration(environment);
+        var config = ConfigureConfiguration(environmentOverride);
 
         // keep the same router
         var router = Ioc.Default.GetRequiredService<Router>();
