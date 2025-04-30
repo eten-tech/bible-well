@@ -106,7 +106,12 @@ public partial class App : Application, IDisposable
     {
         var configurationBuilder = new ConfigurationBuilder();
 
-        var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production";
+        var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+#if DEBUG
+            ?? "Development";
+#else
+            ?? "Production";
+#endif
 
         using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream("appsettings.json");
         configurationBuilder.AddJsonStream(globalConfigurationSettingsFileStream);
