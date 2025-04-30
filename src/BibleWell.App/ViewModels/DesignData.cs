@@ -15,7 +15,7 @@ namespace BibleWell.App.ViewModels;
 /// </summary>
 public static class DesignData
 {
-    private static readonly Router<ViewModelBase> s_router = new();
+    private static readonly Router s_router = new();
 
     // components
     public static TiptapRendererViewModel DesignTiptapRendererViewModel { get; } = new()
@@ -34,7 +34,7 @@ public static class DesignData
         public static GuidePageViewModel DesignGuidePageViewModel { get; } = new();
     public static HomePageViewModel DesignHomePageViewModel { get; } = new(A.Fake<IUserPreferencesService>());
     public static LibraryPageViewModel DesignLibraryPageViewModel { get; } = new();
-    public static ResourcesPageViewModel DesignResourcesPageViewModel { get; } = new(s_router, A.Fake<ICachingAquiferService>());
+    public static ResourcesPageViewModel DesignResourcesPageViewModel { get; } = new(A.Fake<ICachingAquiferService>());
 
     // this must be last because it references the above view models
     public static MainViewModel DesignMainViewModel { get; } = new(s_router);

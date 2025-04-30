@@ -135,7 +135,7 @@ public partial class App : Application, IDisposable
 
         services.AddOptions<ConfigurationOptions>().Bind(configuration);
 
-        services.AddSingleton(new Router<ViewModelBase>());
+        services.AddSingleton(new Router());
 
         // ApplicationInsights and Logging
         services
