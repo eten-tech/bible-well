@@ -102,11 +102,12 @@ public partial class App : Application, IDisposable
         base.OnFrameworkInitializationCompleted();
     }
 
-    private IConfiguration ConfigureConfiguration()
+    private IConfiguration ConfigureConfiguration(string? environmentOverride = null)
     {
         var configurationBuilder = new ConfigurationBuilder();
 
-        var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+        var environment = environmentOverride
+            ?? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
 #if DEBUG
             ?? "Development";
 #else
@@ -131,7 +132,7 @@ public partial class App : Application, IDisposable
         }
     }
 
-    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration)
+    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, Router? router = null)
     {
         var services = new ServiceCollection();
 
@@ -140,7 +141,7 @@ public partial class App : Application, IDisposable
 
         services.AddOptions<ConfigurationOptions>().Bind(configuration);
 
-        services.AddSingleton(new Router());
+        services.AddSingleton(router ?? new Router());
 
         // ApplicationInsights and Logging
         services
@@ -197,6 +198,58 @@ public partial class App : Application, IDisposable
 
         return services
             .BuildServiceProvider();
+    }
+    /// <summary>
+    /// Shuts down the application.
+    /// </summary>
+    public void Shutdown()
+    {
+        if (ApplicationLifetime is IControlledApplicationLifetime controlledApplicationLifetime)
+        {
+            controlledApplicationLifetime.Shutdown();
+        }
+        else
+        {
+            Environment.Exit(0);
+        }
+    }
+
+    /// <summary>
+    /// Reloads the application services and configuration.
+    /// This should only be done in development/admin mode; no normal users should ever be able to do this.
+    /// </summary>
+    /// <param name="environment">The default environment to load in if there are no environment variables set.</param>
+    /// <typeparam name="TViewModel">The view model to which to navigate after the reload.</typeparam>
+    public void ReloadApplication<TViewModel>(string environment) where TViewModel : ViewModelBase
+    {
+        var config = ConfigureConfiguration(environment);
+
+        // keep the same router
+        var router = Ioc.Default.GetRequiredService<Router>();
+
+        // register services
+        var serviceProvider = ConfigureServiceProvider(config, router);
+        ResetIoc();
+        Ioc.Default.ConfigureServices(serviceProvider);
+
+        router.EraseHistory();
+        router.GoTo<TViewModel>();
+    }
+
+    /// <summary>
+    /// The CommunityToolkit.Mvvm.DependencyInjection DI service provider does not allow configuring services twice.
+    /// Because the static Ioc.Default instance is used, we need to reset that static value's services.
+    /// It doesn't have a setter to do this, so we need to use reflection to set the value.
+    /// </summary>
+    protected void ResetIoc()
+    {
+        // Get the serviceProvider private field.
+        var serviceProviderField = typeof(Ioc).GetField("serviceProvider", BindingFlags.NonPublic | BindingFlags.Instance)
+            ?? throw new InvalidOperationException($"Could not retrieve the {nameof(Ioc)}.{nameof(Ioc.Default)}.serviceProvider private field.");
+
+        // Set serviceProvider to null on the static Default IOC instance.
+        // Note that the serviceProvider field is marked "volatile" but no other thread should be accessing it at this point.
+        serviceProviderField.SetValue(Ioc.Default, null);
     }
 
     private void LogUnhandledException(Exception ex)

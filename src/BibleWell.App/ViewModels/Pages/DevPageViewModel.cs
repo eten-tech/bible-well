@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Reflection;
+using Avalonia;
 using BibleWell.App.Configuration;
 using BibleWell.Aquifer;
 using BibleWell.Devices;
@@ -111,9 +112,38 @@ public partial class DevPageViewModel(
     }
 
     [RelayCommand]
-    public static void ThrowUnhandledException()
+    public void ThrowUnhandledException()
     {
         throw new InvalidOperationException("Test unhandled exception.");
+    }
+
+    [RelayCommand]
+    public void ChangeEnvironmentToDevelopment()
+    {
+        ReloadApplicationInEnvironment("Development");
+    }
+
+    [RelayCommand]
+    public void ChangeEnvironmentToDev()
+    {
+        ReloadApplicationInEnvironment("Dev");
+    }
+
+    [RelayCommand]
+    public void ChangeEnvironmentToQA()
+    {
+        ReloadApplicationInEnvironment("QA");
+    }
+
+    [RelayCommand]
+    public void ChangeEnvironmentToProduction()
+    {
+        ReloadApplicationInEnvironment("Production");
+    }
+
+    private static void ReloadApplicationInEnvironment(string environment)
+    {
+        ((App)Application.Current!).ReloadApplication<DevPageViewModel>(environment);
     }
 
     public record InfoItem(string Name, string Value);
