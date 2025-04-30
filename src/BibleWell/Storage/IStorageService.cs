@@ -2,13 +2,6 @@ namespace BibleWell.Storage;
 
 public interface IStorageService
 {
-    string AppDataDirectory
-    {
-        get;
-    }
-
-    string ApplicationDirectoryPath
-    {
-        get;
-    }
+    string AppDataDirectory { get; }
+    string ApplicationDirectoryPath { get; }
 }
