@@ -34,14 +34,7 @@ namespace BibleWell.App;
 
 public partial class App : Application, IDisposable
 {
-    private InMemoryChannel _telemetryChannel = new()
-    {
-#if DEBUG
-        DeveloperMode = true,
-#endif
-        MaxTelemetryBufferCapacity = 10,
-        SendingInterval = TimeSpan.FromSeconds(30),
-    };
+    private InMemoryChannel _telemetryChannel = null!;
     private bool _isDisposed;
 
     protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
@@ -59,54 +52,103 @@ public partial class App : Application, IDisposable
         AvaloniaXamlLoader.Load(this);
     }
 
+    /// <summary>
+    /// Used by Avalonia for the first initialization of our application configuration.
+    /// </summary>
     public override void OnFrameworkInitializationCompleted()
     {
-        ConfigureUnhandledExceptionHandling();
+        ConfigureApplication();
 
-        var config = ConfigureConfiguration();
+        base.OnFrameworkInitializationCompleted();
+    }
 
-        var serviceProvider = ConfigureServiceProvider(config);
+    /// <summary>
+    /// Reloads the application services and configuration.
+    /// This should only be done in development/admin mode; no normal users should ever be able to do this.
+    /// </summary>
+    /// <param name="environmentOverride">The environment to use (this will override any environment variables).</param>
+    /// <typeparam name="TViewModel">The view model to which to navigate after the reload.</typeparam>
+    public void ReloadApplication<TViewModel>(string? environmentOverride = null) where TViewModel : ViewModelBase
+    {
+        ConfigureApplication(environmentOverride, isReload: true);
+
+        var router = Ioc.Default.GetRequiredService<Router>();
+        router.EraseHistory();
+        router.GoTo<TViewModel>();
+    }
+
+    private void ConfigureApplication(string? environmentOverride = null, bool isReload = false)
+    {
+        if (!isReload)
+        {
+            ConfigureUnhandledExceptionHandling();
+        }
+
+        var config = ConfigureConfiguration(environmentOverride);
+
+        var serviceProvider = ConfigureServiceProvider(config, isReload);
+        if (isReload)
+        {
+            // If Ioc.Default.ConfigureServices() has already been called previously then we have to hack reset the Ioc
+            // because it's not designed for reloading services and throws an exception if you attempt to do so.
+            ResetIoc();
+        }
         Ioc.Default.ConfigureServices(serviceProvider);
 
         var viewLocator = ConfigureViewLocator();
+        if (isReload)
+        {
+            var previousViewLocator = DataTemplates.Single(dt => dt is ViewLocator);
+            DataTemplates.Remove(previousViewLocator);
+        }
         DataTemplates.Add(viewLocator);
 
         var userPreferencesService = serviceProvider.GetRequiredService<IUserPreferencesService>();
         var userThemeVariant = userPreferencesService.Get(PreferenceKeys.ThemeVariant, "Default");
         RequestedThemeVariant = new ThemeVariant(userThemeVariant, null);
 
-        // configure Avalonia app main window
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
-        // The desktop application lifetime is only used for the design view.
+        // The desktop application lifetime is used for the desktop app, testing, and the design view.
         // Don't use DI for the view because there is no directly associated ViewModel.
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Line below is needed to remove Avalonia data validation.
-            // Without this line you will get duplicate validations from both Avalonia and CT
-            BindingPlugins.DataValidators.RemoveAt(0);
-
-            desktop.MainWindow = new MainWindow
+            if (!isReload)
             {
-                DataContext = mainViewModel,
-            };
+                // Line below is needed to remove Avalonia data validation.
+                // Without this line you will get duplicate validations from both Avalonia and CommunityToolkit.Mvvm.
+                BindingPlugins.DataValidators.RemoveAt(0);
+
+                desktop.MainWindow = new MainWindow
+                {
+                    DataContext = mainViewModel,
+                };
+            }
+            else
+            {
+                desktop.MainWindow!.DataContext = mainViewModel;
+            }
         }
-        // the SingleViewApplicationLifetime is for mobile app configuration (no MainWindow is used)
+        // The SingleViewApplicationLifetime is for mobile app configuration (no MainWindow is used).
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             var mainView = viewLocator.Build(mainViewModel);
             mainView.DataContext = mainViewModel;
             singleViewPlatform.MainView = mainView;
         }
-
-        base.OnFrameworkInitializationCompleted();
     }
 
-    private IConfiguration ConfigureConfiguration()
+    private IConfiguration ConfigureConfiguration(string? environmentOverride = null)
     {
         var configurationBuilder = new ConfigurationBuilder();
 
-        var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production";
+        var environment = environmentOverride
+            ?? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+#if DEBUG
+            ?? "Development";
+#else
+            ?? "Production";
+#endif
 
         using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream("appsettings.json");
         configurationBuilder.AddJsonStream(globalConfigurationSettingsFileStream);
@@ -126,7 +168,7 @@ public partial class App : Application, IDisposable
         }
     }
 
-    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration)
+    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, bool isReload)
     {
         var services = new ServiceCollection();
 
@@ -138,6 +180,22 @@ public partial class App : Application, IDisposable
         services.AddSingleton(new Router());
 
         // ApplicationInsights and Logging
+
+        if (isReload)
+        {
+            _telemetryChannel.Flush();
+            _telemetryChannel.Dispose();
+        }
+
+        _telemetryChannel = new InMemoryChannel
+        {
+#if DEBUG
+            DeveloperMode = true,
+#endif
+            MaxTelemetryBufferCapacity = 10,
+            SendingInterval = TimeSpan.FromSeconds(30),
+        };
+
         services
             .AddLogging(b =>
             {
@@ -192,6 +250,38 @@ public partial class App : Application, IDisposable
 
         return services
             .BuildServiceProvider();
+    }
+    /// <summary>
+    /// Shuts down the application.
+    /// </summary>
+    public void Shutdown()
+    {
+        if (ApplicationLifetime is IControlledApplicationLifetime controlledApplicationLifetime)
+        {
+            controlledApplicationLifetime.Shutdown();
+        }
+        else
+        {
+            Environment.Exit(0);
+        }
+    }
+
+    /// <summary>
+    /// Hack: Use reflection to reset the Ioc.Default instance.
+    /// The CommunityToolkit.Mvvm.DependencyInjection DI service provider does not allow configuring services twice.
+    /// Because the static Ioc.Default instance is used, we need to reset that static value's services.
+    /// It doesn't have a setter to do this, so we need to use reflection to set the value.
+    /// If they ever provide a way to reset the service provider via their library, we should use that instead.
+    /// </summary>
+    protected void ResetIoc()
+    {
+        // Get the serviceProvider private field.
+        var serviceProviderField = typeof(Ioc).GetField("serviceProvider", BindingFlags.NonPublic | BindingFlags.Instance)
+            ?? throw new InvalidOperationException($"Could not retrieve the {nameof(Ioc)}.{nameof(Ioc.Default)}.serviceProvider private field.");
+
+        // Set serviceProvider to null on the static Default IOC instance.
+        // Note that the serviceProvider field is marked "volatile" but no other thread should be accessing it at this point.
+        serviceProviderField.SetValue(Ioc.Default, null);
     }
 
     private void LogUnhandledException(Exception ex)

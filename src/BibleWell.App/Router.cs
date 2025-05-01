@@ -19,6 +19,12 @@ public sealed class Router
 
     public event Action<ViewModelBase>? CurrentViewModelChanged;
 
+    public void EraseHistory()
+    {
+        _currentIndex = -1;
+        _history.Clear();
+    }
+
     public ViewModelBase? Back()
     {
         if (!CanGoBack)
