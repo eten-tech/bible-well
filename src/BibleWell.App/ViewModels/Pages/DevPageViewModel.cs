@@ -88,7 +88,7 @@ public partial class DevPageViewModel(
     }
 
     [RelayCommand]
-    public void ChangeEnvironment(string environment)
+    public void ChangeEnvironment(AppEnvironment environment)
     {
         ((App)Application.Current!).ReloadApplication<DevPageViewModel>(environment);
     }

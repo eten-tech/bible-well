@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
     xmlns:logging="clr-namespace:Microsoft.Extensions.Logging;assembly=Microsoft.Extensions.Logging.Abstractions"
+    xmlns:app="clr-namespace:BibleWell.App"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
@@ -114,30 +115,26 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Command="{Binding ChangeEnvironment}"
-                CommandParameter="Development">
-                Local
-            </Button>
+                CommandParameter="{x:Static app:AppEnvironment.Development}"
+                Content="Local" />
             <Button
                 Grid.Row="0"
                 Grid.Column="1"
                 Command="{Binding ChangeEnvironment}"
-                CommandParameter="Dev">
-                Dev
-            </Button>
+                CommandParameter="{x:Static app:AppEnvironment.Dev}"
+                Content="{x:Static app:AppEnvironment.Dev}" />
             <Button
                 Grid.Row="0"
                 Grid.Column="2"
                 Command="{Binding ChangeEnvironment}"
-                CommandParameter="QA">
-                QA
-            </Button>
+                CommandParameter="{x:Static app:AppEnvironment.QA}"
+                Content="{x:Static app:AppEnvironment.QA}" />
             <Button
                 Grid.Row="0"
                 Grid.Column="3"
                 Command="{Binding ChangeEnvironment}"
-                CommandParameter="Production">
-                Prod
-            </Button>
+                CommandParameter="{x:Static app:AppEnvironment.Production}"
+                Content="Prod" />
         </Grid>
 
         <TextBlock Classes="h2">Environment Configuration</TextBlock>
