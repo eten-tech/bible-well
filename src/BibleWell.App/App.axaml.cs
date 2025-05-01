@@ -59,47 +59,90 @@ public partial class App : Application, IDisposable
         AvaloniaXamlLoader.Load(this);
     }
 
+    /// <summary>
+    /// Used by Avalonia for the first initialization of our application configuration.
+    /// </summary>
     public override void OnFrameworkInitializationCompleted()
     {
-        ConfigureUnhandledExceptionHandling();
+        ConfigureApplication();
 
-        var config = ConfigureConfiguration();
+        base.OnFrameworkInitializationCompleted();
+    }
+
+    /// <summary>
+    /// Reloads the application services and configuration.
+    /// This should only be done in development/admin mode; no normal users should ever be able to do this.
+    /// </summary>
+    /// <param name="environmentOverride">The environment to use (this will override any environment variables).</param>
+    /// <typeparam name="TViewModel">The view model to which to navigate after the reload.</typeparam>
+    public void ReloadApplication<TViewModel>(string? environmentOverride = null) where TViewModel : ViewModelBase
+    {
+        ConfigureApplication(environmentOverride, isReload: true);
+
+        var router = Ioc.Default.GetRequiredService<Router>();
+        router.EraseHistory();
+        router.GoTo<TViewModel>();
+    }
+
+    private void ConfigureApplication(string? environmentOverride = null, bool isReload = false)
+    {
+        if (!isReload)
+        {
+            ConfigureUnhandledExceptionHandling();
+        }
+
+        var config = ConfigureConfiguration(environmentOverride);
 
         var serviceProvider = ConfigureServiceProvider(config);
+        if (isReload)
+        {
+            // If Ioc.Default.ConfigureServices() has already been called previously then we have to hack reset the Ioc
+            // because it's not designed for reloading services and throws an exception if you attempt to do so.
+            ResetIoc();
+        }
         Ioc.Default.ConfigureServices(serviceProvider);
 
         var viewLocator = ConfigureViewLocator();
+        if (isReload)
+        {
+            var previousViewLocator = DataTemplates.Single(dt => dt is ViewLocator);
+            DataTemplates.Remove(previousViewLocator);
+        }
         DataTemplates.Add(viewLocator);
 
         var userPreferencesService = serviceProvider.GetRequiredService<IUserPreferencesService>();
         var userThemeVariant = userPreferencesService.Get(PreferenceKeys.ThemeVariant, "Default");
         RequestedThemeVariant = new ThemeVariant(userThemeVariant, null);
 
-        // configure Avalonia app main window
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
-        // The desktop application lifetime is only used for the design view.
+        // The desktop application lifetime is used for the desktop app, testing, and the design view.
         // Don't use DI for the view because there is no directly associated ViewModel.
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Line below is needed to remove Avalonia data validation.
-            // Without this line you will get duplicate validations from both Avalonia and CT
-            BindingPlugins.DataValidators.RemoveAt(0);
-
-            desktop.MainWindow = new MainWindow
+            if (!isReload)
             {
-                DataContext = mainViewModel,
-            };
+                // Line below is needed to remove Avalonia data validation.
+                // Without this line you will get duplicate validations from both Avalonia and CommunityToolkit.Mvvm.
+                BindingPlugins.DataValidators.RemoveAt(0);
+
+                desktop.MainWindow = new MainWindow
+                {
+                    DataContext = mainViewModel,
+                };
+            }
+            else
+            {
+                desktop.MainWindow!.DataContext = mainViewModel;
+            }
         }
-        // the SingleViewApplicationLifetime is for mobile app configuration (no MainWindow is used)
+        // The SingleViewApplicationLifetime is for mobile app configuration (no MainWindow is used).
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             var mainView = viewLocator.Build(mainViewModel);
             mainView.DataContext = mainViewModel;
             singleViewPlatform.MainView = mainView;
         }
-
-        base.OnFrameworkInitializationCompleted();
     }
 
     private IConfiguration ConfigureConfiguration(string? environmentOverride = null)
@@ -132,7 +175,7 @@ public partial class App : Application, IDisposable
         }
     }
 
-    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, Router? router = null)
+    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration)
     {
         var services = new ServiceCollection();
 
@@ -141,7 +184,7 @@ public partial class App : Application, IDisposable
 
         services.AddOptions<ConfigurationOptions>().Bind(configuration);
 
-        services.AddSingleton(router ?? new Router());
+        services.AddSingleton(new Router());
 
         // ApplicationInsights and Logging
         services
@@ -215,31 +258,11 @@ public partial class App : Application, IDisposable
     }
 
     /// <summary>
-    /// Reloads the application services and configuration.
-    /// This should only be done in development/admin mode; no normal users should ever be able to do this.
-    /// </summary>
-    /// <param name="environmentOverride">The environment to use (this will override any environment variables).</param>
-    /// <typeparam name="TViewModel">The view model to which to navigate after the reload.</typeparam>
-    public void ReloadApplication<TViewModel>(string? environmentOverride = null) where TViewModel : ViewModelBase
-    {
-        var config = ConfigureConfiguration(environmentOverride);
-
-        // keep the same router
-        var router = Ioc.Default.GetRequiredService<Router>();
-
-        // register services
-        var serviceProvider = ConfigureServiceProvider(config, router);
-        ResetIoc();
-        Ioc.Default.ConfigureServices(serviceProvider);
-
-        router.EraseHistory();
-        router.GoTo<TViewModel>();
-    }
-
-    /// <summary>
+    /// Hack: Use reflection to reset the Ioc.Default instance.
     /// The CommunityToolkit.Mvvm.DependencyInjection DI service provider does not allow configuring services twice.
     /// Because the static Ioc.Default instance is used, we need to reset that static value's services.
     /// It doesn't have a setter to do this, so we need to use reflection to set the value.
+    /// If they ever provide a way to reset the service provider via their library, we should use that instead.
     /// </summary>
     protected void ResetIoc()
     {
