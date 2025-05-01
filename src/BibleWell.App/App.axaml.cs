@@ -34,14 +34,7 @@ namespace BibleWell.App;
 
 public partial class App : Application, IDisposable
 {
-    private InMemoryChannel _telemetryChannel = new()
-    {
-#if DEBUG
-        DeveloperMode = true,
-#endif
-        MaxTelemetryBufferCapacity = 10,
-        SendingInterval = TimeSpan.FromSeconds(30),
-    };
+    private InMemoryChannel _telemetryChannel = null!;
     private bool _isDisposed;
 
     protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
@@ -93,7 +86,7 @@ public partial class App : Application, IDisposable
 
         var config = ConfigureConfiguration(environmentOverride);
 
-        var serviceProvider = ConfigureServiceProvider(config);
+        var serviceProvider = ConfigureServiceProvider(config, isReload);
         if (isReload)
         {
             // If Ioc.Default.ConfigureServices() has already been called previously then we have to hack reset the Ioc
@@ -175,7 +168,7 @@ public partial class App : Application, IDisposable
         }
     }
 
-    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration)
+    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, bool isReload)
     {
         var services = new ServiceCollection();
 
@@ -187,6 +180,22 @@ public partial class App : Application, IDisposable
         services.AddSingleton(new Router());
 
         // ApplicationInsights and Logging
+
+        if (isReload)
+        {
+            _telemetryChannel.Flush();
+            _telemetryChannel.Dispose();
+        }
+
+        _telemetryChannel = new InMemoryChannel
+        {
+#if DEBUG
+            DeveloperMode = true,
+#endif
+            MaxTelemetryBufferCapacity = 10,
+            SendingInterval = TimeSpan.FromSeconds(30),
+        };
+
         services
             .AddLogging(b =>
             {
