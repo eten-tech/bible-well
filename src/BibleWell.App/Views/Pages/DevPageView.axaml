@@ -13,12 +13,141 @@
 
     <StackPanel>
         <TextBlock Classes="h2">Dev Page</TextBlock>
-        <StackPanel Orientation="Horizontal" Spacing="5">
-        <Button Command="{Binding LoadResourceContentAsync}"
-            Margin="0 0 0 10">
-            Load from SQLite DB
-        </Button>
+        <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,0,0,10">
+            <Button Command="{Binding LoadResourceContentAsync}"
+                Margin="0 0 0 10">
+                Load from SQLite DB
+            </Button>
             <TextBlock Text="{Binding ResourceContentHtml}"></TextBlock>
         </StackPanel>
+
+        <TextBlock Classes="h2">Log Test Message</TextBlock>
+        <Grid
+            RowDefinitions="Auto, Auto, Auto"
+            ColumnDefinitions="*, *, *"
+            Margin="0 0 0 10">
+            <Grid.Styles>
+                <Style Selector="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="5 5 5 5" />
+                </Style>
+            </Grid.Styles>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Command="{Binding LogTrace}">
+                Trace
+            </Button>
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Command="{Binding LogDebug}">
+                Debug
+            </Button>
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                Background="Green"
+                Command="{Binding LogInformation}">
+                Information
+            </Button>
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
+                Background="Yellow"
+                Command="{Binding LogWarning}">
+                Warning
+            </Button>
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Background="Red"
+                Command="{Binding LogError}">
+                Error
+            </Button>
+            <Button
+                Grid.Row="1"
+                Grid.Column="2"
+                Background="DarkRed"
+                Command="{Binding LogCritical}">
+                Critical
+            </Button>
+        </Grid>
+
+        <TextBlock Classes="h2">Throw Exception</TextBlock>
+        <Grid
+            RowDefinitions="Auto"
+            ColumnDefinitions="Auto"
+            Margin="0 0 0 10">
+            <Grid.Styles>
+                <Style Selector="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="5 5 5 5" />
+                </Style>
+            </Grid.Styles>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Background="DarkRed"
+                Command="{Binding ThrowUnhandledException}">
+                Throw Unhandled Exception
+            </Button>
+        </Grid>
+
+        <TextBlock Classes="h2">Application Info</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding ApplicationInfoItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Classes="h2">Device Info</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding DeviceInfoItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Classes="h2">Storage Info</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding StorageInfoItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 </UserControl>

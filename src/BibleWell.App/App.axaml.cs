@@ -6,9 +6,12 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
 using BibleWell.App.Configuration;
+using BibleWell.App.Telemetry;
 using BibleWell.App.ViewModels;
+using BibleWell.App.ViewModels.Components;
 using BibleWell.App.ViewModels.Pages;
 using BibleWell.App.Views;
+using BibleWell.App.Views.Components;
 using BibleWell.App.Views.Pages;
 using BibleWell.Aquifer;
 using BibleWell.Aquifer.Api;
@@ -16,35 +19,50 @@ using BibleWell.Aquifer.Data;
 using BibleWell.Preferences;
 using CommunityToolkit.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Channel;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 
 namespace BibleWell.App;
 
-public partial class App : Application
+public partial class App : Application, IDisposable
 {
+    private InMemoryChannel _telemetryChannel = new()
+    {
+#if DEBUG
+        DeveloperMode = true,
+#endif
+        MaxTelemetryBufferCapacity = 10,
+        SendingInterval = TimeSpan.FromSeconds(30),
+    };
+    private bool _isDisposed;
+
+    protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
+    {
+        throw new NotImplementedException("This method must be implemented in platform-specific projects.");
+    }
+
+    protected virtual void RegisterPlatformServices(IServiceCollection services)
+    {
+        throw new NotImplementedException("This method must be implemented in platform-specific projects.");
+    }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
     }
 
-    // This method should be implemented in platform-specific projects.
-    protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
-    {
-        throw new NotImplementedException();
-    }
-
-    // This method should be implemented in platform-specific projects.
-    protected virtual void RegisterPlatformServices(IServiceCollection services)
-    {
-        throw new NotImplementedException();
-    }
-
     public override void OnFrameworkInitializationCompleted()
     {
+        ConfigureUnhandledExceptionHandling();
+
         var config = ConfigureConfiguration();
 
         var serviceProvider = ConfigureServiceProvider(config);
@@ -53,8 +71,8 @@ public partial class App : Application
         var viewLocator = ConfigureViewLocator();
         DataTemplates.Add(viewLocator);
 
-        var userThemeVariant = serviceProvider.GetRequiredService<IUserPreferencesService>()
-            .Get(PreferenceKeys.ThemeVariant, "Default");
+        var userPreferencesService = serviceProvider.GetRequiredService<IUserPreferencesService>();
+        var userThemeVariant = userPreferencesService.Get(PreferenceKeys.ThemeVariant, "Default");
         RequestedThemeVariant = new ThemeVariant(userThemeVariant, null);
 
         // configure Avalonia app main window
@@ -117,18 +135,54 @@ public partial class App : Application
 
         services.AddOptions<ConfigurationOptions>().Bind(configuration);
 
-        services.AddSingleton(new Router<ViewModelBase>());
+        services.AddSingleton(new Router());
+
+        // ApplicationInsights and Logging
+        services
+            .AddLogging(b =>
+            {
+#if DEBUG
+                b.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>(
+                        "Category",
+                        LogLevel.Trace)
+                    .SetMinimumLevel(LogLevel.Trace)
+                    .AddConsole();
+#else
+                b.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>(
+                        "Category",
+                        LogLevel.Information)
+                    .SetMinimumLevel(LogLevel.Information);
+#endif
+
+                if (!string.IsNullOrEmpty(configurationOptions.ApplicationInsights.ConnectionString))
+                {
+                    b.AddApplicationInsights(o => o.IncludeScopes = true);
+                }
+            })
+            .Configure<TelemetryConfiguration>(c =>
+            {
+                c.TelemetryChannel = _telemetryChannel;
+                c.ConnectionString = configurationOptions.ApplicationInsights.ConnectionString;
+                c.TelemetryInitializers.Add(new OperationCorrelationTelemetryInitializer());
+                c.TelemetryInitializers.Add(new AppTelemetryInitializer());
+            })
+            .AddTransient(sp => new TelemetryClient(sp.GetRequiredService<IOptions<TelemetryConfiguration>>().Value));
 
         ConfigureServices(services);
         ConfigureViewModels(services);
         ConfigureViews(services);
 
+        // HTTP clients
         services
             .AddHttpClient<IReadOnlyAquiferService, AquiferApiService>(
                 client =>
                 {
                     client.BaseAddress = new Uri(configurationOptions.AquiferApiBaseUri);
-                    client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name ?? "", Assembly.GetExecutingAssembly().GetName().Version?.ToString())));
+                    client.DefaultRequestHeaders.UserAgent.Add(
+                        new ProductInfoHeaderValue(
+                            new ProductHeaderValue(
+                                Assembly.GetExecutingAssembly().GetName().Name ?? "",
+                                Assembly.GetExecutingAssembly().GetName().Version?.ToString())));
                     client.DefaultRequestHeaders.Add("api-key", configurationOptions.AquiferApiKey);
                 })
             .SetHandlerLifetime(TimeSpan.FromMinutes(5))
@@ -138,6 +192,50 @@ public partial class App : Application
 
         return services
             .BuildServiceProvider();
+    }
+
+    private void LogUnhandledException(Exception ex)
+    {
+        try
+        {
+            var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+            logger.LogCritical(ex, "An unhandled exception resulted in an application crash!");
+
+            _telemetryChannel.Flush();
+        }
+        catch
+        {
+            // ignore exceptions thrown when attempting to log unhandled exceptions
+        }
+    }
+
+    private void ConfigureUnhandledExceptionHandling()
+    {
+        AppDomain.CurrentDomain.UnhandledException += (_, e) =>
+        {
+            var ex = (Exception)e.ExceptionObject;
+            LogUnhandledException(ex);
+        };
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
+        {
+            _isDisposed = true;
+
+            if (disposing)
+            {
+                _telemetryChannel.Dispose();
+                _telemetryChannel = null!;
+            }
+        }
     }
 
     private static AsyncPolicy<HttpResponseMessage> GetRetryPolicy()
@@ -150,12 +248,15 @@ public partial class App : Application
 
     [Singleton(typeof(AquiferApiService), typeof(IReadOnlyAquiferService))]
     [Singleton(typeof(CachingAquiferService), typeof(ICachingAquiferService))]
-    [Singleton(typeof(SqliteDbManager), typeof(SqliteDbManager))]
     [Singleton(typeof(ResourceContentRepository), typeof(ResourceContentRepository))]
     [Singleton(typeof(SqliteAquiferService), typeof(IReadWriteAquiferService))]
+    [Singleton(typeof(SqliteDbManager), typeof(SqliteDbManager))]
     private static partial void ConfigureServices(IServiceCollection services);
 
     [Singleton(typeof(MainViewModel))]
+    // components
+    [Transient(typeof(TiptapRendererViewModel))]
+    // pages
     [Transient(typeof(BiblePageViewModel))]
     [Transient(typeof(DevPageViewModel))]
     [Transient(typeof(GuidePageViewModel))]
@@ -165,6 +266,9 @@ public partial class App : Application
     private static partial void ConfigureViewModels(IServiceCollection services);
 
     [Singleton(typeof(MainView))]
+    // components
+    [Transient(typeof(TiptapRendererView))]
+    // pages
     [Transient(typeof(BiblePageView))]
     [Transient(typeof(DevPageView))]
     [Transient(typeof(GuidePageView))]
@@ -179,6 +283,11 @@ public partial class App : Application
         var viewLocator = new ViewLocator();
 
         viewLocator.RegisterViewFactory<MainViewModel, MainView>();
+
+        // components
+        viewLocator.RegisterViewFactory<TiptapRendererViewModel, TiptapRendererView>();
+
+        // pages
         viewLocator.RegisterViewFactory<BiblePageViewModel, BiblePageView>();
         viewLocator.RegisterViewFactory<DevPageViewModel, DevPageView>();
         viewLocator.RegisterViewFactory<GuidePageViewModel, GuidePageView>();
