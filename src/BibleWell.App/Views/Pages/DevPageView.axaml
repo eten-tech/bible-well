@@ -23,7 +23,7 @@
 
         <TextBlock Classes="h2">Log Test Message</TextBlock>
         <Grid
-            RowDefinitions="Auto, Auto, Auto"
+            RowDefinitions="Auto, Auto"
             ColumnDefinitions="*, *, *"
             Margin="0 0 0 10">
             <Grid.Styles>
@@ -96,6 +96,64 @@
             </Button>
         </Grid>
 
+        <TextBlock Classes="h2">Change Environment</TextBlock>
+        <TextBlock>(will reload application)</TextBlock>
+        <Grid
+            RowDefinitions="Auto"
+            ColumnDefinitions="*, *, *, *"
+            Margin="0 0 0 10">
+            <Grid.Styles>
+                <Style Selector="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="5 5 5 5" />
+                </Style>
+            </Grid.Styles>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Command="{Binding ChangeEnvironmentToDevelopment}">
+                Local
+            </Button>
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Command="{Binding ChangeEnvironmentToDev}">
+                Dev
+            </Button>
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                Command="{Binding ChangeEnvironmentToQA}">
+                QA
+            </Button>
+            <Button
+                Grid.Row="0"
+                Grid.Column="3"
+                Command="{Binding ChangeEnvironmentToProduction}">
+                Prod
+            </Button>
+        </Grid>
+
+        <TextBlock Classes="h2">Environment Configuration</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding EnvironmentConfigurationItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="FontSize" Value="10" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
         <TextBlock Classes="h2">Application Info</TextBlock>
         <DataGrid
             Margin="0,0,0,10"
@@ -106,6 +164,7 @@
             <DataGrid.Styles>
                 <Style Selector="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="FontSize" Value="10" />
                 </Style>
             </DataGrid.Styles>
             <DataGrid.Columns>
@@ -124,6 +183,7 @@
             <DataGrid.Styles>
                 <Style Selector="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="FontSize" Value="10" />
                 </Style>
             </DataGrid.Styles>
             <DataGrid.Columns>
@@ -142,6 +202,7 @@
             <DataGrid.Styles>
                 <Style Selector="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="FontSize" Value="10" />
                 </Style>
             </DataGrid.Styles>
             <DataGrid.Columns>
