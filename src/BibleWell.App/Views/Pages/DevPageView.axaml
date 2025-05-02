@@ -4,6 +4,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
+    xmlns:logging="clr-namespace:Microsoft.Extensions.Logging;assembly=Microsoft.Extensions.Logging.Abstractions"
+    xmlns:app="clr-namespace:BibleWell.App"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
@@ -36,43 +38,43 @@
             <Button
                 Grid.Row="0"
                 Grid.Column="0"
-                Command="{Binding LogTrace}">
-                Trace
-            </Button>
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Trace}"
+                Content="{x:Static logging:LogLevel.Trace}" />
             <Button
                 Grid.Row="0"
                 Grid.Column="1"
-                Command="{Binding LogDebug}">
-                Debug
-            </Button>
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Debug}"
+                Content="{x:Static logging:LogLevel.Debug}" />
             <Button
                 Grid.Row="0"
                 Grid.Column="2"
                 Background="Green"
-                Command="{Binding LogInformation}">
-                Information
-            </Button>
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Information}"
+                Content="{x:Static logging:LogLevel.Information}" />
             <Button
                 Grid.Row="1"
                 Grid.Column="0"
                 Background="Yellow"
-                Command="{Binding LogWarning}">
-                Warning
-            </Button>
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Warning}"
+                Content="{x:Static logging:LogLevel.Warning}" />
             <Button
                 Grid.Row="1"
                 Grid.Column="1"
                 Background="Red"
-                Command="{Binding LogError}">
-                Error
-            </Button>
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Error}"
+                Content="{x:Static logging:LogLevel.Error}" />
             <Button
                 Grid.Row="1"
                 Grid.Column="2"
                 Background="DarkRed"
-                Command="{Binding LogCritical}">
-                Critical
-            </Button>
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Critical}"
+                Content="{x:Static logging:LogLevel.Critical}" />
         </Grid>
 
         <TextBlock Classes="h2">Throw Exception</TextBlock>
@@ -112,27 +114,27 @@
             <Button
                 Grid.Row="0"
                 Grid.Column="0"
-                Command="{Binding ChangeEnvironmentToDevelopment}">
-                Local
-            </Button>
+                Command="{Binding ChangeEnvironment}"
+                CommandParameter="{x:Static app:AppEnvironment.Development}"
+                Content="Local" />
             <Button
                 Grid.Row="0"
                 Grid.Column="1"
-                Command="{Binding ChangeEnvironmentToDev}">
-                Dev
-            </Button>
+                Command="{Binding ChangeEnvironment}"
+                CommandParameter="{x:Static app:AppEnvironment.Dev}"
+                Content="{x:Static app:AppEnvironment.Dev}" />
             <Button
                 Grid.Row="0"
                 Grid.Column="2"
-                Command="{Binding ChangeEnvironmentToQA}">
-                QA
-            </Button>
+                Command="{Binding ChangeEnvironment}"
+                CommandParameter="{x:Static app:AppEnvironment.QA}"
+                Content="{x:Static app:AppEnvironment.QA}" />
             <Button
                 Grid.Row="0"
                 Grid.Column="3"
-                Command="{Binding ChangeEnvironmentToProduction}">
-                Prod
-            </Button>
+                Command="{Binding ChangeEnvironment}"
+                CommandParameter="{x:Static app:AppEnvironment.Production}"
+                Content="Prod" />
         </Grid>
 
         <TextBlock Classes="h2">Environment Configuration</TextBlock>

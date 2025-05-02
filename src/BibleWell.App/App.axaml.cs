@@ -68,7 +68,7 @@ public partial class App : Application, IDisposable
     /// </summary>
     /// <param name="environmentOverride">The environment to use (this will override any environment variables).</param>
     /// <typeparam name="TViewModel">The view model to which to navigate after the reload.</typeparam>
-    public void ReloadApplication<TViewModel>(string? environmentOverride = null) where TViewModel : ViewModelBase
+    public void ReloadApplication<TViewModel>(AppEnvironment? environmentOverride = null) where TViewModel : ViewModelBase
     {
         ConfigureApplication(environmentOverride, isReload: true);
 
@@ -77,7 +77,7 @@ public partial class App : Application, IDisposable
         router.GoTo<TViewModel>();
     }
 
-    private void ConfigureApplication(string? environmentOverride = null, bool isReload = false)
+    private void ConfigureApplication(AppEnvironment? environmentOverride = null, bool isReload = false)
     {
         if (!isReload)
         {
@@ -138,16 +138,17 @@ public partial class App : Application, IDisposable
         }
     }
 
-    private IConfiguration ConfigureConfiguration(string? environmentOverride = null)
+    private IConfiguration ConfigureConfiguration(AppEnvironment? environmentOverride = null)
     {
         var configurationBuilder = new ConfigurationBuilder();
 
         var environment = environmentOverride
+            ?.ToString()
             ?? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
 #if DEBUG
-            ?? "Development";
+            ?? nameof(AppEnvironment.Development);
 #else
-            ?? "Production";
+            ?? nameof(AppEnvironment.Production);
 #endif
 
         using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream("appsettings.json");
