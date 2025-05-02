@@ -1,5 +1,4 @@
-﻿using BibleWell.App.ViewModels;
-using BibleWell.App.ViewModels.Pages;
+﻿using BibleWell.App.ViewModels.Pages;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,7 +19,7 @@ public sealed class RouterTests
 
         Ioc.Default.ConfigureServices(services.BuildServiceProvider());
 
-        var router = new Router<ViewModelBase>();
+        var router = new Router();
         router.Current.Should().BeNull();
         router.CanGoBack.Should().BeFalse();
         router.CanGoForward.Should().BeFalse();
