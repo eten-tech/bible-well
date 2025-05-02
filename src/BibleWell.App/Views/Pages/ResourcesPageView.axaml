@@ -5,7 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
     xmlns:components="clr-namespace:BibleWell.App.Views.Components"
-    xmlns:controls="clr-namespace:BibleWell.App.Controls"
     xmlns:avalonia="clr-namespace:TheArtOfDev.HtmlRenderer.Avalonia;assembly=Avalonia.HtmlRenderer"
     mc:Ignorable="d"
     d:DesignWidth="492"
@@ -20,19 +19,25 @@
         <Button Command="{Binding PopulateResourceContentTiptapJson}">
             Load JSON
         </Button>
+        <TextBlock />
+        <Separator />
         <components:TiptapRendererView
             Content="{Binding ResourceContent}"
-            Margin="0,0,0,20"/>
+            Margin="0,0,0,20" />
+
+        <Button Command="{Binding PopulateSilResourceContentTiptapJson}">
+            Load SIL JSON
+        </Button>
+        <TextBlock />
+        <Separator />
+        <components:TiptapRendererView
+            Content="{Binding SilResourceContent}"
+            Margin="0,0,0,20" />
 
         <Button Command="{Binding PopulateResourceContentTiptapHtmlAsync}">
             Load HTML
         </Button>
         <avalonia:HtmlPanel Text="{Binding ResourceContentHtml}" />
 
-        <TextBlock />
-        <Separator />
-        <TextBlock />
-        <TextBlock Classes="h2">Content Generated from Json:</TextBlock>
-        <controls:TipTapRendererControl />
     </StackPanel>
 </UserControl>

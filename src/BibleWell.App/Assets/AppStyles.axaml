@@ -71,6 +71,9 @@
         <Setter Property="Padding" Value="8" />
     </Style>
 
+    <!-- Buttons -->
+
+    <Style Selector="Button.Primary" > </Style>
 
     <!-- FOREGROUND -->
     <Style Selector=":is(TextBlock).foreground-primary">
@@ -195,6 +198,7 @@
     <Style Selector=":is(Control).m-64">
         <Setter Property="Margin" Value="64" />
     </Style>
+
 
     <!-- Top only -->
     <Style Selector=":is(Control).mt-8">
