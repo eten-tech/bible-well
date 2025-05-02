@@ -76,39 +76,9 @@ public partial class DevPageViewModel(
     }
 
     [RelayCommand]
-    public void LogTrace()
+    public void LogTestMessage(LogLevel logLevel)
     {
-        _logger.LogDebug("Test trace log message.");
-    }
-
-    [RelayCommand]
-    public void LogDebug()
-    {
-        _logger.LogDebug("Test debug log message.");
-    }
-
-    [RelayCommand]
-    public void LogInformation()
-    {
-        _logger.LogInformation("Test information log message.");
-    }
-
-    [RelayCommand]
-    public void LogWarning()
-    {
-        _logger.LogWarning("Test warning log message.");
-    }
-
-    [RelayCommand]
-    public void LogError()
-    {
-        _logger.LogError("Test error log message.");
-    }
-
-    [RelayCommand]
-    public void LogCritical()
-    {
-        _logger.LogCritical("Test critical log message.");
+        _logger.Log(logLevel, "Test {LogLevel} log message.", logLevel);
     }
 
     [RelayCommand]
@@ -118,30 +88,7 @@ public partial class DevPageViewModel(
     }
 
     [RelayCommand]
-    public void ChangeEnvironmentToDevelopment()
-    {
-        ReloadApplicationInEnvironment("Development");
-    }
-
-    [RelayCommand]
-    public void ChangeEnvironmentToDev()
-    {
-        ReloadApplicationInEnvironment("Dev");
-    }
-
-    [RelayCommand]
-    public void ChangeEnvironmentToQA()
-    {
-        ReloadApplicationInEnvironment("QA");
-    }
-
-    [RelayCommand]
-    public void ChangeEnvironmentToProduction()
-    {
-        ReloadApplicationInEnvironment("Production");
-    }
-
-    private static void ReloadApplicationInEnvironment(string environment)
+    public void ChangeEnvironment(AppEnvironment environment)
     {
         ((App)Application.Current!).ReloadApplication<DevPageViewModel>(environment);
     }
