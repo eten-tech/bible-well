@@ -35,7 +35,8 @@ public static class DesignData
         A.Fake<IOptions<ConfigurationOptions>>(),
         A.Fake<ILogger<DevPageViewModel>>());
         public static GuidePageViewModel DesignGuidePageViewModel { get; } = new();
-    public static HomePageViewModel DesignHomePageViewModel { get; } = new(A.Fake<IUserPreferencesService>());
+    public static HomePageViewModel DesignHomePageViewModel { get; } = new(s_router, A.Fake<IUserPreferencesService>());
+    public static LanguagesPageViewModel DesignLanguagesPageViewModel { get; } = new(s_router);
     public static LibraryPageViewModel DesignLibraryPageViewModel { get; } = new();
     public static ResourcesPageViewModel DesignResourcesPageViewModel { get; } = new(A.Fake<ICachingAquiferService>());
 

@@ -51,7 +51,9 @@ public static class ViewModelFactory
             viewModel = Ioc.Default.GetService(viewModelType);
         }
 
-        return viewModel as TBaseType
-            ?? throw new InvalidOperationException($"Unable to create {viewModelType.Name}.  Ensure that it derives from {typeof(TBaseType).FullName}.");
+        return (viewModel
+                ?? throw new InvalidOperationException($"Unable to create {viewModelType.Name}.  Ensure that it is registered with the service provider."))
+            as TBaseType
+                ?? throw new InvalidOperationException($"Unable to create {viewModelType.Name}.  Ensure that it derives from {typeof(TBaseType).FullName}.");
     }
 }
