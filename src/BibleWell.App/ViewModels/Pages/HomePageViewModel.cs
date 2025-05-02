@@ -8,7 +8,7 @@ namespace BibleWell.App.ViewModels.Pages;
 /// <summary>
 /// View model for use with the <see cref="Views.Pages.HomePageView"/>.
 /// </summary>
-public partial class HomePageViewModel(IUserPreferencesService _userPreferencesService) : PageViewModelBase
+public partial class HomePageViewModel(Router _router, IUserPreferencesService _userPreferencesService) : PageViewModelBase
 {
     [RelayCommand]
     public void ChangeTheme()
@@ -20,5 +20,11 @@ public partial class HomePageViewModel(IUserPreferencesService _userPreferencesS
         Application.Current!.RequestedThemeVariant = newThemeVariant;
 
         _userPreferencesService.Set(PreferenceKeys.ThemeVariant, newThemeVariant.ToString());
+    }
+
+    [RelayCommand]
+    public void ChangeLanguage()
+    {
+        _router.GoTo<LanguagesPageViewModel>();
     }
 }

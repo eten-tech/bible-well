@@ -11,13 +11,19 @@
     d:DataContext="{x:Static vm:DesignData.DesignHomePageViewModel}"
     x:DataType="vm:Pages.HomePageViewModel">
 
-    <ScrollViewer>
-        <StackPanel>
-            <TextBlock Classes="h2">Home Page</TextBlock>
-            <Button Name="ChangeThemeButton" Command="{Binding ChangeTheme}">
-                Change Theme
-            </Button>
-        </StackPanel>
-    </ScrollViewer>
+    <StackPanel>
+        <TextBlock Classes="h2">Home Page</TextBlock>
+        <Button
+            Name="ChangeThemeButton"
+            Command="{Binding ChangeTheme}"
+            Margin="0 0 0 10">
+            Change Theme
+        </Button>
+        <Button
+            Name="ChangeLanguageButton"
+            Command="{Binding ChangeLanguage}">
+            Change Language
+        </Button>
+    </StackPanel>
 
 </UserControl>
