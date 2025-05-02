@@ -314,7 +314,7 @@ public partial class TiptapRendererView : UserControl
                 if (mark.Type == "resourceReference" && mark.Attrs is JsonElement rr)
                 {
                     var type = rr.GetProperty("resourceType").GetString();
-                    var id = rr.GetProperty("resourceId").GetString();
+                    var id = rr.GetProperty("resourceId").GetRawText();
                     return CreateInlineWithTooltip(text, $"{type} ({id})", ["foreground-primary"], null, TextDecorations.Underline);
                 }
 
@@ -323,8 +323,8 @@ public partial class TiptapRendererView : UserControl
                 {
                     var tooltip = string.Join(", ", versesElem.EnumerateArray().Select(v =>
                     {
-                        var start = v.GetProperty("startVerse").GetString();
-                        var end = v.GetProperty("endVerse").GetString();
+                        var start = v.GetProperty("startVerse").GetRawText();
+                        var end = v.GetProperty("endVerse").GetRawText();
                         return start == end ? start : $"{start}–{end}";
                     }));
 
