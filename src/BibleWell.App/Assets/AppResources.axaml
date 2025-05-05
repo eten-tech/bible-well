@@ -23,10 +23,10 @@
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="Bw-IconActiveBrush">DodgerBlue</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-IconInactiveBrush">Gray</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-LightGray">LightSlateGray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-SubtleNeutral">LightSlateGray</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Highlight">LightYellow</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-DarkGray">DarkSlateGray</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-Red">Red</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-EmphasisNeutral">DarkSlateGray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Danger">Red</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Primary">Blue</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Success">DarkGreen</SolidColorBrush>
             <Color x:Key="Bw-DropShadowEffectColor">Black</Color>
@@ -35,9 +35,9 @@
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="Bw-IconActiveBrush">DodgerBlue</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-IconInactiveBrush">Gray</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-LightGray">LightSlateGray</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-DarkGray">DarkSlateGray</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-Red">DarkRed</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-SubtleNeutral">LightSlateGray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-EmphasisNeutral">DarkSlateGray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Danger">DarkRed</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Highlight">#8A7634</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Primary">SlateBlue</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Success">#2E7D32</SolidColorBrush>

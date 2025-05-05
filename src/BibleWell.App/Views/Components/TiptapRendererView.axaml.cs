@@ -92,10 +92,7 @@ public partial class TiptapRendererView : UserControl
     {
         var container = new StackPanel
         {
-            Classes =
-            {
-                "my-8"
-            },
+            Margin = new Thickness(0, 8, 0, 8),
             Name = "TiptapOtnSectionPanel"
         };
 
@@ -111,10 +108,10 @@ public partial class TiptapRendererView : UserControl
         {
             Classes =
             {
-                "tiptap-otn-section-border",
-                "my-8",
-                "p-8"
+                "tiptap-otn-section-border"
             },
+            Margin = new Thickness(0, 8, 0, 8),
+            Padding = new Thickness(8, 8, 8, 8),
             Child = container,
             Name = "TiptapOtnSectionBorder"
         };
@@ -145,10 +142,10 @@ public partial class TiptapRendererView : UserControl
         {
             Classes =
             {
-                "tiptap-translation-options-border",
-                "my-8",
-                "p-8"
+                "tiptap-translation-options-border"
             },
+            Margin = new Thickness(0, 8, 0, 8),
+            Padding = new Thickness(8, 8, 8, 8),
             Child = new StackPanel
             {
                 Children =
@@ -158,9 +155,9 @@ public partial class TiptapRendererView : UserControl
                         Text = $"Translation Options for {verseLabel}",
                         Classes =
                         {
-                            "tiptap-translation-options-header",
-                            "mb-8"
-                        }
+                            "tiptap-translation-options-header"
+                        },
+                        Margin = new Thickness(0, 0, 0, 8)
                     },
                     container
                 }
@@ -261,7 +258,7 @@ public partial class TiptapRendererView : UserControl
             Classes =
             {
                 fontSizeClass,
-                "font-bold"
+                "h3"
             },
             FlowDirection = flow,
             TextAlignment = GetTextAlignment(flow),
@@ -277,12 +274,12 @@ public partial class TiptapRendererView : UserControl
         {
             Classes =
             {
-                "tiptap-paragraph",
-                "my-4"
+                "tiptap-paragraph"
             },
             FlowDirection = flow,
             TextAlignment = GetTextAlignment(flow),
             Inlines = [],
+            Margin = new Thickness(0, 4, 0, 4),
             Name = "TiptapParagraph"
         };
 
@@ -388,12 +385,13 @@ public partial class TiptapRendererView : UserControl
             VerticalAlignment = VerticalAlignment.Center,
             MinWidth = 8, // Helps avoid clipping, especially with italic/gray text
             Margin = new Thickness(1, 0, 2, 0),
+            Padding = new Thickness(0, 0, 0, 0),
             Name = "TiptapInline"
         };
 
         tb.Classes.AddRange(new[]
         {
-            "tiptap-paragraph", "p-0"
+            "tiptap-paragraph"
         }.Concat(classes));
 
         ToolTip.SetTip(tb, tooltip);

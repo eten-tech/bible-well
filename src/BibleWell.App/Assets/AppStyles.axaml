@@ -29,14 +29,20 @@
         <Setter Property="Margin" Value="0 0 0 10" />
     </Style>
 
+    <Style Selector="TextBlock.h3">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="0 0 0 10" />
+    </Style>
+
     <!-- Tiptap Styles -->
     <Style Selector="Border.tiptap-otn-section-border">
-        <Setter Property="BorderBrush" Value="{DynamicResource Bw-LightGray}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Bw-SubtleNeutral}" />
         <Setter Property="BorderThickness" Value="1" />
     </Style>
 
     <Style Selector="Border.tiptap-translation-options-border">
-        <Setter Property="BorderBrush" Value="{DynamicResource Bw-DarkGray}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Bw-EmphasisNeutral}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="6" />
     </Style>
@@ -66,14 +72,10 @@
 
     <Style Selector="Border.tiptap-blockquote-border">
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Bw-DarkGray}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Bw-EmphasisNeutral}" />
         <Setter Property="Margin" Value="12,4,0,4" />
         <Setter Property="Padding" Value="8" />
     </Style>
-
-    <!-- Buttons -->
-
-    <Style Selector="Button.Primary" > </Style>
 
     <!-- FOREGROUND -->
     <Style Selector=":is(TextBlock).foreground-primary">
@@ -83,49 +85,15 @@
         <Setter Property="Foreground" Value="{DynamicResource Bw-Success}" />
     </Style>
     <Style Selector=":is(TextBlock).foreground-gray">
-        <Setter Property="Foreground" Value="{DynamicResource Bw-LightGray}" />
+        <Setter Property="Foreground" Value="{DynamicResource Bw-SubtleNeutral}" />
     </Style>
 
     <!-- BACKGROUND -->
     <Style Selector="TextBlock.background-danger">
-        <Setter Property="Background" Value="{DynamicResource Bw-Red}" />
+        <Setter Property="Background" Value="{DynamicResource Bw-Danger}" />
     </Style>
 
-    <!-- TEXT -->
-    <Style Selector="TextBlock.wrap">
-        <Setter Property="TextWrapping" Value="Wrap" />
-    </Style>
     <!-- FONTS -->
-
-    <!-- Weights -->
-    <Style Selector="TextBlock.font-thin">
-        <Setter Property="FontWeight" Value="Thin" />
-    </Style>
-    <Style Selector="TextBlock.font-extralight">
-        <Setter Property="FontWeight" Value="ExtraLight" />
-    </Style>
-    <Style Selector="TextBlock.font-light">
-        <Setter Property="FontWeight" Value="Light" />
-    </Style>
-    <Style Selector="TextBlock.font-normal">
-        <Setter Property="FontWeight" Value="Normal" />
-    </Style>
-    <Style Selector="TextBlock.font-medium">
-        <Setter Property="FontWeight" Value="Medium" />
-    </Style>
-    <Style Selector="TextBlock.font-semibold">
-        <Setter Property="FontWeight" Value="SemiBold" />
-    </Style>
-    <Style Selector="TextBlock.font-bold">
-        <Setter Property="FontWeight" Value="Bold" />
-    </Style>
-    <Style Selector="TextBlock.font-extrabold">
-        <Setter Property="FontWeight" Value="ExtraBold" />
-    </Style>
-    <Style Selector="TextBlock.font-black">
-        <Setter Property="FontWeight" Value="Black" />
-    </Style>
-
 
     <!-- Sizes -->
     <!-- Tailwind-style font size utility classes -->
@@ -169,85 +137,4 @@
         <Setter Property="FontSize" Value="128" />
     </Style>
 
-
-    <!-- padding styles -->
-    <Style Selector=":is(Decorator).p-8">
-        <Setter Property="Padding" Value="8" />
-    </Style>
-    <Style Selector=":is(Decorator).p-0">
-        <Setter Property="Padding" Value="0" />
-    </Style>
-
-    <!-- MARGINS -->
-    <!-- All sides -->
-    <Style Selector=":is(Control).m-0">
-        <Setter Property="Margin" Value="0" />
-    </Style>
-    <Style Selector=":is(Control).m-4">
-        <Setter Property="Margin" Value="4" />
-    </Style>
-    <Style Selector=":is(Control).m-8">
-        <Setter Property="Margin" Value="8" />
-    </Style>
-    <Style Selector=":is(Control).m-16">
-        <Setter Property="Margin" Value="16" />
-    </Style>
-    <Style Selector=":is(Control).m-32">
-        <Setter Property="Margin" Value="32" />
-    </Style>
-    <Style Selector=":is(Control).m-64">
-        <Setter Property="Margin" Value="64" />
-    </Style>
-
-
-    <!-- Top only -->
-    <Style Selector=":is(Control).mt-8">
-        <Setter Property="Margin" Value="0,8,0,0" />
-    </Style>
-    <Style Selector=":is(Control).mt-16">
-        <Setter Property="Margin" Value="0,16,0,0" />
-    </Style>
-
-    <!-- Bottom only -->
-    <Style Selector=":is(Control).mb-8">
-        <Setter Property="Margin" Value="0,0,0,8" />
-    </Style>
-    <Style Selector=":is(Control).mb-16">
-        <Setter Property="Margin" Value="0,0,0,16" />
-    </Style>
-
-    <!-- Left only -->
-    <Style Selector=":is(Control).ml-8">
-        <Setter Property="Margin" Value="8,0,0,0" />
-    </Style>
-    <Style Selector=":is(Control).ml-16">
-        <Setter Property="Margin" Value="16,0,0,0" />
-    </Style>
-
-    <!-- Right only -->
-    <Style Selector=":is(Control).mr-8">
-        <Setter Property="Margin" Value="0,0,8,0" />
-    </Style>
-    <Style Selector=":is(Control).mr-16">
-        <Setter Property="Margin" Value="0,0,16,0" />
-    </Style>
-
-    <!-- Horizontal (X-axis) -->
-    <Style Selector=":is(Control).mx-2">
-        <Setter Property="Margin" Value="2,0,2,0" />
-    </Style>
-    <Style Selector=":is(Control).mx-8">
-        <Setter Property="Margin" Value="8,0,8,0" />
-    </Style>
-    <Style Selector=":is(Control).mx-16">
-        <Setter Property="Margin" Value="16,0,16,0" />
-    </Style>
-
-    <!-- Vertical (Y-axis) -->
-    <Style Selector=":is(Control).my-8">
-        <Setter Property="Margin" Value="0,8,0,8" />
-    </Style>
-    <Style Selector=":is(Control).my-16">
-        <Setter Property="Margin" Value="0,16,0,16" />
-    </Style>
 </Styles>
