@@ -69,7 +69,6 @@ place_attribute_on_same_line = false
 # Organize usings
 dotnet_separate_import_directive_groups = false
 dotnet_sort_system_directives_first = true
-file_header_template =
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false:error
@@ -246,6 +245,8 @@ csharp_preserve_single_line_statements = true
 # Naming rules
 
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = warning
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case
 dotnet_naming_rule.private_constants_rule.severity = warning
 dotnet_naming_rule.private_constants_rule.style = pascal_case
 dotnet_naming_rule.private_constants_rule.symbols = private_constants_symbols
@@ -276,6 +277,7 @@ dotnet_naming_rule.private_members_with_underscore.severity = warning
 # Symbol specifications
 
 dotnet_naming_symbols.constant_fields.required_modifiers = const
+dotnet_naming_symbols.constant_fields.applicable_kinds = field
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
@@ -329,16 +331,16 @@ resharper_csharp_max_invocation_arguments_on_line = 6
 resharper_csharp_wrap_list_pattern = chop_if_long
 
 # XAML
-[*.xaml,  *.axaml]
+[*.{xaml,axaml}]
 resharper_xml_pi_attribute_style = on_different_lines
 resharper_xml_attribute_style = on_different_lines
 
 # XML (including XAML)
-[*.xml, *.xaml,  *.axaml, *.csproj, *.config, *.targets, *.props]
+[*.{xml,xaml,axaml,csproj,config,targets,props}]
 resharper_xml_space_after_last_pi_attribute = false
 resharper_xml_spaces_around_eq_in_attribute = false
 resharper_xml_space_after_last_attribute = false
-#ij_xml_space_inside_empty_tag = true
+ij_xml_space_inside_empty_tag = true
 resharper_xml_space_before_self_closing = true
 resharper_xml_attribute_indent = single_indent
 resharper_xml_keep_user_linebreaks = true

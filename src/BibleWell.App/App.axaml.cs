@@ -109,6 +109,7 @@ public partial class App : Application, IDisposable
             var previousViewLocator = DataTemplates.Single(dt => dt is ViewLocator);
             DataTemplates.Remove(previousViewLocator);
         }
+
         DataTemplates.Add(viewLocator);
 
         var serviceProvider = ConfigureServiceProvider(config, viewLocator, isReload);
