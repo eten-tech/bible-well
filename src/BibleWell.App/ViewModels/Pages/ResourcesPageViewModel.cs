@@ -1,6 +1,5 @@
 ﻿using BibleWell.App.ViewModels.Components;
 using BibleWell.Aquifer;
-using BibleWell.Models;
 using BibleWell.Utility;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;

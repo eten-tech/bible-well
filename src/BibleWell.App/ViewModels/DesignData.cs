@@ -4,7 +4,6 @@ using BibleWell.App.ViewModels.Components;
 using BibleWell.App.ViewModels.Pages;
 using BibleWell.Aquifer;
 using BibleWell.Devices;
-using BibleWell.Models;
 using BibleWell.Preferences;
 using BibleWell.Storage;
 using BibleWell.Utility;

@@ -1,5 +1,4 @@
-﻿using BibleWell.Models;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BibleWell.App.ViewModels.Components;
 
