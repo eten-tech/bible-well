@@ -18,7 +18,7 @@ public partial class TiptapRendererView : UserControl
     {
         DataContextChanged += OnDataContextChanged;
         InitializeComponent();
-        _container = this.FindControl<Grid>("ContentContainer");
+        _container = ContentContainer;
     }
 
     private void OnDataContextChanged(object? sender, EventArgs e)
