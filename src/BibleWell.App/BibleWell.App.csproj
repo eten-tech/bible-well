@@ -8,56 +8,62 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia"/>
-        <PackageReference Include="Avalonia.HtmlRenderer"/>
-        <PackageReference Include="Avalonia.Markup.Xaml.Loader" PrivateAssets="All"/>
-        <PackageReference Include="Avalonia.Themes.Fluent"/>
-        <PackageReference Include="Avalonia.Fonts.Inter"/>
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics"/>
-        <PackageReference Include="CommunityToolkit.Labs.Extensions.DependencyInjection"/>
-        <PackageReference Include="CommunityToolkit.Mvvm"/>
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="FakeItEasy"/>
+        <InternalsVisibleTo Include="BibleWell.App.IntegrationTests" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" />
+        <PackageReference Include="Avalonia.HtmlRenderer" />
+        <PackageReference Include="Avalonia.Markup.Xaml.Loader" PrivateAssets="All" />
+        <PackageReference Include="Avalonia.Themes.Fluent" />
+        <PackageReference Include="Avalonia.Fonts.Inter" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
+        <PackageReference Include="CommunityToolkit.Labs.Extensions.DependencyInjection" />
+        <PackageReference Include="CommunityToolkit.Mvvm" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="FakeItEasy" />
         <PackageReference Include="FakeItEasy.Analyzer.CSharp" PrivateAssets="All">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
-        <PackageReference Include="Microsoft.Extensions.Http"/>
-        <PackageReference Include="Microsoft.Extensions.Http.Polly"/>
+        <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Microsoft.Extensions.Http" />
+        <PackageReference Include="Microsoft.Extensions.Http.Polly" />
         <PackageReference Include="Microsoft.Extensions.Localization"/>
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
-        <PackageReference Include="Polly.Contrib.WaitAndRetry"/>
-        <PackageReference Include="Polly.Extensions.Http"/>
-        <PackageReference Include="System.Private.Uri"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+        <PackageReference Include="Polly.Contrib.WaitAndRetry" />
+        <PackageReference Include="Polly.Extensions.Http" />
+        <PackageReference Include="System.Private.Uri" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BibleWell.Aquifer.Api\BibleWell.Aquifer.Api.csproj"/>
-        <ProjectReference Include="..\BibleWell.Aquifer.Data\BibleWell.Aquifer.Data.csproj"/>
-        <ProjectReference Include="..\BibleWell\BibleWell.csproj"/>
+        <ProjectReference Include="..\BibleWell.Aquifer.Api\BibleWell.Aquifer.Api.csproj" />
+        <ProjectReference Include="..\BibleWell.Aquifer.Data\BibleWell.Aquifer.Data.csproj" />
+        <ProjectReference Include="..\BibleWell\BibleWell.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="appsettings.json"/>
-        <EmbeddedResource Include="appsettings.json"/>
-        <None Remove="appsettings.Development.json"/>
-        <EmbeddedResource Include="appsettings.Development.json"/>
-        <None Remove="appsettings.Dev.json"/>
-        <EmbeddedResource Include="appsettings.Dev.json"/>
-        <None Remove="appsettings.QA.json"/>
-        <EmbeddedResource Include="appsettings.QA.json"/>
-        <None Remove="appsettings.Production.json"/>
-        <EmbeddedResource Include="appsettings.Production.json"/>
+        <None Remove="appsettings.json" />
+        <EmbeddedResource Include="appsettings.json" />
+        <None Remove="appsettings.Development.json" />
+        <EmbeddedResource Include="appsettings.Development.json" />
+        <None Remove="appsettings.Dev.json" />
+        <EmbeddedResource Include="appsettings.Dev.json" />
+        <None Remove="appsettings.QA.json" />
+        <EmbeddedResource Include="appsettings.QA.json" />
+        <None Remove="appsettings.Production.json" />
+        <EmbeddedResource Include="appsettings.Production.json" />
     </ItemGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
-        <AvaloniaXaml Remove="Assets\AppResources.axaml"/>
+        <AvaloniaResource Include="Assets\**" />
+        <AvaloniaXaml Remove="Assets\AppResources.axaml" />
         <AvaloniaResource Update="Assets\AppResources.axaml">
-            <SubType>Designer</SubType>
+          <SubType>Designer</SubType>
         </AvaloniaResource>
-        <AvaloniaXaml Remove="Assets\Icons.axaml"/>
+        <AvaloniaXaml Remove="Assets\Icons.axaml" />
         <AvaloniaResource Update="Assets\Icons.axaml">
             <SubType>Designer</SubType>
         </AvaloniaResource>

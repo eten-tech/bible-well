@@ -1,0 +1,10 @@
+<Project>
+
+    <!--
+        Import the root Directory.Build.Props but *not* the test Directory.Build.props
+        because this project needs to use XUnit 2 due to Avalonia.Headless.Xunit dependencies.
+        If Avalonia updates to XUnit 3, we can remove this.
+        -->
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
+
+</Project>

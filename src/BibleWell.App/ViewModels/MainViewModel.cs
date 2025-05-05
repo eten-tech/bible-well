@@ -19,9 +19,9 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private MenuItemTemplate? _selectedMenuItem;
 
-    private readonly Router<ViewModelBase> _router;
+    private readonly Router _router;
 
-    public MainViewModel(Router<ViewModelBase> router)
+    public MainViewModel(Router router)
     {
         _router = router;
         _router.CurrentViewModelChanged += OnRouterCurrentViewModelChanged;
@@ -32,7 +32,13 @@ public partial class MainViewModel : ViewModelBase
     {
         // It's possible for any view model to use the router to navigate to another view model.
         // Therefore, if the view model changes we need to update the selected menu item.
-        SelectedMenuItem = MenuItems.FirstOrDefault(mi => mi.ViewModelType == vm.GetType());
+        // It's also possible to navigate to a page not in the menu in which case the selected menu item should remain unchanged.
+        var selectedMenuItem = MenuItems.FirstOrDefault(mi => mi.ViewModelType == vm.GetType());
+        if (selectedMenuItem != null)
+        {
+            SelectedMenuItem = selectedMenuItem;
+        }
+
         CurrentPage = vm;
     }
 

@@ -25,7 +25,8 @@
             </FluentTheme.Palettes>
             -->
         </FluentTheme>
-        <StyleInclude Source="/Assets/AppStyles.axaml"/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="/Assets/AppStyles.axaml" />
         <StyleInclude Source="/Assets/Icons.axaml"></StyleInclude>
     </Application.Styles>
 

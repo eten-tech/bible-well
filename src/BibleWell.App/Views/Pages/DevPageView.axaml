@@ -4,29 +4,227 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
+    xmlns:logging="clr-namespace:Microsoft.Extensions.Logging;assembly=Microsoft.Extensions.Logging.Abstractions"
+    xmlns:app="clr-namespace:BibleWell.App"
     xmlns:resx="clr-namespace:BibleWell.App.Resources"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
-    d:DataContext="{x:Static vm:DesignData.DesignDevPageViewModel}"
     x:Class="BibleWell.App.Views.Pages.DevPageView"
+    d:DataContext="{x:Static vm:DesignData.DesignDevPageViewModel}"
     x:DataType="vm:Pages.DevPageViewModel">
 
     <StackPanel>
         <TextBlock Classes="h2" Text="{x:Static resx:DevPageView.DevPage}"/>
        
-            <ComboBox
-                Name="CultureComboBox"
-                HorizontalAlignment="Left"
-                MaxDropDownHeight="100"
-                Width="100"
-                SelectedIndex="-1"
-                SelectionChanged="CultureComboBox_SelectionChanged">
-                <ComboBoxItem>English</ComboBoxItem>
-                <ComboBoxItem>Español</ComboBoxItem>
-            </ComboBox>
-            <TextBox Text="{x:Static resx:MainView.Chilly}"></TextBox>
-        
+        <ComboBox
+            Name="CultureComboBox"
+            HorizontalAlignment="Left"
+            MaxDropDownHeight="100"
+            Width="100"
+            SelectedIndex="-1"
+            SelectionChanged="CultureComboBox_SelectionChanged">
+            <ComboBoxItem>English</ComboBoxItem>
+            <ComboBoxItem>Español</ComboBoxItem>
+        </ComboBox>
+        <TextBox Text="{x:Static resx:MainView.Chilly}"></TextBox>
+        <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,0,0,10">
+            <Button Command="{Binding LoadResourceContentAsync}"
+                Margin="0 0 0 10">
+                Load from SQLite DB
+            </Button>
+            <TextBlock Text="{Binding ResourceContentHtml}"></TextBlock>
+        </StackPanel>
+
+        <TextBlock Classes="h2">Log Test Message</TextBlock>
+        <Grid
+            RowDefinitions="Auto, Auto"
+            ColumnDefinitions="*, *, *"
+            Margin="0 0 0 10">
+            <Grid.Styles>
+                <Style Selector="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="5 5 5 5" />
+                </Style>
+            </Grid.Styles>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Trace}"
+                Content="{x:Static logging:LogLevel.Trace}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Debug}"
+                Content="{x:Static logging:LogLevel.Debug}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                Background="Green"
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Information}"
+                Content="{x:Static logging:LogLevel.Information}" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
+                Background="Yellow"
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Warning}"
+                Content="{x:Static logging:LogLevel.Warning}" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Background="Red"
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Error}"
+                Content="{x:Static logging:LogLevel.Error}" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="2"
+                Background="DarkRed"
+                Command="{Binding LogTestMessage}"
+                CommandParameter="{x:Static logging:LogLevel.Critical}"
+                Content="{x:Static logging:LogLevel.Critical}" />
+        </Grid>
+
+        <TextBlock Classes="h2">Throw Exception</TextBlock>
+        <Grid
+            RowDefinitions="Auto"
+            ColumnDefinitions="Auto"
+            Margin="0 0 0 10">
+            <Grid.Styles>
+                <Style Selector="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="5 5 5 5" />
+                </Style>
+            </Grid.Styles>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Background="DarkRed"
+                Command="{Binding ThrowUnhandledException}">
+                Throw Unhandled Exception
+            </Button>
+        </Grid>
+
+        <TextBlock Classes="h2">Change Environment</TextBlock>
+        <TextBlock>(will reload application)</TextBlock>
+        <Grid
+            RowDefinitions="Auto"
+            ColumnDefinitions="*, *, *, *"
+            Margin="0 0 0 10">
+            <Grid.Styles>
+                <Style Selector="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="5 5 5 5" />
+                </Style>
+            </Grid.Styles>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Command="{Binding ChangeEnvironment}"
+                CommandParameter="{x:Static app:AppEnvironment.Development}"
+                Content="Local" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Command="{Binding ChangeEnvironment}"
+                CommandParameter="{x:Static app:AppEnvironment.Dev}"
+                Content="{x:Static app:AppEnvironment.Dev}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                Command="{Binding ChangeEnvironment}"
+                CommandParameter="{x:Static app:AppEnvironment.QA}"
+                Content="{x:Static app:AppEnvironment.QA}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="3"
+                Command="{Binding ChangeEnvironment}"
+                CommandParameter="{x:Static app:AppEnvironment.Production}"
+                Content="Prod" />
+        </Grid>
+
+        <TextBlock Classes="h2">Environment Configuration</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding EnvironmentConfigurationItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="FontSize" Value="10" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Classes="h2">Application Info</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding ApplicationInfoItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="FontSize" Value="10" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Classes="h2">Device Info</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding DeviceInfoItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="FontSize" Value="10" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Classes="h2">Storage Info</TextBlock>
+        <DataGrid
+            Margin="0,0,0,10"
+            ItemsSource="{Binding StorageInfoItems}"
+            IsReadOnly="True"
+            GridLinesVisibility="Vertical"
+            HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="FontSize" Value="10" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 
 </UserControl>
