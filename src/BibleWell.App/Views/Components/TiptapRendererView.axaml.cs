@@ -65,18 +65,18 @@ public partial class TiptapRendererView : UserControl
 
     private Control RenderNode(TiptapNode node)
     {
-        return node.Type switch
+        return node.Type.ToLower() switch
         {
             "heading" => RenderHeading(node),
             "paragraph" => RenderParagraph(node),
-            "bulletList" => RenderBulletList(node),
-            "orderedList" => RenderOrderedList(node),
-            "listItem" => RenderListItem(node),
+            "bulletlist" => RenderBulletList(node),
+            "orderedlist" => RenderOrderedList(node),
+            "listitem" => RenderListItem(node),
             "blockquote" => RenderBlockquote(node),
-            "OpenTranslatorsNotesSection" => RenderOTNSection(node),
-            "OpenTranslatorsNotesTranslationOptions" => RenderOTNTranslationOptions(node),
-            "OpenTranslatorsNotesTranslationOptionsDefaultOption" => RenderOTNDefaultOption(node),
-            "OpenTranslatorsNotesTranslationOptionsAdditionalTranslationOptions" => RenderOTNAdditionalOptions(node),
+            "opentranslatorsnotessection" => RenderOTNSection(node),
+            "opentranslatorsnotestranslationoptions" => RenderOTNTranslationOptions(node),
+            "opentranslatorsnotestranslationoptionsdefaultoption" => RenderOTNDefaultOption(node),
+            "opentranslatorsnotestranslationoptionsadditionaltranslationoptions" => RenderOTNAdditionalOptions(node),
             _ => new TextBlock
             {
                 Text = $"[Unhandled node type: {node.Type}]",
