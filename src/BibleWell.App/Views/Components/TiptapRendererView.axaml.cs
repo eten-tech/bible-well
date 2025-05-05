@@ -27,7 +27,7 @@ public partial class TiptapRendererView : UserControl
         {
             if (DataContext is TiptapRendererViewModel viewModel)
             {
-                RenderTipTap(viewModel.ResourceContentTiptap);
+                RenderTiptap(viewModel.ResourceContentTiptap);
             }
         }
         else
@@ -36,7 +36,7 @@ public partial class TiptapRendererView : UserControl
         }
     }
 
-    private void RenderTipTap(TiptapModel<TiptapNode>? model)
+    private void RenderTiptap(TiptapModel<TiptapNode>? model)
     {
         if (_container is null || model?.Tiptap is null)
         {
