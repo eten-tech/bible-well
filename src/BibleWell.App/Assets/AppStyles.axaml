@@ -78,13 +78,13 @@
     </Style>
 
     <!-- FOREGROUND -->
-    <Style Selector=":is(TextBlock).foreground-primary">
+    <Style Selector="TextBlock.foreground-primary">
         <Setter Property="Foreground" Value="{DynamicResource Bw-Primary}" />
     </Style>
-    <Style Selector=":is(TextBlock).foreground-success">
+    <Style Selector="TextBlock.foreground-success">
         <Setter Property="Foreground" Value="{DynamicResource Bw-Success}" />
     </Style>
-    <Style Selector=":is(TextBlock).foreground-gray">
+    <Style Selector="TextBlock.foreground-gray">
         <Setter Property="Foreground" Value="{DynamicResource Bw-SubtleNeutral}" />
     </Style>
 
