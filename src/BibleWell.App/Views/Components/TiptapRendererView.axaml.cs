@@ -5,6 +5,7 @@ using Avalonia.Controls.Documents;
 using Avalonia.Layout;
 using Avalonia.Media;
 using BibleWell.App.ViewModels.Components;
+using BibleWell.Aquifer;
 
 namespace BibleWell.App.Views.Components;
 

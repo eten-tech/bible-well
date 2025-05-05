@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace BibleWell;
+namespace BibleWell.Aquifer;
 
 public class TiptapModel<TRootContent> where TRootContent : TiptapNode<TRootContent>
 {

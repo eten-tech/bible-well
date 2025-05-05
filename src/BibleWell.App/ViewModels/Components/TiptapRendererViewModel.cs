@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using BibleWell.Aquifer;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BibleWell.App.ViewModels.Components;
 
