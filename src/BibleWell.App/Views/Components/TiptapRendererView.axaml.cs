@@ -65,7 +65,7 @@ public partial class TiptapRendererView : UserControl
 
     private Control RenderNode(TiptapNode node)
     {
-        return node.Type.ToLower() switch
+        return node.Type.ToLowerInvariant() switch
         {
             "heading" => RenderHeading(node),
             "paragraph" => RenderParagraph(node),
