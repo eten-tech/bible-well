@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
+    xmlns:resx="clr-namespace:BibleWell.App.Resources"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
@@ -11,6 +12,6 @@
     x:Class="BibleWell.App.Views.Pages.BiblePageView"
     x:DataType="vm:Pages.BiblePageViewModel">
 
-    <TextBlock Classes="h2">Bible Page</TextBlock>
+    <TextBlock Classes="h2" Text="{x:Static resx:BiblePageView.BiblePage}"/>
 
 </UserControl>
