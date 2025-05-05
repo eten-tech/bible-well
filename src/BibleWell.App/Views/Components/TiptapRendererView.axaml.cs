@@ -297,7 +297,7 @@ public partial class TiptapRendererView : UserControl
 
     private Inline RenderInlineText(TiptapNode node)
     {
-        if (node.Type == "footnote")
+        if (node.Type.Equals("footnote", StringComparison.InvariantCultureIgnoreCase))
         {
             return RenderFootnoteInline(node);
         }
