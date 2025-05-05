@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls;
@@ -121,7 +122,7 @@ public partial class TiptapRendererView : UserControl
     {
         var verseLabel = node.Attrs?.ResourceId
                          ?? node.Attrs?.Verses?.FirstOrDefault()?.StartVerse
-                         ?? node.Attrs?.GetType().GetProperty("verse")?.GetValue(node.Attrs)?.ToString()
+                         ?? node.Attrs?.GetType().GetProperty("verse", BindingFlags.IgnoreCase)?.GetValue(node.Attrs)?.ToString()
                          ?? "Verse";
 
         var container = new StackPanel
