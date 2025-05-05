@@ -6,6 +6,7 @@
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
     xmlns:logging="clr-namespace:Microsoft.Extensions.Logging;assembly=Microsoft.Extensions.Logging.Abstractions"
     xmlns:app="clr-namespace:BibleWell.App"
+    xmlns:resx="clr-namespace:BibleWell.App.Resources"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
@@ -14,7 +15,19 @@
     x:DataType="vm:Pages.DevPageViewModel">
 
     <StackPanel>
-        <TextBlock Classes="h2">Dev Page</TextBlock>
+        <TextBlock Classes="h2" Text="{x:Static resx:DevPageView.DevPage}"/>
+       
+        <ComboBox
+            Name="CultureComboBox"
+            HorizontalAlignment="Left"
+            MaxDropDownHeight="100"
+            Width="100"
+            SelectedIndex="-1"
+            SelectionChanged="CultureComboBox_SelectionChanged">
+            <ComboBoxItem>English</ComboBoxItem>
+            <ComboBoxItem>Español</ComboBoxItem>
+        </ComboBox>
+        <TextBox Text="{x:Static resx:MainView.Chilly}"></TextBox>
         <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,0,0,10">
             <Button Command="{Binding LoadResourceContentAsync}"
                 Margin="0 0 0 10">
@@ -213,4 +226,5 @@
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>
+
 </UserControl>
