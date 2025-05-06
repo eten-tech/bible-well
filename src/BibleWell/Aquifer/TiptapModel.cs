@@ -72,7 +72,7 @@ public class TiptapMark
     public string Type { get; set; } = null!;
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? Attrs { get; set; }
+    public Attributes? Attrs { get; set; }
 }
 
 public class Attributes

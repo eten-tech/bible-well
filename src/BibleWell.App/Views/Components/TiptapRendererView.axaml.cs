@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
@@ -23,7 +22,7 @@ public partial class TiptapRendererView : UserControl
         DataContextChanged += OnDataContextChanged;
         InitializeComponent();
         _container = ContentContainer;
-        _logger  = Ioc.Default.GetRequiredService<ILogger<TiptapRendererView>>();
+        _logger = Ioc.Default.GetRequiredService<ILogger<TiptapRendererView>>();
     }
 
     private void OnDataContextChanged(object? sender, EventArgs e)
@@ -82,7 +81,7 @@ public partial class TiptapRendererView : UserControl
             "opentranslatorsnotestranslationoptions" => RenderOTNTranslationOptions(node),
             "opentranslatorsnotestranslationoptionsdefaultoption" => RenderOTNDefaultOption(node),
             "opentranslatorsnotestranslationoptionsadditionaltranslationoptions" => RenderOTNAdditionalOptions(node),
-            _ => RenderUnsupportedNode(node),
+            _ => RenderUnsupportedNode(node)
         };
     }
 
@@ -325,24 +324,27 @@ public partial class TiptapRendererView : UserControl
         {
             foreach (var mark in node.Marks)
             {
-                if (mark.Type.Equals("resourceReference", StringComparison.InvariantCultureIgnoreCase) && mark.Attrs is JsonElement rr)
+                if (mark.Type.Equals("resourceReference", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var type = rr.GetProperty("resourceType").GetString();
-                    var id = rr.GetProperty("resourceId").GetRawText();
+                    var type = mark.Attrs?.ResourceType;
+                    var id = mark.Attrs?.ResourceId;
                     return CreateInlineWithTooltip(text, $"{type} ({id})", ["foreground-primary"], null, TextDecorations.Underline);
                 }
 
-                if (mark.Type == "bibleReference" && mark.Attrs is JsonElement br &&
-                    br.TryGetProperty("verses", out var versesElem) && versesElem.ValueKind == JsonValueKind.Array)
+                if (mark.Type.Equals("bibleReference", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var tooltip = string.Join(", ", versesElem.EnumerateArray().Select(v =>
+                    if (mark.Attrs?.Verses != null)
                     {
-                        var start = v.GetProperty("startVerse").GetRawText();
-                        var end = v.GetProperty("endVerse").GetRawText();
-                        return start == end ? start : $"{start}–{end}";
-                    }));
+                        var tooltip = string.Join(", ", mark.Attrs?.Verses?.Select(v =>
+                        {
+                            var start = v.StartVerse;
+                            var end = v.EndVerse;
+                            return start == end ? start : $"{start}–{end}";
+                        }) ?? []);
 
-                    return CreateInlineWithTooltip(text, "Reference: " + tooltip, ["foreground-success"], null, TextDecorations.Underline);
+                        return CreateInlineWithTooltip(text, "Reference: " + tooltip, ["foreground-success"], null,
+                            TextDecorations.Underline);
+                    }
                 }
 
                 if (mark.Type == "implied")
@@ -612,6 +614,7 @@ public partial class TiptapRendererView : UserControl
             {
                 _logger.Log(LogLevel.Warning, "Unhandled Attrs.Dir: {AttrDir}. Defaulting to LeftToRight.", node.Attrs?.Dir);
             }
+
             return FlowDirection.LeftToRight;
         }
         return node.Attrs?.Dir?.ToLowerInvariant() switch
