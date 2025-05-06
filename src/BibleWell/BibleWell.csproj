@@ -7,9 +7,5 @@
     <ItemGroup>
         <ProjectReference Include="..\BibleWell.Utility\BibleWell.Utility.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Models\" />
-    </ItemGroup>
-
+    
 </Project>
