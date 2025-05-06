@@ -349,6 +349,8 @@ resharper_csharp_indent_raw_literal_string = indent
 resharper_csharp_max_formal_parameters_on_line = 6
 resharper_csharp_max_invocation_arguments_on_line = 6
 resharper_csharp_outdent_dots = false
+resharper_csharp_trailing_comma_in_multiline_lists = true
+resharper_csharp_trailing_comma_in_singleline_lists = false
 resharper_csharp_wrap_list_pattern = chop_if_long
 
 resharper_xmldoc_keep_user_linebreaks = true
@@ -357,8 +359,8 @@ resharper_xmldoc_max_blank_lines_between_tags = 1
 
 # XAML
 [*.{axaml,xaml}]
-resharper_xml_attribute_style = on_different_lines
-resharper_xml_pi_attribute_style = on_different_lines
+resharper_xml_attribute_style = do_not_touch
+resharper_xml_pi_attribute_style = do_not_touch
 
 # XML (including XAML)
 [{*.{axaml,config,csproj,manifest,plist,props,targets,xaml,xib,xml}}]
