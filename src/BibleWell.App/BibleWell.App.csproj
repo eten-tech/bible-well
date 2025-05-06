@@ -4,6 +4,7 @@
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <Configurations>Debug;Release;Release-Optimized</Configurations>
         <UseMauiEssentials>true</UseMauiEssentials>
+        <NeutralLanguage>en-US</NeutralLanguage>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,6 +30,7 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="Microsoft.Extensions.Http" />
         <PackageReference Include="Microsoft.Extensions.Http.Polly" />
+        <PackageReference Include="Microsoft.Extensions.Localization" />
         <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
@@ -66,6 +68,63 @@
         <AvaloniaResource Update="Assets\Icons.axaml">
             <SubType>Designer</SubType>
         </AvaloniaResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Resources\MainView.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>MainView.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <Compile Update="Resources\MainView.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>MainView.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Resources\BiblePageView.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>BiblePageView.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <Compile Update="Resources\BiblePageView.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>BiblePageView.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Resources\GuidePageView.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>GuidePageView.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <Compile Update="Resources\GuidePageView.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>GuidePageView.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Resources\DevPageView.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>DevPageView.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <Compile Update="Resources\DevPageView.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>DevPageView.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Resources\LibraryPageView.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>LibraryPageView.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <Compile Update="Resources\LibraryPageView.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>LibraryPageView.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Resources\ResourcesPageView.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>ResourcesPageView.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <Compile Update="Resources\ResourcesPageView.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ResourcesPageView.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

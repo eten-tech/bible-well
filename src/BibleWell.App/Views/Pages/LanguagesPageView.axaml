@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
+    xmlns:globalization="clr-namespace:System.Globalization;assembly=System.Runtime"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
@@ -18,7 +19,22 @@
             X
         </Button>
         <TextBlock Classes="h2">Languages Page</TextBlock>
-        <TextBlock Text="TODO Build out language picker."></TextBlock>
+        <ListBox
+            Name="MenuItemsListBox"
+            ItemsSource="{Binding SupportedCultureInfos}"
+            SelectedItem="{Binding SelectedCultureInfo}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            SelectionMode="Single"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="globalization:CultureInfo">
+                    <TextBlock
+                        Text="{Binding NativeName}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </StackPanel>
 
 </UserControl>

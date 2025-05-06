@@ -6,6 +6,7 @@
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
     xmlns:components="clr-namespace:BibleWell.App.Views.Components"
     xmlns:avalonia="clr-namespace:TheArtOfDev.HtmlRenderer.Avalonia;assembly=Avalonia.HtmlRenderer"
+    xmlns:resx="clr-namespace:BibleWell.App.Resources"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
@@ -14,7 +15,7 @@
     x:DataType="vm:Pages.ResourcesPageViewModel">
 
     <StackPanel>
-        <TextBlock Classes="h2">Resources Page</TextBlock>
+        <TextBlock Classes="h2" Text="{x:Static resx:ResourcesPageView.ResourcesPage}"/>
 
         <Button Command="{Binding PopulateResourceContentTiptapJson}">
             Load JSON
