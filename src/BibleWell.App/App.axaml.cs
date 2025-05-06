@@ -189,8 +189,7 @@ public partial class App : Application, IDisposable
                 ?.ToString() ??
             Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
 #if DEBUG
-            ??
-            nameof(AppEnvironment.Development);
+            ?? nameof(AppEnvironment.Development);
 #else
             ?? nameof(AppEnvironment.Production);
 #endif
@@ -253,7 +252,7 @@ public partial class App : Application, IDisposable
                     .SetMinimumLevel(LogLevel.Trace)
                     .AddConsole();
 #else
-                b.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>(
+                b.AddFilter<ApplicationInsightsLoggerProvider>(
                         "Category",
                         LogLevel.Information)
                     .SetMinimumLevel(LogLevel.Information);
