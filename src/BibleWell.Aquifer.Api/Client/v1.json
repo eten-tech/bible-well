@@ -1,0 +1,79 @@
+{
+  "x-generator": "NSwag v14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Aquifer Well API Documentation",
+    "description": "All endpoints require an API key in the `api-key` header.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/languages": {
+      "get": {
+        "tags": [
+          "Languages"
+        ],
+        "summary": "Return language list.",
+        "description": "Return a list of languages that can have associated resources in the Aquifer.",
+        "operationId": "AquiferWellAPIEndpointsLanguagesListListLanguagesEndpoint",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ListLanguagesResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ListLanguagesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Code": {
+            "type": "string"
+          },
+          "EnglishDisplay": {
+            "type": "string"
+          },
+          "LocalizedDisplay": {
+            "type": "string"
+          },
+          "ScriptDirection": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "name": "api-key",
+        "in": "header"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Languages",
+      "description": "Endpoints for pulling data specific to languages."
+    },
+    {
+      "name": "Bibles",
+      "description": "Endpoints for discovering available Bibles and pulling down Bible text and audio information."
+    }
+  ]
+}
