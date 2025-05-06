@@ -12,7 +12,6 @@
     x:DataType="vm:Components.TiptapRendererViewModel">
 
     <StackPanel>
-        <TextBlock Text="{Binding ResourceContentTiptapJson}" />
+        <Grid Name="ContentContainer" />
     </StackPanel>
-
 </UserControl>

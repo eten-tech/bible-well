@@ -1,9 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using BibleWell.Aquifer;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BibleWell.App.ViewModels.Components;
 
 public partial class TiptapRendererViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private string _resourceContentTiptapJson = "";
+    private TiptapModel<TiptapNode> _resourceContentTiptap = null!;
 }

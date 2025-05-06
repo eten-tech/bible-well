@@ -7,5 +7,5 @@
     <ItemGroup>
         <ProjectReference Include="..\BibleWell.Utility\BibleWell.Utility.csproj" />
     </ItemGroup>
-
+    
 </Project>

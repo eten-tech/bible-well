@@ -20,14 +20,25 @@
         <Button Command="{Binding PopulateResourceContentTiptapJson}">
             Load JSON
         </Button>
+        <TextBlock />
+        <Separator />
         <components:TiptapRendererView
             Content="{Binding ResourceContent}"
-            Margin="0,0,0,20"/>
+            Margin="0,0,0,20" />
+
+        <Button Command="{Binding PopulateSilResourceContentTiptapJson}">
+            Load SIL JSON
+        </Button>
+        <TextBlock />
+        <Separator />
+        <components:TiptapRendererView
+            Content="{Binding SilResourceContent}"
+            Margin="0,0,0,20" />
 
         <Button Command="{Binding PopulateResourceContentTiptapHtmlAsync}">
             Load HTML
         </Button>
         <avalonia:HtmlPanel Text="{Binding ResourceContentHtml}" />
-    </StackPanel>
 
+    </StackPanel>
 </UserControl>
