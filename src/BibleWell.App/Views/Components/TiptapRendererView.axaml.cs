@@ -254,12 +254,18 @@ public partial class TiptapRendererView : UserControl
         var flow = GetFlowDirection(node);
         var headingText = string.Join("", node.Content?.Select(RenderTextNodeTextOnly) ?? []);
 
+        string DefaultTextSize()
+        {
+            _logger.Log(LogLevel.Warning, "Unhandled Attrs.Dir: {AttrLevel}. Defaulting to LeftToRight.", node.Attrs?.Level);
+            return "text-base";
+        }
+
         var fontSizeClass = node.Attrs?.Level switch
         {
             1 => "text-2xl",
             2 => "text-xl",
             3 => "text-lg",
-            _ => "text-base"
+            _ => DefaultTextSize()
         };
 
         return new TextBlock
@@ -600,10 +606,19 @@ public partial class TiptapRendererView : UserControl
 
     private FlowDirection GetFlowDirection(TiptapNode node)
     {
+        FlowDirection DefaultDirection()
+        {
+            if (node.Attrs?.Dir is not null)
+            {
+                _logger.Log(LogLevel.Warning, "Unhandled Attrs.Dir: {AttrDir}. Defaulting to LeftToRight.", node.Attrs?.Dir);
+            }
+            return FlowDirection.LeftToRight;
+        }
         return node.Attrs?.Dir?.ToLowerInvariant() switch
         {
             "rtl" => FlowDirection.RightToLeft,
-            _ => FlowDirection.LeftToRight
+            "ltr" => FlowDirection.LeftToRight,
+            _ => DefaultDirection()
         };
     }
 
