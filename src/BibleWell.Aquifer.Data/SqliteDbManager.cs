@@ -39,9 +39,7 @@ public class SqliteDbManager
         const string sql = "PRAGMA journal_mode = WAL;";
         connection.Execute(sql);
 
-        // ensure all tables have been created using repositories?
-
-
-        // add other tables here or swap this entire section for migrations
+        // TODO ensure all tables have been created using repositories?
+        // TODO add other tables here or swap this entire section for migrations
     }
 }
