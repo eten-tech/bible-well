@@ -347,7 +347,7 @@ public partial class TiptapRendererView : UserControl
                     }
                 }
 
-                if (mark.Type == "implied")
+                if (mark.Type.Equals("implied", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return CreateInlineWithTooltip(text, "Implied", ["foreground-gray"], FontStyle.Italic);
                 }
@@ -365,7 +365,7 @@ public partial class TiptapRendererView : UserControl
         {
             foreach (var mark in node.Marks)
             {
-                switch (mark.Type)
+                switch (mark.Type.ToLowerInvariant())
                 {
                     case "bold":
                         run.FontWeight = FontWeight.Bold;
