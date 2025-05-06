@@ -357,13 +357,10 @@ resharper_xmldoc_keep_user_linebreaks = true
 resharper_xmldoc_indent_text = zero_indent
 resharper_xmldoc_max_blank_lines_between_tags = 1
 
-# XAML
-[*.{axaml,xaml}]
-resharper_xml_attribute_style = do_not_touch
-resharper_xml_pi_attribute_style = do_not_touch
-
 # XML (including XAML)
 [{*.{axaml,config,csproj,manifest,plist,props,targets,xaml,xib,xml}}]
+resharper_xml_attribute_style = do_not_touch
+resharper_xml_pi_attribute_style = do_not_touch
 resharper_xml_space_after_last_pi_attribute = false
 resharper_xml_spaces_around_eq_in_attribute = false
 resharper_xml_space_after_last_attribute = false
