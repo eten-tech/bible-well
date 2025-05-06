@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Net.Http.Headers;
 using System.Reflection;
 using Avalonia;
@@ -64,6 +65,7 @@ public partial class App : Application, IDisposable
 
     /// <summary>
     /// Reloads the application services and configuration.
+    /// Router history will be erased and then the specified <typeparamref name="TViewModel" /> will be loaded.
     /// This should only be done in development/admin mode; no normal users should ever be able to do this.
     /// </summary>
     /// <param name="environmentOverride">The environment to use (this will override any environment variables).</param>
@@ -71,6 +73,21 @@ public partial class App : Application, IDisposable
     public void ReloadApplication<TViewModel>(AppEnvironment? environmentOverride = null) where TViewModel : ViewModelBase
     {
         ConfigureApplication(environmentOverride, isReload: true);
+
+        var router = Ioc.Default.GetRequiredService<Router>();
+        router.EraseHistory();
+        router.GoTo<TViewModel>();
+    }
+
+    /// <summary>
+    /// Reloads the main view but not the application services and configuration
+    /// (see <see cref="ReloadApplication{TViewModel}" /> for that operation).
+    /// Router history will be erased and then the specified <typeparamref name="TViewModel" /> will be loaded.
+    /// </summary>
+    /// <typeparam name="TViewModel">The view model to which to navigate after the reload.</typeparam>
+    public void ReloadMainView<TViewModel>() where TViewModel : ViewModelBase
+    {
+        LoadMainView(isReload: true);
 
         var router = Ioc.Default.GetRequiredService<Router>();
         router.EraseHistory();
@@ -86,15 +103,6 @@ public partial class App : Application, IDisposable
 
         var config = ConfigureConfiguration(environmentOverride);
 
-        var serviceProvider = ConfigureServiceProvider(config, isReload);
-        if (isReload)
-        {
-            // If Ioc.Default.ConfigureServices() has already been called previously then we have to hack reset the Ioc
-            // because it's not designed for reloading services and throws an exception if you attempt to do so.
-            ResetIoc();
-        }
-        Ioc.Default.ConfigureServices(serviceProvider);
-
         var viewLocator = ConfigureViewLocator();
         if (isReload)
         {
@@ -103,11 +111,35 @@ public partial class App : Application, IDisposable
         }
         DataTemplates.Add(viewLocator);
 
-        var userPreferencesService = serviceProvider.GetRequiredService<IUserPreferencesService>();
+        var serviceProvider = ConfigureServiceProvider(config, viewLocator, isReload);
+        if (isReload)
+        {
+            // If Ioc.Default.ConfigureServices() has already been called previously then we have to hack reset the Ioc
+            // because it's not designed for reloading services and throws an exception if you attempt to do so.
+            ResetIoc();
+        }
+
+        Ioc.Default.ConfigureServices(serviceProvider);
+
+        ConfigureUserPreferences(serviceProvider.GetRequiredService<IUserPreferencesService>());
+
+        LoadMainView(isReload);
+    }
+
+    private void ConfigureUserPreferences(IUserPreferencesService userPreferencesService)
+    {
         var userThemeVariant = userPreferencesService.Get(PreferenceKeys.ThemeVariant, "Default");
         RequestedThemeVariant = new ThemeVariant(userThemeVariant, null);
 
-        var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
+        var userLanguage = userPreferencesService.Get(PreferenceKeys.Language, Thread.CurrentThread.CurrentUICulture.ThreeLetterISOLanguageName);
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo(userLanguage);
+    }
+
+    private void LoadMainView(bool isReload = false)
+    {
+        var viewLocator = Ioc.Default.GetRequiredService<ViewLocator>();
+
+        var mainViewModel = ViewModelFactory.Create<MainViewModel>();
 
         // The desktop application lifetime is used for the desktop app, testing, and the design view.
         // Don't use DI for the view because there is no directly associated ViewModel.
@@ -169,7 +201,7 @@ public partial class App : Application, IDisposable
         }
     }
 
-    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, bool isReload)
+    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, ViewLocator viewLocator, bool isReload)
     {
         var services = new ServiceCollection();
 
@@ -179,6 +211,7 @@ public partial class App : Application, IDisposable
         services.AddOptions<ConfigurationOptions>().Bind(configuration);
 
         services.AddSingleton(new Router());
+        services.AddSingleton(viewLocator);
 
         // ApplicationInsights and Logging
 
