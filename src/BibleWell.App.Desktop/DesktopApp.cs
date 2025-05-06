@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BibleWell.App.Desktop;
 
-public partial class DesktopApp : App
+public class DesktopApp : App
 {
     protected override void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
     {

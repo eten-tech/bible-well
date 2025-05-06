@@ -43,7 +43,7 @@ public partial class MainView : UserControl
     {
         if (DataContext is MainViewModel viewModel)
         {
-            viewModel.NavigateBackCommand.Execute(null);
+            viewModel.NavigateBackCommand.Execute(parameter: null);
             e.Handled = true;
         }
     }

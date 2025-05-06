@@ -19,8 +19,8 @@ public sealed class MainViewTests
     private const int TransitionDelayMs = 125;
 
     /// <summary>
-    /// This test method is both a test and an example of how to wire up the full application UI with a standard <see cref="MainWindow"/>.
-    /// You should probably use the <see cref="MainMenu_OnPress_ShouldCorrectlyNavigate"/> test method example, instead, though.
+    /// This test method is both a test and an example of how to wire up the full application UI with a standard <see cref="MainWindow" />.
+    /// You should probably use the <see cref="MainMenu_OnPress_ShouldCorrectlyNavigate" /> test method example, instead, though.
     /// </summary>
     [AvaloniaFact]
     public void HomePage_ChangeTheme_Success()
@@ -35,7 +35,9 @@ public sealed class MainViewTests
         // Ideally we wouldn't assert on colors but for theme variant changes this is necessary.
         window.ExecuteUiTest(() =>
         {
-            Application.Current!.RequestedThemeVariant.Should().Be(ThemeVariant.Default, "the default requested theme variant should be Default");
+            Application.Current!.RequestedThemeVariant
+                .Should()
+                .Be(ThemeVariant.Default, "the default requested theme variant should be Default");
             Application.Current.ActualThemeVariant.Should().Be(ThemeVariant.Light, "the default actual theme variant should be Light");
             var backgroundBrush = window.Background as SolidColorBrush;
             backgroundBrush.Should().NotBeNull("the window Background is expected to be a SolidColorBrush");
@@ -57,7 +59,7 @@ public sealed class MainViewTests
     }
 
     /// <summary>
-    /// This test method is both a test and an example of how to test any given View using <see cref="AvaloniaTestExtensions"/>.
+    /// This test method is both a test and an example of how to test any given View using <see cref="AvaloniaTestExtensions" />.
     /// </summary>
     [AvaloniaFact]
     public async Task MainMenu_OnPress_ShouldCorrectlyNavigate()
@@ -76,7 +78,8 @@ public sealed class MainViewTests
             await Task.Delay(TransitionDelayMs);
 
             // The selected page should now be the resources page.
-            (mainView.CurrentControl.GetLogicalChildren().SingleOrDefault() is ResourcesPageView).Should().BeTrue("the selected menu item should be the Resources page");
+            (mainView.CurrentControl.GetLogicalChildren().SingleOrDefault() is ResourcesPageView).Should()
+                .BeTrue("the selected menu item should be the Resources page");
         });
     }
 }

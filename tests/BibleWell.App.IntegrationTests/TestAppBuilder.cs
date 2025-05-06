@@ -19,10 +19,11 @@ public sealed class TestAppBuilder
     {
         // Test the Desktop app and turn on Skia drawing so we can take screenshots.
         return AppBuilder.Configure<TestApp>()
-            .UseHeadless(new AvaloniaHeadlessPlatformOptions
-            {
-                UseHeadlessDrawing = false,
-            })
+            .UseHeadless(
+                new AvaloniaHeadlessPlatformOptions
+                {
+                    UseHeadlessDrawing = false,
+                })
             .UseSkia();
     }
 }

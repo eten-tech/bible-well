@@ -6,9 +6,9 @@ namespace BibleWell.Aquifer.Data;
 
 public class SqliteDbManager
 {
-    private readonly IStorageService _storageService;
     private readonly string _connectionString;
     private readonly string _databasePath;
+    private readonly IStorageService _storageService;
 
     public SqliteDbManager(IStorageService storageService)
     {
@@ -38,10 +38,10 @@ public class SqliteDbManager
         using var connection = new SqliteConnection(_connectionString);
         const string sql = "PRAGMA journal_mode = WAL;";
         connection.Execute(sql);
-        
+
         // ensure all tables have been created using repositories?
-        
-        
+
+
         // add other tables here or swap this entire section for migrations
     }
 }

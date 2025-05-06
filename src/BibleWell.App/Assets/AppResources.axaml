@@ -1,6 +1,6 @@
 <!-- Note that hot reload using HotAvalonia does not work for modifications to this file. -->
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--
     This is an example of how to override the Avalonia fluent theme values.

@@ -23,7 +23,7 @@
         <PackageReference Include="CommunityToolkit.Mvvm" />
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="FakeItEasy" />
         <PackageReference Include="FakeItEasy.Analyzer.CSharp" PrivateAssets="All">
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
@@ -62,7 +62,7 @@
         <AvaloniaResource Include="Assets\**" />
         <AvaloniaXaml Remove="Assets\AppResources.axaml" />
         <AvaloniaResource Update="Assets\AppResources.axaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </AvaloniaResource>
         <AvaloniaXaml Remove="Assets\Icons.axaml" />
         <AvaloniaResource Update="Assets\Icons.axaml">
