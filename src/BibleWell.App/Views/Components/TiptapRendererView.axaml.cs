@@ -7,6 +7,8 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using BibleWell.App.ViewModels.Components;
 using BibleWell.Aquifer;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace BibleWell.App.Views.Components;
 
@@ -14,12 +16,14 @@ namespace BibleWell.App.Views.Components;
 public partial class TiptapRendererView : UserControl
 {
     private readonly Grid? _container;
+    private readonly ILogger<TiptapRendererView> _logger;
 
     public TiptapRendererView()
     {
         DataContextChanged += OnDataContextChanged;
         InitializeComponent();
         _container = ContentContainer;
+        _logger  = Ioc.Default.GetRequiredService<ILogger<TiptapRendererView>>();
     }
 
     private void OnDataContextChanged(object? sender, EventArgs e)
@@ -78,13 +82,19 @@ public partial class TiptapRendererView : UserControl
             "opentranslatorsnotestranslationoptions" => RenderOTNTranslationOptions(node),
             "opentranslatorsnotestranslationoptionsdefaultoption" => RenderOTNDefaultOption(node),
             "opentranslatorsnotestranslationoptionsadditionaltranslationoptions" => RenderOTNAdditionalOptions(node),
-            _ => new TextBlock
+            _ => RenderUnsupportedNode(node),
+        };
+    }
+
+    private Control RenderUnsupportedNode(TiptapNode node)
+    {
+        _logger.Log(LogLevel.Error, "Unhandled node type: {NodeType}", node.Type);
+        return new TextBlock
+        {
+            Text = $"[Unhandled node type: {node.Type}]",
+            Classes =
             {
-                Text = $"[Unhandled node type: {node.Type}]",
-                Classes =
-                {
-                    "background-danger"
-                }
+                "background-danger"
             }
         };
     }
@@ -309,7 +319,7 @@ public partial class TiptapRendererView : UserControl
         {
             foreach (var mark in node.Marks)
             {
-                if (mark.Type == "resourceReference" && mark.Attrs is JsonElement rr)
+                if (mark.Type.Equals("resourceReference", StringComparison.InvariantCultureIgnoreCase) && mark.Attrs is JsonElement rr)
                 {
                     var type = rr.GetProperty("resourceType").GetString();
                     var id = rr.GetProperty("resourceId").GetRawText();
