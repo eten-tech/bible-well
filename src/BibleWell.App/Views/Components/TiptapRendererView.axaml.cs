@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 
 namespace BibleWell.App.Views.Components;
 
-// ReSharper disable All
 public partial class TiptapRendererView : UserControl
 {
     private readonly Grid? _container;
