@@ -407,9 +407,10 @@ public partial class TiptapRendererView : UserControl
         };
 
         tb.Classes.AddRange(new[]
-        {
-            "tiptap-paragraph"
-        }.Concat(classes));
+            {
+                "tiptap-paragraph"
+            }
+            .Concat(classes));
 
         ToolTip.SetTip(tb, tooltip);
 
