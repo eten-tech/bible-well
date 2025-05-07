@@ -5,6 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.Kiota.Bundle" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\BibleWell\BibleWell.csproj" />
     </ItemGroup>
 

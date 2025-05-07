@@ -39,6 +39,7 @@
         <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.4" />
         <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.4" />
         <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.4" />
+        <PackageVersion Include="Microsoft.Kiota.Bundle" Version="1.17.2" />
         <PackageVersion Include="Microsoft.Maui.Essentials" Version="9.0.50" />
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
         <PackageVersion Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
