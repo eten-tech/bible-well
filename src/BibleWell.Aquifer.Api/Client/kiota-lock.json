@@ -1,5 +1,5 @@
 {
-  "descriptionHash": "09D1690551CEF3BE7C205D5413F4B4C69314DD5DEC9C23860E5CA974ED896D2D174CC7050221A648AD61D1E1A5763B1E117AD48F24441FD3C21E18D0EADC35D7",
+  "descriptionHash": "B2A7C183BF489FCFD63DE285BB7B84F41AE81E7AE7776D50FF8CCABA250387B8F2AC8665BCF8C177FC172758609DDEF8EDAAE43F180868BE2C739AF167A35DE5",
   "descriptionLocation": "v1.json",
   "lockFileVersion": "1.0.0",
   "kiotaVersion": "1.25.1",
@@ -29,6 +29,8 @@
     "multipart/form-data;q=0.1"
   ],
   "includePatterns": [],
-  "excludePatterns": [],
+  "excludePatterns": [
+    "**/admin/**"
+  ],
   "disabledValidationRules": []
 }

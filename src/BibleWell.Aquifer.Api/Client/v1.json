@@ -39,27 +39,27 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "Id",
-          "Code",
-          "EnglishDisplay",
-          "LocalizedDisplay",
-          "ScriptDirection"
+          "id",
+          "code",
+          "englishDisplay",
+          "localizedDisplay",
+          "scriptDirection"
         ],
         "properties": {
-          "Id": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "Code": {
+          "code": {
             "type": "string"
           },
-          "EnglishDisplay": {
+          "englishDisplay": {
             "type": "string"
           },
-          "LocalizedDisplay": {
+          "localizedDisplay": {
             "type": "string"
           },
-          "ScriptDirection": {
+          "scriptDirection": {
             "type": "string"
           }
         }

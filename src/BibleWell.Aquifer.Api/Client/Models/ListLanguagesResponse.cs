@@ -12,7 +12,7 @@ namespace BibleWell.Aquifer.API.Client.Models
     public partial class ListLanguagesResponse : IParsable
     #pragma warning restore CS1591
     {
-        /// <summary>The Code property</summary>
+        /// <summary>The code property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Code { get; set; }
@@ -20,7 +20,7 @@ namespace BibleWell.Aquifer.API.Client.Models
 #else
         public string Code { get; set; }
 #endif
-        /// <summary>The EnglishDisplay property</summary>
+        /// <summary>The englishDisplay property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? EnglishDisplay { get; set; }
@@ -28,9 +28,9 @@ namespace BibleWell.Aquifer.API.Client.Models
 #else
         public string EnglishDisplay { get; set; }
 #endif
-        /// <summary>The Id property</summary>
+        /// <summary>The id property</summary>
         public int? Id { get; set; }
-        /// <summary>The LocalizedDisplay property</summary>
+        /// <summary>The localizedDisplay property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? LocalizedDisplay { get; set; }
@@ -38,7 +38,7 @@ namespace BibleWell.Aquifer.API.Client.Models
 #else
         public string LocalizedDisplay { get; set; }
 #endif
-        /// <summary>The ScriptDirection property</summary>
+        /// <summary>The scriptDirection property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? ScriptDirection { get; set; }
@@ -64,11 +64,11 @@ namespace BibleWell.Aquifer.API.Client.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "Code", n => { Code = n.GetStringValue(); } },
-                { "EnglishDisplay", n => { EnglishDisplay = n.GetStringValue(); } },
-                { "Id", n => { Id = n.GetIntValue(); } },
-                { "LocalizedDisplay", n => { LocalizedDisplay = n.GetStringValue(); } },
-                { "ScriptDirection", n => { ScriptDirection = n.GetStringValue(); } },
+                { "code", n => { Code = n.GetStringValue(); } },
+                { "englishDisplay", n => { EnglishDisplay = n.GetStringValue(); } },
+                { "id", n => { Id = n.GetIntValue(); } },
+                { "localizedDisplay", n => { LocalizedDisplay = n.GetStringValue(); } },
+                { "scriptDirection", n => { ScriptDirection = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -78,11 +78,11 @@ namespace BibleWell.Aquifer.API.Client.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("Code", Code);
-            writer.WriteStringValue("EnglishDisplay", EnglishDisplay);
-            writer.WriteIntValue("Id", Id);
-            writer.WriteStringValue("LocalizedDisplay", LocalizedDisplay);
-            writer.WriteStringValue("ScriptDirection", ScriptDirection);
+            writer.WriteStringValue("code", Code);
+            writer.WriteStringValue("englishDisplay", EnglishDisplay);
+            writer.WriteIntValue("id", Id);
+            writer.WriteStringValue("localizedDisplay", LocalizedDisplay);
+            writer.WriteStringValue("scriptDirection", ScriptDirection);
         }
     }
 }
