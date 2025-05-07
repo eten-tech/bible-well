@@ -9,7 +9,7 @@ namespace BibleWell.App.Desktop;
 
 public class DesktopApp : App
 {
-    protected override void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
+    protected override void ConfigurePlatform(ConfigurationBuilder configurationBuilder, string environment)
     {
     }
 

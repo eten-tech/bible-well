@@ -44,7 +44,7 @@ public partial class App : Application, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
+    protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder, string environment)
     {
         throw new NotImplementedException("This method must be implemented in platform-specific projects.");
     }
@@ -192,23 +192,27 @@ public partial class App : Application, IDisposable
             ?? nameof(AppEnvironment.Production);
 #endif
 
-        using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream("appsettings.json");
+        using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream(
+            Assembly.GetExecutingAssembly(), 
+            "appsettings.json");
         configurationBuilder.AddJsonStream(globalConfigurationSettingsFileStream);
 
-        using var environmentConfigurationSettingsFileStream = GetAppSettingsFileStream($"appsettings.{environment}.json");
+        using var environmentConfigurationSettingsFileStream = GetAppSettingsFileStream(
+            Assembly.GetExecutingAssembly(),
+            $"appsettings.{environment}.json");
         configurationBuilder.AddJsonStream(environmentConfigurationSettingsFileStream);
 
-        ConfigurePlatform(configurationBuilder);
+        ConfigurePlatform(configurationBuilder, environment);
 
         return configurationBuilder.Build();
+    }
 
-        static Stream GetAppSettingsFileStream(string appSettingsFileName)
-        {
-            var appSettingsEmbeddedResourceFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.{appSettingsFileName}";
-            var configurationStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(appSettingsEmbeddedResourceFileName);
-            return configurationStream ??
-                throw new InvalidOperationException($"The embedded resource \"{appSettingsEmbeddedResourceFileName}\" was not found.");
-        }
+    protected static Stream GetAppSettingsFileStream(Assembly assembly, string appSettingsFileName)
+    {
+        var appSettingsEmbeddedResourceFileName = $"{assembly.GetName().Name}.{appSettingsFileName}";
+        var configurationStream = assembly.GetManifestResourceStream(appSettingsEmbeddedResourceFileName);
+        return configurationStream ??
+            throw new InvalidOperationException($"The embedded resource \"{appSettingsEmbeddedResourceFileName}\" was not found.");
     }
 
     private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, ViewLocator viewLocator, bool isReload)

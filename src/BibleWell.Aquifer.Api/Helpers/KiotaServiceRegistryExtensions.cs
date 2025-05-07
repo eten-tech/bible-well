@@ -29,8 +29,8 @@ public static class KiotaServiceRegistryExtensions
                 var userAgentHandlerOption = new UserAgentHandlerOption
                 {
                     Enabled = true,
-                    ProductName = Assembly.GetEntryAssembly()!.GetName().Name ?? "",
-                    ProductVersion = Assembly.GetEntryAssembly()!.GetName().Version?.ToString() ?? "",
+                    ProductName = Assembly.GetExecutingAssembly().GetName().Name ?? "",
+                    ProductVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "",
                 };
 
                 var defaultHttpMessageHandler = KiotaClientFactory.GetDefaultHttpMessageHandler();

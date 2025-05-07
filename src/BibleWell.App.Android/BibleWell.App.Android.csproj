@@ -29,6 +29,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Remove="appsettings.Development.json" />
+        <EmbeddedResource Include="appsettings.Development.json" />
+    </ItemGroup>
+
+    <ItemGroup>
         <AndroidResource Include="Icon.png">
             <Link>Resources\drawable\Icon.png</Link>
         </AndroidResource>
