@@ -20,13 +20,14 @@ public partial class LanguagesPageViewModel(
     [ObservableProperty]
     private CultureInfo? _selectedCultureInfo;
 
+    [ObservableProperty]
+    private ObservableCollection<Language> _apiLanguages = [];
+
     public static ObservableCollection<CultureInfo> SupportedCultureInfos { get; } =
     [
         new("en-US"),
         new("es-ES"),
     ];
-
-    public ObservableCollection<Language> ApiLanguages { get; set; } = [];
 
     [RelayCommand]
     public void Close()
