@@ -51,8 +51,6 @@
         <EmbeddedResource Include="appsettings.json" />
         <None Remove="appsettings.Development.json" />
         <EmbeddedResource Include="appsettings.Development.json" />
-        <None Remove="appsettings.Dev.json" />
-        <EmbeddedResource Include="appsettings.Dev.json" />
         <None Remove="appsettings.QA.json" />
         <EmbeddedResource Include="appsettings.QA.json" />
         <None Remove="appsettings.Production.json" />
