@@ -1,6 +1,6 @@
-﻿using MonoAndroidApplication = Android.App.Application;
+﻿using BibleWell.Platform.Maui;
+using MonoAndroidApplication = Android.App.Application;
 using MonoAndroidSettings = Android.Provider.Settings;
-using BibleWell.Platform.Maui;
 
 namespace BibleWell.App.Android.Platform;
 

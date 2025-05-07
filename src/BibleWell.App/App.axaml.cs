@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Reflection;
 using Avalonia;
@@ -26,6 +27,7 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.ApplicationInsights;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
@@ -35,8 +37,14 @@ namespace BibleWell.App;
 
 public partial class App : Application, IDisposable
 {
-    private InMemoryChannel _telemetryChannel = null!;
     private bool _isDisposed;
+    private InMemoryChannel _telemetryChannel = null!;
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 
     protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
     {
@@ -109,6 +117,7 @@ public partial class App : Application, IDisposable
             var previousViewLocator = DataTemplates.Single(dt => dt is ViewLocator);
             DataTemplates.Remove(previousViewLocator);
         }
+
         DataTemplates.Add(viewLocator);
 
         var serviceProvider = ConfigureServiceProvider(config, viewLocator, isReload);
@@ -129,9 +138,11 @@ public partial class App : Application, IDisposable
     private void ConfigureUserPreferences(IUserPreferencesService userPreferencesService)
     {
         var userThemeVariant = userPreferencesService.Get(PreferenceKeys.ThemeVariant, "Default");
-        RequestedThemeVariant = new ThemeVariant(userThemeVariant, null);
+        RequestedThemeVariant = new ThemeVariant(userThemeVariant, inheritVariant: null);
 
-        var userLanguage = userPreferencesService.Get(PreferenceKeys.Language, Thread.CurrentThread.CurrentUICulture.ThreeLetterISOLanguageName);
+        var userLanguage = userPreferencesService.Get(
+            PreferenceKeys.Language,
+            Thread.CurrentThread.CurrentUICulture.ThreeLetterISOLanguageName);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo(userLanguage);
     }
 
@@ -149,7 +160,7 @@ public partial class App : Application, IDisposable
             {
                 // Line below is needed to remove Avalonia data validation.
                 // Without this line you will get duplicate validations from both Avalonia and CommunityToolkit.Mvvm.
-                BindingPlugins.DataValidators.RemoveAt(0);
+                BindingPlugins.DataValidators.RemoveAt(index: 0);
 
                 desktop.MainWindow = new MainWindow
                 {
@@ -175,8 +186,8 @@ public partial class App : Application, IDisposable
         var configurationBuilder = new ConfigurationBuilder();
 
         var environment = environmentOverride
-            ?.ToString()
-            ?? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+                ?.ToString() ??
+            Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
 #if DEBUG
             ?? nameof(AppEnvironment.Development);
 #else
@@ -197,7 +208,8 @@ public partial class App : Application, IDisposable
         {
             var appSettingsEmbeddedResourceFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.{appSettingsFileName}";
             var configurationStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(appSettingsEmbeddedResourceFileName);
-            return configurationStream ?? throw new InvalidOperationException($"The embedded resource \"{appSettingsEmbeddedResourceFileName}\" was not found.");
+            return configurationStream ??
+                throw new InvalidOperationException($"The embedded resource \"{appSettingsEmbeddedResourceFileName}\" was not found.");
         }
     }
 
@@ -227,20 +239,20 @@ public partial class App : Application, IDisposable
             DeveloperMode = true,
 #endif
             MaxTelemetryBufferCapacity = 10,
-            SendingInterval = TimeSpan.FromSeconds(30),
+            SendingInterval = TimeSpan.FromSeconds(seconds: 30),
         };
 
         services
             .AddLogging(b =>
             {
 #if DEBUG
-                b.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>(
+                b.AddFilter<ApplicationInsightsLoggerProvider>(
                         "Category",
                         LogLevel.Trace)
                     .SetMinimumLevel(LogLevel.Trace)
                     .AddConsole();
 #else
-                b.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>(
+                b.AddFilter<ApplicationInsightsLoggerProvider>(
                         "Category",
                         LogLevel.Information)
                     .SetMinimumLevel(LogLevel.Information);
@@ -266,18 +278,17 @@ public partial class App : Application, IDisposable
 
         // HTTP clients
         services
-            .AddHttpClient<IReadOnlyAquiferService, AquiferApiService>(
-                client =>
-                {
-                    client.BaseAddress = new Uri(configurationOptions.AquiferApiBaseUri);
-                    client.DefaultRequestHeaders.UserAgent.Add(
-                        new ProductInfoHeaderValue(
-                            new ProductHeaderValue(
-                                Assembly.GetExecutingAssembly().GetName().Name ?? "",
-                                Assembly.GetExecutingAssembly().GetName().Version?.ToString())));
-                    client.DefaultRequestHeaders.Add("api-key", configurationOptions.AquiferApiKey);
-                })
-            .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+            .AddHttpClient<IReadOnlyAquiferService, AquiferApiService>(client =>
+            {
+                client.BaseAddress = new Uri(configurationOptions.AquiferApiBaseUri);
+                client.DefaultRequestHeaders.UserAgent.Add(
+                    new ProductInfoHeaderValue(
+                        new ProductHeaderValue(
+                            Assembly.GetExecutingAssembly().GetName().Name ?? "",
+                            Assembly.GetExecutingAssembly().GetName().Version?.ToString())));
+                client.DefaultRequestHeaders.Add("api-key", configurationOptions.AquiferApiKey);
+            })
+            .SetHandlerLifetime(TimeSpan.FromMinutes(minutes: 5))
             .AddPolicyHandler(GetRetryPolicy());
 
         services.AddLocalization(options => options.ResourcesPath = "/Resources");
@@ -286,6 +297,7 @@ public partial class App : Application, IDisposable
         return services
             .BuildServiceProvider();
     }
+
     /// <summary>
     /// Shuts down the application.
     /// </summary>
@@ -297,7 +309,7 @@ public partial class App : Application, IDisposable
         }
         else
         {
-            Environment.Exit(0);
+            Environment.Exit(exitCode: 0);
         }
     }
 
@@ -311,12 +323,13 @@ public partial class App : Application, IDisposable
     protected void ResetIoc()
     {
         // Get the serviceProvider private field.
-        var serviceProviderField = typeof(Ioc).GetField("serviceProvider", BindingFlags.NonPublic | BindingFlags.Instance)
-            ?? throw new InvalidOperationException($"Could not retrieve the {nameof(Ioc)}.{nameof(Ioc.Default)}.serviceProvider private field.");
+        var serviceProviderField = typeof(Ioc).GetField("serviceProvider", BindingFlags.NonPublic | BindingFlags.Instance) ??
+            throw new InvalidOperationException(
+                $"Could not retrieve the {nameof(Ioc)}.{nameof(Ioc.Default)}.serviceProvider private field.");
 
         // Set serviceProvider to null on the static Default IOC instance.
         // Note that the serviceProvider field is marked "volatile" but no other thread should be accessing it at this point.
-        serviceProviderField.SetValue(Ioc.Default, null);
+        serviceProviderField.SetValue(Ioc.Default, value: null);
     }
 
     private void LogUnhandledException(Exception ex)
@@ -343,12 +356,6 @@ public partial class App : Application, IDisposable
         };
     }
 
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
     protected virtual void Dispose(bool disposing)
     {
         if (!_isDisposed)
@@ -367,8 +374,8 @@ public partial class App : Application, IDisposable
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
-            .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromSeconds(0.5), retryCount: 2));
+            .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(value: 0.5), retryCount: 2));
     }
 
     [Singleton(typeof(AquiferApiService), typeof(IReadOnlyAquiferService))]

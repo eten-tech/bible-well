@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 namespace BibleWell.App.ViewModels.Pages;
 
 /// <summary>
-/// View model for use with the <see cref="Views.Pages.DevPageView"/>.
+/// View model for use with the <see cref="Views.Pages.DevPageView" />.
 /// </summary>
 public partial class DevPageViewModel(
     IApplicationInfoService _applicationInfoService,
@@ -24,6 +24,9 @@ public partial class DevPageViewModel(
     ILogger<DevPageViewModel> _logger)
     : PageViewModelBase
 {
+    [ObservableProperty]
+    private string _resourceContentHtml = "<p>Click the button to view content.</p>";
+
     public ObservableCollection<InfoItem> ApplicationInfoItems { get; } =
         [.. GetInfoItems(_applicationInfoService.GetType(), _applicationInfoService)];
 
@@ -57,15 +60,12 @@ public partial class DevPageViewModel(
             });
     }
 
-    [ObservableProperty]
-    private string _resourceContentHtml = "<p>Click the button to view content.</p>";
-
     [RelayCommand]
     public async Task LoadResourceContentAsync()
     {
         try
         {
-            var resourceContent = await _readWriteAquiferService.GetResourceContentAsync(1);
+            var resourceContent = await _readWriteAquiferService.GetResourceContentAsync(contentId: 1);
             ResourceContentHtml = resourceContent?.Content ?? "resource not found";
         }
         catch (Exception ex)

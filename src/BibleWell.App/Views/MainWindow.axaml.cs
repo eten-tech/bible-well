@@ -1,7 +1,7 @@
+using Avalonia.Controls;
 #if DEBUG
 using Avalonia;
 #endif
-using Avalonia.Controls;
 
 namespace BibleWell.App.Views;
 

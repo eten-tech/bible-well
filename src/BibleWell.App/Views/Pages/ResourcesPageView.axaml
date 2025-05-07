@@ -15,7 +15,7 @@
     x:DataType="vm:Pages.ResourcesPageViewModel">
 
     <StackPanel>
-        <TextBlock Classes="h2" Text="{x:Static resx:ResourcesPageView.ResourcesPage}"/>
+        <TextBlock Classes="h2" Text="{x:Static resx:ResourcesPageView.ResourcesPage}" />
 
         <Button Command="{Binding PopulateResourceContentTiptapJson}">
             Load JSON

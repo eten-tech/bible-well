@@ -72,10 +72,10 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="vm:MenuItemTemplate">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
-                                    Background="{DynamicResource Bw-Transparent}"
-                                    VerticalAlignment="Stretch">
+                            Background="{DynamicResource Bw-Transparent}"
+                            VerticalAlignment="Stretch">
                             <PathIcon Width="24" Height="24"
-                                      Data="{Binding IconName, Converter={x:Static conv:FuncValueConverters.StringToIconConverter}}">
+                                Data="{Binding IconName, Converter={x:Static conv:FuncValueConverters.StringToIconConverter}}">
                                 <PathIcon.Styles>
                                     <Style Selector="PathIcon">
                                         <Setter Property="Foreground" Value="{DynamicResource Bw-IconInactiveBrush}" />
@@ -87,7 +87,7 @@
                             </PathIcon>
 
                             <TextBlock Text="{Binding Label}" FontSize="12" HorizontalAlignment="Center"
-                                       TextTrimming="CharacterEllipsis">
+                                TextTrimming="CharacterEllipsis">
                                 <TextBlock.Styles>
                                     <Style Selector="ListBoxItem:selected TextBlock">
                                         <Setter Property="Foreground" Value="{DynamicResource Bw-IconActiveBrush}" />

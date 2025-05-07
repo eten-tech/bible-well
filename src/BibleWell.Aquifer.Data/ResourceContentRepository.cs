@@ -6,8 +6,9 @@ namespace BibleWell.Aquifer.Data;
 public class ResourceContentRepository
 {
     private const string TableName = "ResourceContents";
-    private bool _hasBeenInitialized = false;
     private readonly SqliteDbManager _dbManager;
+
+    private bool _hasBeenInitialized;
     // private readonly ILogger _logger;
 
     public ResourceContentRepository(SqliteDbManager dbManager)
@@ -39,7 +40,7 @@ public class ResourceContentRepository
 
             connection.Execute(sql);
 
-            Insert(new DbResourceContent(1, "Genesis test RC", "Genesis Test RC Content"));
+            Insert(new DbResourceContent(Id: 1, "Genesis test RC", "Genesis Test RC Content"));
         }
         catch (Exception e)
         {
@@ -47,10 +48,10 @@ public class ResourceContentRepository
             Console.WriteLine(e);
             throw new NotImplementedException(e.Message);
         }
-        
+
         _hasBeenInitialized = true;
     }
-    
+
     public DbResourceContent? GetById(int id)
     {
         using var connection = _dbManager.CreateConnection();
@@ -59,7 +60,7 @@ public class ResourceContentRepository
 
         return resourceContent;
     }
-    
+
     public int Save(DbResourceContent resourceContent)
     {
         // might want some refactoring here with error handling or db transaction
@@ -67,7 +68,7 @@ public class ResourceContentRepository
         return existingResourceContent != null ? Update(resourceContent) : Insert(resourceContent);
     }
 
-    private int Insert(DbResourceContent resourceContent) 
+    private int Insert(DbResourceContent resourceContent)
     {
         using var connection = _dbManager.CreateConnection();
         const string sql = $"INSERT INTO {TableName} (Id, Name, Content) VALUES (@Id, @Name, @Content) ON CONFLICT (Id) DO NOTHING;";
@@ -80,10 +81,11 @@ public class ResourceContentRepository
     {
         using var connection = _dbManager.CreateConnection();
         const string sql = $"UPDATE {TableName} SET Content = @Content, Name = @Name WHERE Id = @Id;";
-        
+
         // todo: error handling
         return connection.Execute(sql, resourceContent);
     }
+
     public IReadOnlyList<DbResourceContent> GetAll()
     {
         using var connection = _dbManager.CreateConnection();

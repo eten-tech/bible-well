@@ -9,6 +9,7 @@ public sealed class DesktopDeviceService : IDeviceService
     public bool IsEmulated { get; } = false;
     public string Manufacturer { get; } = "";
     public string Model { get; } = "";
+
     public Devices.Platform Platform { get; } = OperatingSystem.IsWindows()
         ? Devices.Platform.Windows
         : OperatingSystem.IsMacOS()
@@ -16,5 +17,6 @@ public sealed class DesktopDeviceService : IDeviceService
             : OperatingSystem.IsLinux()
                 ? Devices.Platform.Linux
                 : Devices.Platform.Other;
+
     public string PlatformVersion { get; } = Environment.OSVersion.Version.ToString();
 }

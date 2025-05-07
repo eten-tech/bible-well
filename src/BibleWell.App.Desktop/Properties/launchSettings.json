@@ -1,28 +1,28 @@
 {
-  "profiles": {
-    "BibleWell.App.Desktop (Development)": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
-      }
-    },
-    "BibleWell.App.Desktop (Dev)": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Dev"
-      }
-    },
-    "BibleWell.App.Desktop (QA)": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "QA"
-      }
-    },
-    "BibleWell.App.Desktop (Production)": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Production"
-      }
+    "profiles": {
+        "BibleWell.App.Desktop (Development)": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "DOTNET_ENVIRONMENT": "Development"
+            }
+        },
+        "BibleWell.App.Desktop (Dev)": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "DOTNET_ENVIRONMENT": "Dev"
+            }
+        },
+        "BibleWell.App.Desktop (QA)": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "DOTNET_ENVIRONMENT": "QA"
+            }
+        },
+        "BibleWell.App.Desktop (Production)": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "DOTNET_ENVIRONMENT": "Production"
+            }
+        }
     }
-  }
 }

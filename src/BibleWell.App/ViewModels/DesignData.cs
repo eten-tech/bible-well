@@ -26,11 +26,12 @@ public static class DesignData
     // components
     public static TiptapRendererViewModel DesignTiptapRendererViewModel { get; } = new()
     {
-        ResourceContentTiptap = JsonUtilities.DefaultDeserialize<TiptapModel<TiptapNode>>(TiptapJson)
+        ResourceContentTiptap = JsonUtilities.DefaultDeserialize<TiptapModel<TiptapNode>>(TiptapJson),
     };
 
     // pages
     public static BiblePageViewModel DesignBiblePageViewModel { get; } = new();
+
     public static DevPageViewModel DesignDevPageViewModel { get; } = new(
         A.Fake<IApplicationInfoService>(),
         A.Fake<IDeviceService>(),
@@ -38,7 +39,8 @@ public static class DesignData
         A.Fake<IReadWriteAquiferService>(),
         A.Fake<IOptions<ConfigurationOptions>>(),
         A.Fake<ILogger<DevPageViewModel>>());
-        public static GuidePageViewModel DesignGuidePageViewModel { get; } = new();
+
+    public static GuidePageViewModel DesignGuidePageViewModel { get; } = new();
     public static HomePageViewModel DesignHomePageViewModel { get; } = new(s_router, A.Fake<IUserPreferencesService>());
     public static LanguagesPageViewModel DesignLanguagesPageViewModel { get; } = new(s_router, A.Fake<IUserPreferencesService>());
     public static LibraryPageViewModel DesignLibraryPageViewModel { get; } = new();

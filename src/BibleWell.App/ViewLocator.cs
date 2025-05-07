@@ -18,8 +18,8 @@ public sealed class ViewLocator : IDataTemplate
 
         var viewModelType = data.GetType();
 
-        return _locator.GetValueOrDefault(viewModelType)?.Invoke()
-            ?? new TextBlock { Text = $"Error: ViewModel \"{viewModelType.Name}\" not registered." };
+        return _locator.GetValueOrDefault(viewModelType)?.Invoke() ??
+            new TextBlock { Text = $"Error: ViewModel \"{viewModelType.Name}\" not registered." };
     }
 
     public bool Match(object? data)
@@ -37,8 +37,9 @@ public sealed class ViewLocator : IDataTemplate
         where TViewModel : ViewModelBase
         where TView : Control
     {
-        RegisterViewFactory<TViewModel>(Design.IsDesignMode
-            ? Activator.CreateInstance<TView>
-            : Ioc.Default.GetService<TView>);
+        RegisterViewFactory<TViewModel>(
+            Design.IsDesignMode
+                ? Activator.CreateInstance<TView>
+                : Ioc.Default.GetService<TView>);
     }
 }

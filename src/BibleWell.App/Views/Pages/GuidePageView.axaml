@@ -12,6 +12,6 @@
     x:Class="BibleWell.App.Views.Pages.GuidePageView"
     x:DataType="vm:Pages.GuidePageViewModel">
 
-    <TextBlock Classes="h2" Text="{x:Static resx:GuidePageView.GuidePage}"/>
+    <TextBlock Classes="h2" Text="{x:Static resx:GuidePageView.GuidePage}" />
 
 </UserControl>

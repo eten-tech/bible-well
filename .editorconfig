@@ -8,24 +8,6 @@ root = true
 guidelines = 140
 guidelines_style = 1px solid gray
 
-# C# files
-[*.cs]
-
-dotnet_analyzer_diagnostic.category-Style.severity = warning
-dotnet_analyzer_diagnostic.category-Design.severity = warning
-dotnet_analyzer_diagnostic.category-Maintainability.severity = warning
-dotnet_analyzer_diagnostic.category-Reliability.severity = warning
-dotnet_analyzer_diagnostic.category-Security.severity = warning
-
-# Suppress XML documentation warnings
-dotnet_diagnostic.CS1591.severity = none
-
-# Suppress ternary expression warning
-dotnet_diagnostic.IDE0046.severity = none
-
-# Suppress some indenting warnings
-dotnet_diagnostic.IDE0055.severity = none
-
 #### Core EditorConfig Options ####
 
 # Indentation and spacing
@@ -37,6 +19,48 @@ max_line_length = 140
 # New line preferences
 insert_final_newline = false
 
+# C# files
+[*.cs]
+
+# ReSharper properties
+resharper_csharp_wrap_arguments_style = chop_if_long
+resharper_csharp_wrap_parameters_style = chop_if_long
+resharper_keep_existing_embedded_arrangement = false
+resharper_max_enum_members_on_line = 1
+resharper_nested_ternary_style = expanded
+resharper_place_simple_embedded_statement_on_same_line = false
+resharper_treat_case_statement_with_break_as_simple = false
+resharper_wrap_after_declaration_lpar = true
+resharper_wrap_after_invocation_lpar = true
+resharper_wrap_after_property_in_chained_method_calls = true
+resharper_wrap_array_initializer_style = chop_if_long
+resharper_wrap_before_first_method_call = false
+resharper_wrap_before_first_type_parameter_constraint = true
+resharper_wrap_chained_binary_expressions = chop_if_long
+resharper_wrap_chained_method_calls = chop_if_long
+resharper_wrap_list_pattern = chop_if_long
+
+dotnet_analyzer_diagnostic.category-style.severity = warning
+dotnet_analyzer_diagnostic.category-design.severity = warning
+dotnet_analyzer_diagnostic.category-maintainability.severity = warning
+dotnet_analyzer_diagnostic.category-reliability.severity = warning
+dotnet_analyzer_diagnostic.category-security.severity = warning
+
+# Suppress XML documentation warnings
+dotnet_diagnostic.cs1591.severity = none
+
+# Suppress ternary expression warning
+dotnet_diagnostic.ide0046.severity = none
+
+# Suppress some indenting warnings
+dotnet_diagnostic.ide0055.severity = none
+
+# Suppress requirement to deconstruct tuples
+dotnet_diagnostic.ide0042.severity = suggestion
+
+# Suppress requirement to always use collection initializers
+dotnet_diagnostic.ide0305.severity = suggestion
+
 #### .NET Coding Conventions ####
 
 # Attributes on lines above
@@ -45,7 +69,6 @@ place_attribute_on_same_line = false
 # Organize usings
 dotnet_separate_import_directive_groups = false
 dotnet_sort_system_directives_first = true
-file_header_template = unset
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false:error
@@ -68,13 +91,14 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members
 
 # Expression-level preferences
 dotnet_style_coalesce_expression = true:error
-dotnet_style_collection_initializer = true
+dotnet_style_collection_initializer = true:suggestion
 dotnet_style_explicit_tuple_names = true:error
 dotnet_style_namespace_match_folder = true
 dotnet_style_null_propagation = true:error
 dotnet_style_object_initializer = true
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 dotnet_style_prefer_auto_properties = true
+dotnet_style_prefer_collection_expression.when_types_loosely_match = true:suggestion
 dotnet_style_prefer_compound_assignment = true:error
 dotnet_style_prefer_conditional_expression_over_assignment = true:suggestion
 dotnet_style_prefer_conditional_expression_over_return = true:suggestion
@@ -96,7 +120,7 @@ dotnet_remove_unnecessary_suppression_exclusions = none
 
 # New line preferences
 dotnet_style_allow_multiple_blank_lines_experimental = false:error
-dotnet_style_allow_statement_immediately_after_block_experimental = true
+dotnet_style_allow_statement_immediately_after_block_experimental = false
 
 #### C# Coding Conventions ####
 
@@ -143,7 +167,7 @@ csharp_style_prefer_top_level_statements = true:error
 
 # Expression-level preferences
 csharp_prefer_simple_default_expression = true
-csharp_style_deconstructed_variable_declaration = true
+csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_style_implicit_object_creation_when_type_is_apparent = true:error
 csharp_style_inlined_variable_declaration = true:error
 csharp_style_prefer_index_operator = true
@@ -220,6 +244,13 @@ csharp_preserve_single_line_statements = true
 
 # Naming rules
 
+dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = warning
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.private_constants_rule.severity = warning
+dotnet_naming_rule.private_constants_rule.style = pascal_case
+dotnet_naming_rule.private_constants_rule.symbols = private_constants_symbols
+
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
@@ -232,7 +263,21 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
+dotnet_naming_rule.private_static_fields_rule.severity = warning
+dotnet_naming_rule.private_static_fields_rule.style = s_lower_camel_case_style
+dotnet_naming_rule.private_static_fields_rule.symbols = private_static_fields_symbols
+dotnet_naming_rule.private_static_readonly_rule.severity = warning
+dotnet_naming_rule.private_static_readonly_rule.style = s_lower_camel_case_style
+dotnet_naming_rule.private_static_readonly_rule.symbols = private_static_readonly_symbols
+
+dotnet_naming_rule.private_members_with_underscore.symbols = private_fields
+dotnet_naming_rule.private_members_with_underscore.style = prefix_underscore
+dotnet_naming_rule.private_members_with_underscore.severity = warning
+
 # Symbol specifications
+
+dotnet_naming_symbols.constant_fields.required_modifiers = const
+dotnet_naming_symbols.constant_fields.applicable_kinds = field
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
@@ -246,6 +291,20 @@ dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, meth
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers =
 
+dotnet_naming_symbols.private_static_fields_symbols.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_fields_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_static_fields_symbols.required_modifiers = static
+dotnet_naming_symbols.private_static_readonly_symbols.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_readonly_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_static_readonly_symbols.required_modifiers = static, readonly
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_symbols.private_constants_symbols.applicable_accessibilities = private
+dotnet_naming_symbols.private_constants_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_constants_symbols.required_modifiers = const
+
 # Naming styles
 
 dotnet_naming_style.pascal_case.required_prefix =
@@ -253,26 +312,68 @@ dotnet_naming_style.pascal_case.required_suffix =
 dotnet_naming_style.pascal_case.word_separator =
 dotnet_naming_style.pascal_case.capitalization = pascal_case
 
+dotnet_naming_style.prefix_underscore.capitalization = camel_case
+dotnet_naming_style.prefix_underscore.required_prefix = _
+
 dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix =
 dotnet_naming_style.begins_with_i.word_separator =
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
+dotnet_naming_style.s_lower_camel_case_style.capitalization = camel_case
+dotnet_naming_style.s_lower_camel_case_style.required_prefix = s_
+
 # Resharper
-resharper_max_formal_parameters_on_line = 6
-resharper_csharp_max_formal_parameters_on_line = 6
+resharper_csharp_align_first_arg_by_paren = false
+resharper_csharp_align_linq_query = false
+resharper_csharp_align_multiline_argument = false
+resharper_csharp_align_multiline_array_and_object_initializer = false
+resharper_csharp_align_multiline_binary_expressions_chain = false
+resharper_csharp_align_multiline_binary_patterns = false
+resharper_csharp_align_multiline_calls_chain = false
+resharper_csharp_align_multiple_declaration = false
+resharper_csharp_align_multiline_expression = false
+resharper_csharp_align_multiline_extends_list = false
+resharper_csharp_align_multiline_for_stmt = false
+resharper_csharp_align_multiline_list_pattern = false
+resharper_csharp_align_multiline_parameter = false
+resharper_csharp_align_multiline_property_pattern = false
+resharper_csharp_align_multiline_statement_conditions = false
+resharper_csharp_align_multiline_switch_expression = false
+resharper_csharp_align_multline_type_parameter_constrains = false
+resharper_csharp_align_multline_type_parameter_list = false
+resharper_csharp_align_tuple_components = false
 resharper_csharp_continuous_indent_multiplier = 1
+resharper_csharp_indent_anonymous_method_block = false
+resharper_csharp_indent_raw_literal_string = indent
+resharper_csharp_max_formal_parameters_on_line = 6
 resharper_csharp_max_invocation_arguments_on_line = 6
+resharper_csharp_outdent_dots = false
+resharper_csharp_trailing_comma_in_multiline_lists = true
+resharper_csharp_trailing_comma_in_singleline_lists = false
 resharper_csharp_wrap_list_pattern = chop_if_long
 
-[*.{cs,vb}]
-dotnet_style_coalesce_expression = true:error
-dotnet_style_null_propagation = true:error
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
-dotnet_style_prefer_auto_properties = true
-dotnet_style_object_initializer = true:suggestion
-dotnet_style_collection_initializer = true
-dotnet_style_operator_placement_when_wrapping = beginning_of_line
-dotnet_style_prefer_collection_expression = when_types_loosely_match:suggestion
-tab_width = 4
-indent_size = 4
+resharper_xmldoc_keep_user_linebreaks = true
+resharper_xmldoc_indent_text = zero_indent
+resharper_xmldoc_max_blank_lines_between_tags = 1
+
+# XML (including XAML)
+[{*.{axaml,config,csproj,manifest,plist,props,targets,xaml,xib,xml}}]
+resharper_xml_attribute_style = do_not_touch
+resharper_xml_pi_attribute_style = do_not_touch
+resharper_xml_space_after_last_pi_attribute = false
+resharper_xml_spaces_around_eq_in_attribute = false
+resharper_xml_space_after_last_attribute = false
+ij_xml_space_inside_empty_tag = true
+resharper_xml_space_before_self_closing = true
+resharper_xml_attribute_indent = single_indent
+resharper_xml_keep_user_linebreaks = true
+resharper_xml_linebreaks_inside_tags_for_multiline_elements = true
+resharper_xml_linebreaks_inside_tags_for_elements_with_child_elements = true
+resharper_xml_linebreaks_inside_tags_for_elements_longer_than = 140
+resharper_xml_spaces_inside_tags = false
+resharper_xml_indent_child_elements = one_indent
+resharper_xml_indent_text = one_indent
+resharper_xml_max_blank_lines_between_tags = 1
+resharper_xml_linebreak_before_multiline_elements = true
+resharper_xml_pi_attributes_indent = single_indent

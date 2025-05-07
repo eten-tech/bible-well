@@ -31,7 +31,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="globalization:CultureInfo">
                     <TextBlock
-                        Text="{Binding NativeName}"/>
+                        Text="{Binding NativeName}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

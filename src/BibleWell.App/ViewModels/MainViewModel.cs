@@ -6,10 +6,12 @@ using CommunityToolkit.Mvvm.Input;
 namespace BibleWell.App.ViewModels;
 
 /// <summary>
-/// View model for use with the <see cref="Views.MainView"/>.
+/// View model for use with the <see cref="Views.MainView" />.
 /// </summary>
 public partial class MainViewModel : ViewModelBase
 {
+    private readonly Router _router;
+
     [ObservableProperty]
     private ViewModelBase _currentPage = null!;
 
@@ -19,14 +21,22 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private MenuItemTemplate? _selectedMenuItem;
 
-    private readonly Router _router;
-
     public MainViewModel(Router router)
     {
         _router = router;
         _router.CurrentViewModelChanged += OnRouterCurrentViewModelChanged;
         _router.GoTo<PageViewModelBase>(MenuItems[0].ViewModelType);
     }
+
+    public static ObservableCollection<MenuItemTemplate> MenuItems { get; } =
+    [
+        new(typeof(HomePageViewModel), "HomeRegular"),
+        new(typeof(BiblePageViewModel), "BookOpenRegular"),
+        new(typeof(GuidePageViewModel), "CompassNorthwestRegular"),
+        new(typeof(ResourcesPageViewModel), "ClipboardRegular"),
+        new(typeof(LibraryPageViewModel), "LibraryRegular"),
+        new(typeof(DevPageViewModel), "WindowDevToolsRegular"),
+    ];
 
     private void OnRouterCurrentViewModelChanged(ViewModelBase vm)
     {
@@ -41,16 +51,6 @@ public partial class MainViewModel : ViewModelBase
 
         CurrentPage = vm;
     }
-
-    public static ObservableCollection<MenuItemTemplate> MenuItems { get; } =
-    [
-        new(typeof(HomePageViewModel), "HomeRegular"),
-        new(typeof(BiblePageViewModel), "BookOpenRegular"),
-        new(typeof(GuidePageViewModel), "CompassNorthwestRegular"),
-        new(typeof(ResourcesPageViewModel), "ClipboardRegular"),
-        new(typeof(LibraryPageViewModel), "LibraryRegular"),
-        new(typeof(DevPageViewModel), "WindowDevToolsRegular"),
-    ];
 
     partial void OnSelectedMenuItemChanged(MenuItemTemplate? value)
     {
