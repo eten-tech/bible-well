@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace BibleWell.Aquifer;
@@ -87,6 +88,37 @@ public class Attributes
 
 public class BibleVerse
 {
+    [JsonConverter(typeof(NumberOrStringToStringConverter))]
     public string StartVerse { get; set; } = "";
+    [JsonConverter(typeof(NumberOrStringToStringConverter))]
     public string EndVerse { get; set; } = "";
+}
+
+public class NumberOrStringToStringConverter : JsonConverter<string>
+{
+    public override string Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return reader.TokenType switch
+            {
+                JsonTokenType.Number => reader.GetInt32().ToString(),
+                JsonTokenType.String => reader.GetString(),
+                JsonTokenType.None => "",
+                JsonTokenType.StartObject => "",
+                JsonTokenType.EndObject => "",
+                JsonTokenType.StartArray => "",
+                JsonTokenType.EndArray => "",
+                JsonTokenType.PropertyName => "",
+                JsonTokenType.Comment => "",
+                JsonTokenType.True => "",
+                JsonTokenType.False => "",
+                JsonTokenType.Null => "",
+                _ => "",
+            } ??
+            string.Empty;
+    }
+
+    public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value);
+    }
 }
