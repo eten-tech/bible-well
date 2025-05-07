@@ -38,6 +38,13 @@
       "ListLanguagesResponse": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "Id",
+          "Code",
+          "EnglishDisplay",
+          "LocalizedDisplay",
+          "ScriptDirection"
+        ],
         "properties": {
           "Id": {
             "type": "integer",

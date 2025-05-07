@@ -1,6 +1,4 @@
 using System.Globalization;
-using System.Net;
-using System.Net.Http.Headers;
 using System.Reflection;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -17,6 +15,7 @@ using BibleWell.App.Views.Components;
 using BibleWell.App.Views.Pages;
 using BibleWell.Aquifer;
 using BibleWell.Aquifer.Api;
+using BibleWell.Aquifer.Api.Helpers;
 using BibleWell.Aquifer.Data;
 using BibleWell.Preferences;
 using CommunityToolkit.Extensions.DependencyInjection;
@@ -26,12 +25,11 @@ using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.ApplicationInsights;
 using Microsoft.Extensions.Options;
 using Polly;
-using Polly.Contrib.WaitAndRetry;
-using Polly.Extensions.Http;
 
 namespace BibleWell.App;
 
@@ -278,20 +276,26 @@ public partial class App : Application, IDisposable
 
         // HTTP clients
         services
-            .AddHttpClient<IReadOnlyAquiferService, AquiferApiService>(client =>
-            {
-                client.BaseAddress = new Uri(configurationOptions.AquiferApiBaseUri);
-                client.DefaultRequestHeaders.UserAgent.Add(
-                    new ProductInfoHeaderValue(
-                        new ProductHeaderValue(
-                            Assembly.GetExecutingAssembly().GetName().Name ?? "",
-                            Assembly.GetExecutingAssembly().GetName().Version?.ToString())));
-                client.DefaultRequestHeaders.Add("api-key", configurationOptions.AquiferApiKey);
-            })
-            .SetHandlerLifetime(TimeSpan.FromMinutes(minutes: 5))
-            .AddPolicyHandler(GetRetryPolicy());
+            .ConfigureHttpClientDefaults(builder => builder
+                .SetHandlerLifetime(TimeSpan.FromMinutes(minutes: 5))
+                .AddStandardResilienceHandler()
+                .Configure(o =>
+                {
+                    o.AttemptTimeout.Timeout = TimeSpan.FromSeconds(value: 30);
+
+                    o.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(60);
+
+                    o.Retry.BackoffType = DelayBackoffType.Exponential;
+                    o.Retry.Delay = TimeSpan.FromSeconds(value: 0.5);
+                    o.Retry.MaxRetryAttempts = 3;
+                    o.Retry.UseJitter = true;
+
+                    o.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(value: 60);
+                }))
+            .AddAquiferWellApiClient(configurationOptions.AquiferApiBaseUri, configurationOptions.AquiferApiKey);
 
         services.AddLocalization(options => options.ResourcesPath = "/Resources");
+
         RegisterPlatformServices(services);
 
         return services
@@ -370,16 +374,8 @@ public partial class App : Application, IDisposable
         }
     }
 
-    private static AsyncPolicy<HttpResponseMessage> GetRetryPolicy()
-    {
-        return HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
-            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(value: 0.5), retryCount: 2));
-    }
-
-    [Singleton(typeof(AquiferApiService), typeof(IReadOnlyAquiferService))]
-    [Singleton(typeof(CachingAquiferService), typeof(ICachingAquiferService))]
+    [Transient(typeof(AquiferApiService), typeof(IReadOnlyAquiferService))]
+    [Transient(typeof(CachingAquiferService), typeof(ICachingAquiferService))]
     [Singleton(typeof(ResourceContentRepository), typeof(ResourceContentRepository))]
     [Singleton(typeof(SqliteAquiferService), typeof(IReadWriteAquiferService))]
     [Singleton(typeof(SqliteDbManager), typeof(SqliteDbManager))]
