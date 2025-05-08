@@ -135,18 +135,7 @@ public partial class App : Application, IDisposable
 
         ConfigureUserPreferences(serviceProvider.GetRequiredService<IUserPreferencesService>());
         
-        // Subscribe to push notification actions
-        // todo refactor into fn
-        if (_pushNotificationActionService != null)
-        {
-            _pushNotificationActionService.ActionTriggered -= NotificationActionTriggered;
-        }
-        
-        _pushNotificationActionService = Ioc.Default.GetService<IPushNotificationActionService>();
-        if (_pushNotificationActionService != null)
-        {
-            _pushNotificationActionService.ActionTriggered += NotificationActionTriggered;
-        }
+        ConfigurePushNotifications();
 
         LoadMainView(isReload);
     }
@@ -160,6 +149,21 @@ public partial class App : Application, IDisposable
             PreferenceKeys.Language,
             Thread.CurrentThread.CurrentUICulture.ThreeLetterISOLanguageName);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo(userLanguage);
+    }
+    
+    private void ConfigurePushNotifications()
+    {
+        // Subscribe to push notification actions
+        if (_pushNotificationActionService != null)
+        {
+            _pushNotificationActionService.ActionTriggered -= NotificationActionTriggered;
+        }
+        
+        _pushNotificationActionService = Ioc.Default.GetService<IPushNotificationActionService>();
+        if (_pushNotificationActionService != null)
+        {
+            _pushNotificationActionService.ActionTriggered += NotificationActionTriggered;
+        }
     }
 
     private void LoadMainView(bool isReload = false)
