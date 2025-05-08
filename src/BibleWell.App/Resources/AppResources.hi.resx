@@ -117,28 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Chilly" xml:space="preserve">
-    <value>Chilly</value>
+  <data name="BiblePage_Title" xml:space="preserve">
+    <value>बाइबिल पृष्ठ</value>
   </data>
-  <data name="Bible" xml:space="preserve">
-    <value>Bible</value>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>रद्द करें</value>
   </data>
-  <data name="Guide" xml:space="preserve">
-    <value>Guide</value>
+  <data name="Common_No" xml:space="preserve">
+    <value>नहीं</value>
   </data>
-  <data name="HomePage" xml:space="preserve">
-    <value>Home Page</value>
+  <data name="Common_OK" xml:space="preserve">
+    <value>ठीक है</value>
   </data>
-  <data name="GuidePage" xml:space="preserve">
-    <value>Guide Page</value>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>हाँ</value>
   </data>
-  <data name="LibraryPage" xml:space="preserve">
-    <value>Library Page</value>
+  <data name="DevPage_Title" xml:space="preserve">
+    <value>डेव पेज</value>
   </data>
-  <data name="ResourcesPage" xml:space="preserve">
-    <value>Resources Page</value>
+  <data name="GuidePage_Title" xml:space="preserve">
+    <value>मार्गदर्शक पृष्ठ</value>
   </data>
-  <data name="DevPage" xml:space="preserve">
-    <value>Dev Page</value>
+  <data name="HomePage_Title" xml:space="preserve">
+    <value>मुख्य पृष्ठ</value>
+  </data>
+  <data name="LibraryPage_Title" xml:space="preserve">
+    <value>पुस्तकालय पृष्ठ</value>
+  </data>
+  <data name="MainView_Menu_Bible" xml:space="preserve">
+    <value>बाइबिल</value>
+  </data>
+  <data name="MainView_Menu_Guide" xml:space="preserve">
+    <value>मार्गदर्शक</value>
+  </data>
+  <data name="MainView_Menu_Resources" xml:space="preserve">
+    <value>संसाधन</value>
+  </data>
+  <data name="ResourcesPage_Title" xml:space="preserve">
+    <value>संसाधन पृष्ठ</value>
+  </data>
+  <data name="Test_Chilly" xml:space="preserve">
+    <value>ठंडा</value>
   </data>
 </root>

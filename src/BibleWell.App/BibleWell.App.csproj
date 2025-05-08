@@ -70,59 +70,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Update="Resources\MainView.resx">
+        <EmbeddedResource Update="Resources\AppResources.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>MainView.Designer.cs</LastGenOutput>
+            <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <Compile Update="Resources\MainView.Designer.cs">
+        <Compile Update="Resources\AppResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
-            <DependentUpon>MainView.resx</DependentUpon>
-        </Compile>
-        <EmbeddedResource Update="Resources\BiblePageView.resx">
-            <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>BiblePageView.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <Compile Update="Resources\BiblePageView.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>BiblePageView.resx</DependentUpon>
-        </Compile>
-        <EmbeddedResource Update="Resources\GuidePageView.resx">
-            <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>GuidePageView.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <Compile Update="Resources\GuidePageView.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>GuidePageView.resx</DependentUpon>
-        </Compile>
-        <EmbeddedResource Update="Resources\DevPageView.resx">
-            <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>DevPageView.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <Compile Update="Resources\DevPageView.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>DevPageView.resx</DependentUpon>
-        </Compile>
-        <EmbeddedResource Update="Resources\LibraryPageView.resx">
-            <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>LibraryPageView.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <Compile Update="Resources\LibraryPageView.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>LibraryPageView.resx</DependentUpon>
-        </Compile>
-        <EmbeddedResource Update="Resources\ResourcesPageView.resx">
-            <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>ResourcesPageView.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <Compile Update="Resources\ResourcesPageView.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>ResourcesPageView.resx</DependentUpon>
+            <DependentUpon>AppResources.resx</DependentUpon>
         </Compile>
     </ItemGroup>
 
