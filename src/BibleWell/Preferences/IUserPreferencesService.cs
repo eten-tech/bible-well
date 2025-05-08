@@ -33,7 +33,7 @@ public interface IUserPreferencesService
     /// </summary>
     /// <typeparam name="T">The type of the object stored for this preference.</typeparam>
     /// <param name="key">The key to retrieve the value for.</param>
-    /// <param name="defaultValue">The default value to return when no existing value for <paramref name="key"/> exists.</param>
-    /// <returns>Value for the given key, or the value in <paramref name="defaultValue"/> if it does not exist.</returns>
+    /// <param name="defaultValue">The default value to return when no existing value for <paramref name="key" /> exists.</param>
+    /// <returns>Value for the given key, or the value in <paramref name="defaultValue" /> if it does not exist.</returns>
     T Get<T>(string key, T defaultValue);
 }

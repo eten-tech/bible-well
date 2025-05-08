@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 namespace BibleWell.App.ViewModels.Pages;
 
 /// <summary>
-/// View model for use with the <see cref="Views.Pages.DevPageView"/>.
+/// View model for use with the <see cref="Views.Pages.DevPageView" />.
 /// </summary>
 public partial class DevPageViewModel(
     IApplicationInfoService _applicationInfoService,
@@ -26,6 +26,9 @@ public partial class DevPageViewModel(
     INotificationRegistrationService _notificationRegistrationService)
     : PageViewModelBase
 {
+    [ObservableProperty]
+    private string _resourceContentHtml = "<p>Click the button to view content.</p>";
+
     public ObservableCollection<InfoItem> ApplicationInfoItems { get; } =
         [.. GetInfoItems(_applicationInfoService.GetType(), _applicationInfoService)];
 
@@ -59,15 +62,12 @@ public partial class DevPageViewModel(
             });
     }
 
-    [ObservableProperty]
-    private string _resourceContentHtml = "<p>Click the button to view content.</p>";
-
     [RelayCommand]
     public async Task LoadResourceContentAsync()
     {
         try
         {
-            var resourceContent = await _readWriteAquiferService.GetResourceContentAsync(1);
+            var resourceContent = await _readWriteAquiferService.GetResourceContentAsync(contentId: 1);
             ResourceContentHtml = resourceContent?.Content ?? "resource not found";
         }
         catch (Exception ex)
@@ -78,39 +78,9 @@ public partial class DevPageViewModel(
     }
 
     [RelayCommand]
-    public void LogTrace()
+    public void LogTestMessage(LogLevel logLevel)
     {
-        _logger.LogDebug("Test trace log message.");
-    }
-
-    [RelayCommand]
-    public void LogDebug()
-    {
-        _logger.LogDebug("Test debug log message.");
-    }
-
-    [RelayCommand]
-    public void LogInformation()
-    {
-        _logger.LogInformation("Test information log message.");
-    }
-
-    [RelayCommand]
-    public void LogWarning()
-    {
-        _logger.LogWarning("Test warning log message.");
-    }
-
-    [RelayCommand]
-    public void LogError()
-    {
-        _logger.LogError("Test error log message.");
-    }
-
-    [RelayCommand]
-    public void LogCritical()
-    {
-        _logger.LogCritical("Test critical log message.");
+        _logger.Log(logLevel, "Test {LogLevel} log message.", logLevel);
     }
 
     [RelayCommand]
@@ -120,30 +90,7 @@ public partial class DevPageViewModel(
     }
 
     [RelayCommand]
-    public void ChangeEnvironmentToDevelopment()
-    {
-        ReloadApplicationInEnvironment("Development");
-    }
-
-    [RelayCommand]
-    public void ChangeEnvironmentToDev()
-    {
-        ReloadApplicationInEnvironment("Dev");
-    }
-
-    [RelayCommand]
-    public void ChangeEnvironmentToQA()
-    {
-        ReloadApplicationInEnvironment("QA");
-    }
-
-    [RelayCommand]
-    public void ChangeEnvironmentToProduction()
-    {
-        ReloadApplicationInEnvironment("Production");
-    }
-
-    private static void ReloadApplicationInEnvironment(string environment)
+    public void ChangeEnvironment(AppEnvironment environment)
     {
         ((App)Application.Current!).ReloadApplication<DevPageViewModel>(environment);
     }

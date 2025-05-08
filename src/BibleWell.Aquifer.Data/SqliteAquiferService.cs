@@ -15,6 +15,7 @@ public sealed class SqliteAquiferService(ResourceContentRepository resourceConte
         {
             return null;
         }
+
         return MapToResourceContent(resourceContent);
     }
 

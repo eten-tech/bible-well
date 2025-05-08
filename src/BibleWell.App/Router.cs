@@ -8,9 +8,9 @@ namespace BibleWell.App;
 /// </summary>
 public sealed class Router
 {
+    private const uint MaxHistorySize = 20;
     private int _currentIndex = -1;
     private List<ViewModelBase> _history = [];
-    private const uint MaxHistorySize = 20;
 
     public bool CanGoBack => _currentIndex > 0;
     public bool CanGoForward => _history.Count > 0 && _currentIndex < _history.Count - 1;
@@ -51,11 +51,11 @@ public sealed class Router
 
     /// <summary>
     /// Navigates to the view associated with the specified view model type.
-    /// If you directly know the type of the view model at compile time, use <see cref="GoTo{T}()"/> instead.
+    /// If you directly know the type of the view model at compile time, use <see cref="GoTo{T}()" /> instead.
     /// </summary>
     /// <typeparam name="TBaseType">The base type of the view model.</typeparam>
     /// <param name="viewModelType">The view model type.</param>
-    /// <returns>The created view model cast to the <typeparamref name="TBaseType"/>.</returns>
+    /// <returns>The created view model cast to the <typeparamref name="TBaseType" />.</returns>
     public TBaseType GoTo<TBaseType>(Type viewModelType) where TBaseType : ViewModelBase
     {
         if (Current?.GetType() == viewModelType)
@@ -105,7 +105,7 @@ public sealed class Router
         // history exceeded the max size
         if (_history.Count > MaxHistorySize)
         {
-            _history.RemoveAt(0);
+            _history.RemoveAt(index: 0);
         }
 
         _currentIndex = _history.Count - 1;

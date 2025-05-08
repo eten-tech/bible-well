@@ -3,7 +3,7 @@
 namespace BibleWell.App.Desktop.Platform;
 
 /// <summary>
-/// A fake implementation of <see cref="IUserPreferencesService"/> that does not store any user preferences.
+/// A fake implementation of <see cref="IUserPreferencesService" /> that does not store any user preferences.
 /// </summary>
 public sealed class DesktopUserPreferencesServices : IUserPreferencesService
 {

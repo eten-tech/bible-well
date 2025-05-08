@@ -6,10 +6,12 @@ using CommunityToolkit.Mvvm.Input;
 namespace BibleWell.App.ViewModels;
 
 /// <summary>
-/// View model for use with the <see cref="Views.MainView"/>.
+/// View model for use with the <see cref="Views.MainView" />.
 /// </summary>
 public partial class MainViewModel : ViewModelBase
 {
+    private readonly Router _router;
+
     [ObservableProperty]
     private ViewModelBase _currentPage = null!;
 
@@ -19,21 +21,11 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private MenuItemTemplate? _selectedMenuItem;
 
-    private readonly Router _router;
-
     public MainViewModel(Router router)
     {
         _router = router;
         _router.CurrentViewModelChanged += OnRouterCurrentViewModelChanged;
         _router.GoTo<PageViewModelBase>(MenuItems[0].ViewModelType);
-    }
-
-    private void OnRouterCurrentViewModelChanged(ViewModelBase vm)
-    {
-        // It's possible for any view model to use the router to navigate to another view model.
-        // Therefore, if the view model changes we need to update the selected menu item.
-        SelectedMenuItem = MenuItems.FirstOrDefault(mi => mi.ViewModelType == vm.GetType());
-        CurrentPage = vm;
     }
 
     public static ObservableCollection<MenuItemTemplate> MenuItems { get; } =
@@ -45,6 +37,20 @@ public partial class MainViewModel : ViewModelBase
         new(typeof(LibraryPageViewModel), "LibraryRegular"),
         new(typeof(DevPageViewModel), "WindowDevToolsRegular"),
     ];
+
+    private void OnRouterCurrentViewModelChanged(ViewModelBase vm)
+    {
+        // It's possible for any view model to use the router to navigate to another view model.
+        // Therefore, if the view model changes we need to update the selected menu item.
+        // It's also possible to navigate to a page not in the menu in which case the selected menu item should remain unchanged.
+        var selectedMenuItem = MenuItems.FirstOrDefault(mi => mi.ViewModelType == vm.GetType());
+        if (selectedMenuItem != null)
+        {
+            SelectedMenuItem = selectedMenuItem;
+        }
+
+        CurrentPage = vm;
+    }
 
     partial void OnSelectedMenuItemChanged(MenuItemTemplate? value)
     {

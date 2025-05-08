@@ -26,7 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\BibleWell.App.Desktop\BibleWell.App.Desktop.csproj" />
+        <ProjectReference Include="..\..\src\BibleWell.App.Desktop\BibleWell.App.Desktop.csproj" />
     </ItemGroup>
 
     <ItemGroup>

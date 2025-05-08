@@ -9,17 +9,18 @@ public sealed class RouterTests
     [Fact]
     public void Router_Navigation_ShouldCorrectlyNavigate()
     {
+        var router = new Router();
+
         // These are the only services needed for the router to work.
         // We don't care about the services being injected into the view models for this test so inject null.
         var services = new ServiceCollection()
-            .AddTransient(_ => new HomePageViewModel(null!))
+            .AddTransient(_ => new HomePageViewModel(router, null!))
             .AddTransient(_ => new BiblePageViewModel())
             .AddTransient(_ => new GuidePageViewModel())
             .AddTransient(_ => new ResourcesPageViewModel(null!));
 
         Ioc.Default.ConfigureServices(services.BuildServiceProvider());
 
-        var router = new Router();
         router.Current.Should().BeNull();
         router.CanGoBack.Should().BeFalse();
         router.CanGoForward.Should().BeFalse();

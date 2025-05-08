@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Reflection;
 using Avalonia;
@@ -26,6 +28,7 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.ApplicationInsights;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
@@ -35,8 +38,15 @@ namespace BibleWell.App;
 
 public partial class App : Application, IDisposable
 {
-    private InMemoryChannel _telemetryChannel = null!;
     private bool _isDisposed;
+    private InMemoryChannel _telemetryChannel = null!;
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
     private IPushNotificationActionService? _pushNotificationActionService;
 
     protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
@@ -66,11 +76,12 @@ public partial class App : Application, IDisposable
 
     /// <summary>
     /// Reloads the application services and configuration.
+    /// Router history will be erased and then the specified <typeparamref name="TViewModel" /> will be loaded.
     /// This should only be done in development/admin mode; no normal users should ever be able to do this.
     /// </summary>
     /// <param name="environmentOverride">The environment to use (this will override any environment variables).</param>
     /// <typeparam name="TViewModel">The view model to which to navigate after the reload.</typeparam>
-    public void ReloadApplication<TViewModel>(string? environmentOverride = null) where TViewModel : ViewModelBase
+    public void ReloadApplication<TViewModel>(AppEnvironment? environmentOverride = null) where TViewModel : ViewModelBase
     {
         ConfigureApplication(environmentOverride, isReload: true);
 
@@ -79,7 +90,22 @@ public partial class App : Application, IDisposable
         router.GoTo<TViewModel>();
     }
 
-    private void ConfigureApplication(string? environmentOverride = null, bool isReload = false)
+    /// <summary>
+    /// Reloads the main view but not the application services and configuration
+    /// (see <see cref="ReloadApplication{TViewModel}" /> for that operation).
+    /// Router history will be erased and then the specified <typeparamref name="TViewModel" /> will be loaded.
+    /// </summary>
+    /// <typeparam name="TViewModel">The view model to which to navigate after the reload.</typeparam>
+    public void ReloadMainView<TViewModel>() where TViewModel : ViewModelBase
+    {
+        LoadMainView(isReload: true);
+
+        var router = Ioc.Default.GetRequiredService<Router>();
+        router.EraseHistory();
+        router.GoTo<TViewModel>();
+    }
+
+    private void ConfigureApplication(AppEnvironment? environmentOverride = null, bool isReload = false)
     {
         if (!isReload)
         {
@@ -88,16 +114,29 @@ public partial class App : Application, IDisposable
 
         var config = ConfigureConfiguration(environmentOverride);
 
-        var serviceProvider = ConfigureServiceProvider(config, isReload);
+        var viewLocator = ConfigureViewLocator();
+        if (isReload)
+        {
+            var previousViewLocator = DataTemplates.Single(dt => dt is ViewLocator);
+            DataTemplates.Remove(previousViewLocator);
+        }
+
+        DataTemplates.Add(viewLocator);
+
+        var serviceProvider = ConfigureServiceProvider(config, viewLocator, isReload);
         if (isReload)
         {
             // If Ioc.Default.ConfigureServices() has already been called previously then we have to hack reset the Ioc
             // because it's not designed for reloading services and throws an exception if you attempt to do so.
             ResetIoc();
         }
+
         Ioc.Default.ConfigureServices(serviceProvider);
 
+        ConfigureUserPreferences(serviceProvider.GetRequiredService<IUserPreferencesService>());
+        
         // Subscribe to push notification actions
+        // todo refactor into fn
         if (_pushNotificationActionService != null)
         {
             _pushNotificationActionService.ActionTriggered -= NotificationActionTriggered;
@@ -109,19 +148,25 @@ public partial class App : Application, IDisposable
             _pushNotificationActionService.ActionTriggered += NotificationActionTriggered;
         }
 
-        var viewLocator = ConfigureViewLocator();
-        if (isReload)
-        {
-            var previousViewLocator = DataTemplates.Single(dt => dt is ViewLocator);
-            DataTemplates.Remove(previousViewLocator);
-        }
-        DataTemplates.Add(viewLocator);
+        LoadMainView(isReload);
+    }
 
-        var userPreferencesService = serviceProvider.GetRequiredService<IUserPreferencesService>();
+    private void ConfigureUserPreferences(IUserPreferencesService userPreferencesService)
+    {
         var userThemeVariant = userPreferencesService.Get(PreferenceKeys.ThemeVariant, "Default");
-        RequestedThemeVariant = new ThemeVariant(userThemeVariant, null);
+        RequestedThemeVariant = new ThemeVariant(userThemeVariant, inheritVariant: null);
 
-        var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
+        var userLanguage = userPreferencesService.Get(
+            PreferenceKeys.Language,
+            Thread.CurrentThread.CurrentUICulture.ThreeLetterISOLanguageName);
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo(userLanguage);
+    }
+
+    private void LoadMainView(bool isReload = false)
+    {
+        var viewLocator = Ioc.Default.GetRequiredService<ViewLocator>();
+
+        var mainViewModel = ViewModelFactory.Create<MainViewModel>();
 
         // The desktop application lifetime is used for the desktop app, testing, and the design view.
         // Don't use DI for the view because there is no directly associated ViewModel.
@@ -131,7 +176,7 @@ public partial class App : Application, IDisposable
             {
                 // Line below is needed to remove Avalonia data validation.
                 // Without this line you will get duplicate validations from both Avalonia and CommunityToolkit.Mvvm.
-                BindingPlugins.DataValidators.RemoveAt(0);
+                BindingPlugins.DataValidators.RemoveAt(index: 0);
 
                 desktop.MainWindow = new MainWindow
                 {
@@ -171,17 +216,18 @@ public partial class App : Application, IDisposable
                 break;
         }
     }
-
-    private IConfiguration ConfigureConfiguration(string? environmentOverride = null)
+    
+    private IConfiguration ConfigureConfiguration(AppEnvironment? environmentOverride = null)
     {
         var configurationBuilder = new ConfigurationBuilder();
 
         var environment = environmentOverride
-            ?? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+                ?.ToString() ??
+            Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
 #if DEBUG
-            ?? "Development";
+            ?? nameof(AppEnvironment.Development);
 #else
-            ?? "Production";
+            ?? nameof(AppEnvironment.Production);
 #endif
 
         using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream("appsettings.json");
@@ -198,11 +244,12 @@ public partial class App : Application, IDisposable
         {
             var appSettingsEmbeddedResourceFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.{appSettingsFileName}";
             var configurationStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(appSettingsEmbeddedResourceFileName);
-            return configurationStream ?? throw new InvalidOperationException($"The embedded resource \"{appSettingsEmbeddedResourceFileName}\" was not found.");
+            return configurationStream ??
+                throw new InvalidOperationException($"The embedded resource \"{appSettingsEmbeddedResourceFileName}\" was not found.");
         }
     }
 
-    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, bool isReload)
+    private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, ViewLocator viewLocator, bool isReload)
     {
         var services = new ServiceCollection();
 
@@ -212,6 +259,7 @@ public partial class App : Application, IDisposable
         services.AddOptions<ConfigurationOptions>().Bind(configuration);
 
         services.AddSingleton(new Router());
+        services.AddSingleton(viewLocator);
 
         // ApplicationInsights and Logging
 
@@ -227,20 +275,20 @@ public partial class App : Application, IDisposable
             DeveloperMode = true,
 #endif
             MaxTelemetryBufferCapacity = 10,
-            SendingInterval = TimeSpan.FromSeconds(30),
+            SendingInterval = TimeSpan.FromSeconds(seconds: 30),
         };
 
         services
             .AddLogging(b =>
             {
 #if DEBUG
-                b.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>(
+                b.AddFilter<ApplicationInsightsLoggerProvider>(
                         "Category",
                         LogLevel.Trace)
                     .SetMinimumLevel(LogLevel.Trace)
                     .AddConsole();
 #else
-                b.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>(
+                b.AddFilter<ApplicationInsightsLoggerProvider>(
                         "Category",
                         LogLevel.Information)
                     .SetMinimumLevel(LogLevel.Information);
@@ -266,20 +314,20 @@ public partial class App : Application, IDisposable
 
         // HTTP clients
         services
-            .AddHttpClient<IReadOnlyAquiferService, AquiferApiService>(
-                client =>
-                {
-                    client.BaseAddress = new Uri(configurationOptions.AquiferApiBaseUri);
-                    client.DefaultRequestHeaders.UserAgent.Add(
-                        new ProductInfoHeaderValue(
-                            new ProductHeaderValue(
-                                Assembly.GetExecutingAssembly().GetName().Name ?? "",
-                                Assembly.GetExecutingAssembly().GetName().Version?.ToString())));
-                    client.DefaultRequestHeaders.Add("api-key", configurationOptions.AquiferApiKey);
-                })
-            .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+            .AddHttpClient<IReadOnlyAquiferService, AquiferApiService>(client =>
+            {
+                client.BaseAddress = new Uri(configurationOptions.AquiferApiBaseUri);
+                client.DefaultRequestHeaders.UserAgent.Add(
+                    new ProductInfoHeaderValue(
+                        new ProductHeaderValue(
+                            Assembly.GetExecutingAssembly().GetName().Name ?? "",
+                            Assembly.GetExecutingAssembly().GetName().Version?.ToString())));
+                client.DefaultRequestHeaders.Add("api-key", configurationOptions.AquiferApiKey);
+            })
+            .SetHandlerLifetime(TimeSpan.FromMinutes(minutes: 5))
             .AddPolicyHandler(GetRetryPolicy());
 
+        services.AddLocalization(options => options.ResourcesPath = "/Resources");
         RegisterPlatformServices(services);
 
         return services
@@ -297,7 +345,7 @@ public partial class App : Application, IDisposable
         }
         else
         {
-            Environment.Exit(0);
+            Environment.Exit(exitCode: 0);
         }
     }
 
@@ -311,12 +359,13 @@ public partial class App : Application, IDisposable
     protected void ResetIoc()
     {
         // Get the serviceProvider private field.
-        var serviceProviderField = typeof(Ioc).GetField("serviceProvider", BindingFlags.NonPublic | BindingFlags.Instance)
-            ?? throw new InvalidOperationException($"Could not retrieve the {nameof(Ioc)}.{nameof(Ioc.Default)}.serviceProvider private field.");
+        var serviceProviderField = typeof(Ioc).GetField("serviceProvider", BindingFlags.NonPublic | BindingFlags.Instance) ??
+            throw new InvalidOperationException(
+                $"Could not retrieve the {nameof(Ioc)}.{nameof(Ioc.Default)}.serviceProvider private field.");
 
         // Set serviceProvider to null on the static Default IOC instance.
         // Note that the serviceProvider field is marked "volatile" but no other thread should be accessing it at this point.
-        serviceProviderField.SetValue(Ioc.Default, null);
+        serviceProviderField.SetValue(Ioc.Default, value: null);
     }
 
     private void LogUnhandledException(Exception ex)
@@ -343,12 +392,6 @@ public partial class App : Application, IDisposable
         };
     }
 
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
     protected virtual void Dispose(bool disposing)
     {
         if (!_isDisposed)
@@ -373,8 +416,8 @@ public partial class App : Application, IDisposable
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
-            .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromSeconds(0.5), retryCount: 2));
+            .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(value: 0.5), retryCount: 2));
     }
 
     [Singleton(typeof(AquiferApiService), typeof(IReadOnlyAquiferService))]
@@ -393,6 +436,7 @@ public partial class App : Application, IDisposable
     [Transient(typeof(DevPageViewModel))]
     [Transient(typeof(GuidePageViewModel))]
     [Transient(typeof(HomePageViewModel))]
+    [Transient(typeof(LanguagesPageViewModel))]
     [Transient(typeof(LibraryPageViewModel))]
     [Transient(typeof(ResourcesPageViewModel))]
     private static partial void ConfigureViewModels(IServiceCollection services);
@@ -405,6 +449,7 @@ public partial class App : Application, IDisposable
     [Transient(typeof(DevPageView))]
     [Transient(typeof(GuidePageView))]
     [Transient(typeof(HomePageView))]
+    [Transient(typeof(LanguagesPageView))]
     [Transient(typeof(LibraryPageView))]
     [Transient(typeof(ResourcesPageView))]
     private static partial void ConfigureViews(IServiceCollection services);
@@ -424,6 +469,7 @@ public partial class App : Application, IDisposable
         viewLocator.RegisterViewFactory<DevPageViewModel, DevPageView>();
         viewLocator.RegisterViewFactory<GuidePageViewModel, GuidePageView>();
         viewLocator.RegisterViewFactory<HomePageViewModel, HomePageView>();
+        viewLocator.RegisterViewFactory<LanguagesPageViewModel, LanguagesPageView>();
         viewLocator.RegisterViewFactory<LibraryPageViewModel, LibraryPageView>();
         viewLocator.RegisterViewFactory<ResourcesPageViewModel, ResourcesPageView>();
 

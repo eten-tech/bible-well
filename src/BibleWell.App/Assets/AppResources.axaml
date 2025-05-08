@@ -1,6 +1,6 @@
 <!-- Note that hot reload using HotAvalonia does not work for modifications to this file. -->
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--
     This is an example of how to override the Avalonia fluent theme values.
@@ -23,12 +23,24 @@
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="Bw-IconActiveBrush">DodgerBlue</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-IconInactiveBrush">Gray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-SubtleNeutral">LightSlateGray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Highlight">LightYellow</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-EmphasisNeutral">DarkSlateGray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Danger">Red</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Primary">Blue</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Success">DarkGreen</SolidColorBrush>
             <Color x:Key="Bw-DropShadowEffectColor">Black</Color>
             <Color x:Key="Bw-Transparent">Transparent</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="Bw-IconActiveBrush">DodgerBlue</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-IconInactiveBrush">Gray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-SubtleNeutral">LightSlateGray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-EmphasisNeutral">DarkSlateGray</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Danger">DarkRed</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Highlight">#8A7634</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Primary">SlateBlue</SolidColorBrush>
+            <SolidColorBrush x:Key="Bw-Success">#2E7D32</SolidColorBrush>
             <Color x:Key="Bw-DropShadowEffectColor">Black</Color>
             <Color x:Key="Bw-Transparent">Transparent</Color>
         </ResourceDictionary>

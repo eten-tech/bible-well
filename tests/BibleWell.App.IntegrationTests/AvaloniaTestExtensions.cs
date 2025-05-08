@@ -17,8 +17,8 @@ public static class AvaloniaTestExtensions
     {
         var viewModel = Ioc.Default.GetRequiredService<TViewModel>();
 
-        var viewLocator = application.DataTemplates.SingleOrDefault(dt => dt is ViewLocator) as ViewLocator
-            ?? throw new InvalidOperationException("ViewLocator not found in DataTemplates.");
+        var viewLocator = application.DataTemplates.SingleOrDefault(dt => dt is ViewLocator) as ViewLocator ??
+            throw new InvalidOperationException("ViewLocator not found in DataTemplates.");
 
         var view = viewLocator.Build(viewModel);
 
@@ -32,8 +32,7 @@ public static class AvaloniaTestExtensions
 
         window.Show();
 
-        return view as TView
-            ?? throw new InvalidOperationException($"Unable to build view for {typeof(TViewModel)}.");
+        return view as TView ?? throw new InvalidOperationException($"Unable to build view for {typeof(TViewModel)}.");
     }
 
     public static void ExecuteUiTest(this Control control, Action executeTest, [CallerMemberName] string callerName = "")
@@ -67,16 +66,15 @@ public static class AvaloniaTestExtensions
 
     public static void SaveTestImage(this Control control, string fileName = "", [CallerMemberName] string callerName = "")
     {
-        var window = TopLevel.GetTopLevel(control)
-            ?? throw new InvalidOperationException("Control was not attached to window in headless Avalonia test.");
+        var window = TopLevel.GetTopLevel(control) ??
+            throw new InvalidOperationException("Control was not attached to window in headless Avalonia test.");
 
         SaveTestImage(window, fileName, callerName);
     }
 
     public static void SaveTestImage(this TopLevel topLevel, string fileName = "", [CallerMemberName] string callerName = "")
     {
-        var frame = topLevel.CaptureRenderedFrame()
-            ?? throw new InvalidOperationException("No frame is rendered!");
+        var frame = topLevel.CaptureRenderedFrame() ?? throw new InvalidOperationException("No frame is rendered!");
 
         // Get the following directory: "/tests/{projectDir}/TestResults/{callerName}/"
         var testOutputDirectory = Path.Combine(AppContext.BaseDirectory.Split("bin")[0], $"TestResults/{callerName}/");
@@ -85,7 +83,8 @@ public static class AvaloniaTestExtensions
             Directory.CreateDirectory(testOutputDirectory);
         }
 
-        var testImageFileName = $"{fileName}{(!string.IsNullOrEmpty(fileName) ? "_" : "")}{DateTime.UtcNow:yyyy'-'MM'-'dd'T'HH'_'mm'_'ss'Z'}.png";
+        var testImageFileName =
+            $"{fileName}{(!string.IsNullOrEmpty(fileName) ? "_" : "")}{DateTime.UtcNow:yyyy'-'MM'-'dd'T'HH'_'mm'_'ss'Z'}.png";
 
         frame.Save(Path.Combine(testOutputDirectory, testImageFileName));
     }
@@ -98,8 +97,8 @@ public static class AvaloniaTestExtensions
     {
         if (control.Focus())
         {
-            var topLevel = TopLevel.GetTopLevel(control)
-                ?? throw new InvalidOperationException("Control was not attached to window in headless Avalonia test.");
+            var topLevel = TopLevel.GetTopLevel(control) ??
+                throw new InvalidOperationException("Control was not attached to window in headless Avalonia test.");
 
             topLevel.KeyReleaseQwerty(PhysicalKey.Space, RawInputModifiers.None);
         }
