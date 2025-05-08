@@ -43,8 +43,11 @@ public partial class LanguagesPageViewModel(
         }
 
         _userPreferencesService.Set(PreferenceKeys.Language, value.Name);
-        Thread.CurrentThread.CurrentUICulture = value;
-        ((App)Application.Current!).ReloadMainView<HomePageViewModel>();
+        if (value.Name != Thread.CurrentThread.CurrentUICulture.Name)
+        {
+            Thread.CurrentThread.CurrentUICulture = value;
+            ((App)Application.Current!).ReloadMainView<HomePageViewModel>();
+        }
     }
 
     [RelayCommand]

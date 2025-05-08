@@ -140,8 +140,11 @@ public partial class App : Application, IDisposable
 
         var userLanguage = userPreferencesService.Get(
             PreferenceKeys.Language,
-            Thread.CurrentThread.CurrentUICulture.ThreeLetterISOLanguageName);
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo(userLanguage);
+            Thread.CurrentThread.CurrentUICulture.Name);
+        if (userLanguage != Thread.CurrentThread.CurrentUICulture.Name)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(userLanguage);
+        }
     }
 
     private void LoadMainView(bool isReload = false)
