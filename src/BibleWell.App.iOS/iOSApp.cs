@@ -13,7 +13,7 @@ namespace BibleWell.App.iOS;
 public sealed class iOSApp : App
 #pragma warning restore IDE1006 // Naming Styles
 {
-    protected override void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
+    protected override void ConfigurePlatform(ConfigurationBuilder configurationBuilder, string environment)
     {
     }
 

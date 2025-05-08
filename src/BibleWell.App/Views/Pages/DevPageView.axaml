@@ -104,7 +104,7 @@
         <TextBlock>(will reload application)</TextBlock>
         <Grid
             RowDefinitions="Auto"
-            ColumnDefinitions="*, *, *, *"
+            ColumnDefinitions="*, *, *"
             Margin="0 0 0 10">
             <Grid.Styles>
                 <Style Selector="Button">
@@ -118,25 +118,19 @@
                 Grid.Column="0"
                 Command="{Binding ChangeEnvironment}"
                 CommandParameter="{x:Static app:AppEnvironment.Development}"
-                Content="Local" />
+                Content="{x:Static app:AppEnvironment.Development}" />
             <Button
                 Grid.Row="0"
                 Grid.Column="1"
-                Command="{Binding ChangeEnvironment}"
-                CommandParameter="{x:Static app:AppEnvironment.Dev}"
-                Content="{x:Static app:AppEnvironment.Dev}" />
-            <Button
-                Grid.Row="0"
-                Grid.Column="2"
                 Command="{Binding ChangeEnvironment}"
                 CommandParameter="{x:Static app:AppEnvironment.QA}"
                 Content="{x:Static app:AppEnvironment.QA}" />
             <Button
                 Grid.Row="0"
-                Grid.Column="3"
+                Grid.Column="2"
                 Command="{Binding ChangeEnvironment}"
                 CommandParameter="{x:Static app:AppEnvironment.Production}"
-                Content="Prod" />
+                Content="{x:Static app:AppEnvironment.Production}" />
         </Grid>
 
         <TextBlock Classes="h2">Environment Configuration</TextBlock>
