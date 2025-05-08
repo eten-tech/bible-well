@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
+using BibleWell.PushNotifications;
 
 namespace BibleWell.Aquifer.Api;
 
@@ -39,5 +40,56 @@ public sealed class AquiferApiService(HttpClient _aquiferClient) : IReadOnlyAqui
         public required int Id { get; set; }
         public required string Name { get; set; }
         public required IReadOnlyList<string> Content { get; set; }
+    }
+
+    // --- push notifications ---
+    public async Task<DeviceInstallation?> RegisterDeviceAsync(DeviceInstallation deviceInstallation)
+    {
+        var response = await _aquiferClient.PostAsJsonAsync("push-notifications/device-installation", deviceInstallation).ConfigureAwait(false);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return new DeviceInstallation
+            {
+                InstallationId = deviceInstallation.InstallationId,
+                Platform = deviceInstallation.Platform,
+                PushChannel = deviceInstallation.PushChannel,
+                Tags = deviceInstallation.Tags,
+            };
+        }
+        
+        return null;
+    }
+
+    public async Task DeRegisterDeviceAsync(string deviceId)
+    {
+        await _aquiferClient.DeleteAsync($"push-notifications/device-installation/{deviceId}").ConfigureAwait(false);
+    }
+    
+    // --- demo code for requesting notifications ---
+    public async Task<bool> RequestActionAAsync()
+    {
+        var result = await _aquiferClient.PostAsJsonAsync("push-notifications/requests", new
+        {
+            Text = "Action A notification requested.",
+            Action = "action_a",
+            Tags = (List<object>) [],
+            Silent = true
+        });
+
+        return result.IsSuccessStatusCode;
+    }
+    
+    public async Task<bool> RequestActionBAsync()
+    {
+        var result = await _aquiferClient.PostAsJsonAsync("push-notifications/requests", new
+        {
+            Text = "Action B notification requested.",
+            Action = "action_b",
+            Tags = (List<object>) [],
+            Silent = true
+        });
+
+        return result.IsSuccessStatusCode;
     }
 }

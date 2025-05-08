@@ -17,6 +17,7 @@ using BibleWell.Aquifer;
 using BibleWell.Aquifer.Api;
 using BibleWell.Aquifer.Data;
 using BibleWell.Preferences;
+using BibleWell.PushNotifications;
 using CommunityToolkit.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.ApplicationInsights;
@@ -36,6 +37,7 @@ public partial class App : Application, IDisposable
 {
     private InMemoryChannel _telemetryChannel = null!;
     private bool _isDisposed;
+    private IPushNotificationActionService? _pushNotificationActionService;
 
     protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
     {
@@ -95,6 +97,18 @@ public partial class App : Application, IDisposable
         }
         Ioc.Default.ConfigureServices(serviceProvider);
 
+        // Subscribe to push notification actions
+        if (_pushNotificationActionService != null)
+        {
+            _pushNotificationActionService.ActionTriggered -= NotificationActionTriggered;
+        }
+        
+        _pushNotificationActionService = Ioc.Default.GetService<IPushNotificationActionService>();
+        if (_pushNotificationActionService != null)
+        {
+            _pushNotificationActionService.ActionTriggered += NotificationActionTriggered;
+        }
+
         var viewLocator = ConfigureViewLocator();
         if (isReload)
         {
@@ -135,6 +149,26 @@ public partial class App : Application, IDisposable
             var mainView = viewLocator.Build(mainViewModel);
             mainView.DataContext = mainViewModel;
             singleViewPlatform.MainView = mainView;
+        }
+    }
+
+    private void NotificationActionTriggered(object? sender, ActionEnum action)
+    {
+        // Handle the notification action here
+        System.Diagnostics.Debug.WriteLine($"Notification action triggered: {action}");
+        
+        // You can navigate to different pages based on the action
+        var router = Ioc.Default.GetService<Router>();
+        switch (action)
+        {
+            case ActionEnum.ActionA:
+                router?.GoTo<HomePageViewModel>();
+                break;
+            case ActionEnum.ActionB:
+                router?.GoTo<BiblePageViewModel>();
+                break;
+            default:
+                break;
         }
     }
 
@@ -251,6 +285,7 @@ public partial class App : Application, IDisposable
         return services
             .BuildServiceProvider();
     }
+
     /// <summary>
     /// Shuts down the application.
     /// </summary>
@@ -322,6 +357,12 @@ public partial class App : Application, IDisposable
 
             if (disposing)
             {
+                // Unsubscribe from events
+                if (_pushNotificationActionService != null)
+                {
+                    _pushNotificationActionService.ActionTriggered -= NotificationActionTriggered;
+                }
+                
                 _telemetryChannel.Dispose();
                 _telemetryChannel = null!;
             }
@@ -341,6 +382,7 @@ public partial class App : Application, IDisposable
     [Singleton(typeof(ResourceContentRepository), typeof(ResourceContentRepository))]
     [Singleton(typeof(SqliteAquiferService), typeof(IReadWriteAquiferService))]
     [Singleton(typeof(SqliteDbManager), typeof(SqliteDbManager))]
+    [Singleton(typeof(PushNotificationActionService), typeof(IPushNotificationActionService))]
     private static partial void ConfigureServices(IServiceCollection services);
 
     [Singleton(typeof(MainViewModel))]

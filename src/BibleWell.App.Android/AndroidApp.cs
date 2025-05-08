@@ -2,6 +2,7 @@
 using BibleWell.Devices;
 using BibleWell.Platform.Maui;
 using BibleWell.Preferences;
+using BibleWell.PushNotifications;
 using BibleWell.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,5 +21,7 @@ public sealed class AndroidApp : App
         services.AddSingleton<IDeviceService, AndroidDeviceService>();
         services.AddSingleton<IStorageService, MauiStorageService>();
         services.AddSingleton<IUserPreferencesService, MauiUserPreferencesService>();
+        services.AddSingleton<IDeviceInstallationService, DeviceInstallationService>();
+        services.AddSingleton<INotificationRegistrationService, NotificationRegistrationService>();
     }
 }

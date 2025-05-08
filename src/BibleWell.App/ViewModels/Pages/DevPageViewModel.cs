@@ -4,6 +4,7 @@ using Avalonia;
 using BibleWell.App.Configuration;
 using BibleWell.Aquifer;
 using BibleWell.Devices;
+using BibleWell.PushNotifications;
 using BibleWell.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -21,7 +22,8 @@ public partial class DevPageViewModel(
     IStorageService _storageService,
     IReadWriteAquiferService _readWriteAquiferService,
     IOptions<ConfigurationOptions> _configurationOptions,
-    ILogger<DevPageViewModel> _logger)
+    ILogger<DevPageViewModel> _logger,
+    INotificationRegistrationService _notificationRegistrationService)
     : PageViewModelBase
 {
     public ObservableCollection<InfoItem> ApplicationInfoItems { get; } =
@@ -147,4 +149,40 @@ public partial class DevPageViewModel(
     }
 
     public record InfoItem(string Name, string Value);
+
+    // --- push notifications ---
+    [ObservableProperty]
+    private string _pushText = "";
+    [RelayCommand]
+    public void RegisterDeviceButtonClicked()
+    {
+        _notificationRegistrationService.RegisterDeviceAsync()
+            .ContinueWith((task) => ShowAlert(task.IsFaulted ? task.Exception.Message : $"Device registered"));
+    }
+
+    [RelayCommand]
+    public void DeregisterDeviceButtonClicked()
+    {
+        _notificationRegistrationService.DeregisterDeviceAsync()
+            .ContinueWith((task) => ShowAlert(task.IsFaulted ? task.Exception.Message : $"Device deregistered"));
+    }
+
+    [RelayCommand]
+    public void RequestActionAClicked()
+    {
+        _notificationRegistrationService.RequestActionAAsync()
+            .ContinueWith((task) => ShowAlert(task.IsFaulted ? task.Exception.Message : $"Action A requested"));
+    }
+
+    [RelayCommand]
+    public void RequestActionBClicked()
+    {
+        _notificationRegistrationService.RequestActionBAsync()
+            .ContinueWith((task) => ShowAlert(task.IsFaulted ? task.Exception.Message : $"Action B requested"));
+    }
+
+    private void ShowAlert(string message)
+    {
+        PushText = message;
+    }
 }

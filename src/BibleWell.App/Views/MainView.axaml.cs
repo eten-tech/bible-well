@@ -47,4 +47,16 @@ public partial class MainView : UserControl
             e.Handled = true;
         }
     }
+
+#if ANDROID
+    /// <summary>
+    /// Request permissions for notifications
+    /// </summary>
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        PermissionStatus status = await Permissions.RequestAsync<Permissions.PostNotifications>();
+    }
+#endif
 }
