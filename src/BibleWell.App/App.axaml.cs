@@ -6,6 +6,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
 using BibleWell.App.Configuration;
+using BibleWell.App.Resources;
 using BibleWell.App.Telemetry;
 using BibleWell.App.ViewModels;
 using BibleWell.App.ViewModels.Components;
@@ -100,6 +101,19 @@ public partial class App : Application, IDisposable
         router.GoTo<TViewModel>();
     }
 
+    /// <summary>
+    /// This method does not update user preferences.
+    /// </summary>
+    /// <param name="cultureInfo">The culture to use for the application.</param>
+    public void SetApplicationCulture(CultureInfo cultureInfo)
+    {
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+        Thread.CurrentThread.CurrentCulture = cultureInfo;
+        Thread.CurrentThread.CurrentUICulture = cultureInfo;
+        AppResources.Culture = cultureInfo;
+    }
+
     private void ConfigureApplication(AppEnvironment? environmentOverride = null, bool isReload = false)
     {
         if (!isReload)
@@ -141,9 +155,15 @@ public partial class App : Application, IDisposable
         var userLanguage = userPreferencesService.Get(
             PreferenceKeys.Language,
             Thread.CurrentThread.CurrentUICulture.Name);
-        if (userLanguage != Thread.CurrentThread.CurrentUICulture.Name)
+
+        try
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(userLanguage);
+            var preferredCultureInfo = new CultureInfo(userLanguage);
+            SetApplicationCulture(preferredCultureInfo);
+        }
+        catch (CultureNotFoundException)
+        {
+            userPreferencesService.Remove(PreferenceKeys.Language);
         }
     }
 
