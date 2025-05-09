@@ -41,9 +41,8 @@ public partial class LanguagesPageViewModel(
 
         _userPreferencesService.Set(PreferenceKeys.Language, value.Name);
 
-        var app = (App)Application.Current!;
-        app.SetApplicationCulture(value);
-        app.ReloadMainView<HomePageViewModel>();
+        App.TrySetApplicationCulture(value);
+        ((App)Application.Current!).ReloadMainView<HomePageViewModel>();
     }
 
     [RelayCommand]

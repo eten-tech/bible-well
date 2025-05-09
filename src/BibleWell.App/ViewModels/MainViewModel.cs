@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using BibleWell.App.Resources;
 using BibleWell.App.ViewModels.Pages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -26,6 +27,12 @@ public partial class MainViewModel : ViewModelBase
         _router = router;
         _router.CurrentViewModelChanged += OnRouterCurrentViewModelChanged;
         _router.GoTo<PageViewModelBase>(MenuItems[0].ViewModelType);
+
+        if (!ResourceHelper.IsSupportedCulture(App.GetApplicationCulture()))
+        {
+            // TODO BIB-934 open a modal instead
+            _router.GoTo<LanguagesPageViewModel>();
+        }
     }
 
     public static ObservableCollection<MenuItemTemplate> MenuItems { get; } =

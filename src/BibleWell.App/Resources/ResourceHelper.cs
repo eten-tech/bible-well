@@ -11,6 +11,12 @@ public static class ResourceHelper
     /// </summary>
     public static IReadOnlyList<CultureInfo> SupportedCultures { get; } = GetSupportedCultures();
 
+    public static bool IsSupportedCulture(CultureInfo cultureInfo)
+    {
+        return GetCultureInfoAndAllParents(cultureInfo)
+            .Any(ci => SupportedCultures.Any(sci => sci.Name.Equals(ci.Name, StringComparison.OrdinalIgnoreCase)));
+    }
+
     /// <summary>
     /// Gets all cultures that directly have a resx file (e.g. "en-US", "en-GB", etc.).  If they don't directly have a resx file then
     /// also fall back to the parent culture if it has a resx file (e.g. "en" for both "en-US" and "en-GB", etc.).
@@ -21,24 +27,26 @@ public static class ResourceHelper
 
         return CultureInfo.GetCultures(CultureTypes.AllCultures)
             .Where(cultureInfo => !cultureInfo.Equals(CultureInfo.InvariantCulture))
-            .SelectMany<CultureInfo, CultureInfo>(cultureInfo =>
-            {
-                // We want to check both the culture and the parent culture to see if there are resources.
-                // e.g. "en-US", "en-GB", and "en" could all have unique resource files.
-                try
-                {
-                    var parentCultureInfo = new CultureInfo(cultureInfo.TwoLetterISOLanguageName);
-                    return [cultureInfo, parentCultureInfo];
-                }
-                catch (CultureNotFoundException)
-                {
-                    // there is no supported parent for this culture on this OS
-                    return [cultureInfo];
-                }
-            })
+            .SelectMany(GetCultureInfoAndAllParents)
             .DistinctBy(ci => ci.Name)
             .Where(cultureInfo => rm.GetResourceSet(cultureInfo, createIfNotExists: true, tryParents: false) != null)
             .OrderBy(ci => ci.Name)
             .ToList();
+    }
+
+    /// <summary>
+    /// Tries to get the parent culture for the given culture info.
+    /// Examples:
+    /// * return "en-US" and "en" for "en-US".
+    /// * return "zh-Hans-CN", "zh-Hans", and "zh" for "zh-Hans-CN".
+    /// </summary>
+    private static IEnumerable<CultureInfo> GetCultureInfoAndAllParents(CultureInfo cultureInfo)
+    {
+        yield return cultureInfo;
+        while (!cultureInfo.Parent.Equals(CultureInfo.InvariantCulture))
+        {
+            cultureInfo = cultureInfo.Parent;
+            yield return cultureInfo;
+        }
     }
 }
