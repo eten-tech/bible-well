@@ -236,7 +236,7 @@ public partial class App : Application, IDisposable
 #if DEBUG
             ?? nameof(AppEnvironment.Development);
 #else
-            ?? nameof(AppEnvironment.Production);breakdabuild;
+            ?? nameof(AppEnvironment.Production);
 #endif
 
         using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream(
