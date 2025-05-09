@@ -1,0 +1,36 @@
+{
+  "descriptionHash": "B2A7C183BF489FCFD63DE285BB7B84F41AE81E7AE7776D50FF8CCABA250387B8F2AC8665BCF8C177FC172758609DDEF8EDAAE43F180868BE2C739AF167A35DE5",
+  "descriptionLocation": "v1.json",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "1.25.1",
+  "clientClassName": "AquiferWellApiClient",
+  "typeAccessModifier": "Public",
+  "clientNamespaceName": "BibleWell.Aquifer.API.Client",
+  "language": "CSharp",
+  "usesBackingStore": false,
+  "excludeBackwardCompatible": false,
+  "includeAdditionalData": true,
+  "disableSSLValidation": false,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "text/plain;q=0.9",
+    "application/x-www-form-urlencoded;q=0.2",
+    "multipart/form-data;q=0.1"
+  ],
+  "includePatterns": [],
+  "excludePatterns": [
+    "**/admin/**"
+  ],
+  "disabledValidationRules": []
+}

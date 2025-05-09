@@ -4,6 +4,7 @@ namespace BibleWell.Aquifer;
 
 public interface IReadOnlyAquiferService
 {
+    Task<IReadOnlyList<Language>> GetLanguagesAsync();
     Task<ResourceContent?> GetResourceContentAsync(int contentId);
 
     // todo: rethink this interface and not use default implementations 

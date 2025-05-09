@@ -16,4 +16,9 @@ public static class JsonUtilities
     {
         return JsonSerializer.Deserialize<T>(json, DefaultOptions)!;
     }
+
+    public static string DefaultSerialize(object value)
+    {
+        return JsonSerializer.Serialize(value, DefaultOptions);
+    }
 }

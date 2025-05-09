@@ -44,7 +44,7 @@ public static class DesignData
 
     public static GuidePageViewModel DesignGuidePageViewModel { get; } = new();
     public static HomePageViewModel DesignHomePageViewModel { get; } = new(s_router, A.Fake<IUserPreferencesService>());
-    public static LanguagesPageViewModel DesignLanguagesPageViewModel { get; } = new(s_router, A.Fake<IUserPreferencesService>());
+    public static LanguagesPageViewModel DesignLanguagesPageViewModel { get; } = new(s_router, A.Fake<IUserPreferencesService>(), A.Fake<ICachingAquiferService>());
     public static LibraryPageViewModel DesignLibraryPageViewModel { get; } = new();
     public static ResourcesPageViewModel DesignResourcesPageViewModel { get; } = new(A.Fake<ICachingAquiferService>());
 

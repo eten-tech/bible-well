@@ -32,6 +32,7 @@ jobs:
 
             # Use Release configuration for pre-merge because it doesn't perform expensive optimizations (compared to Release-Optimized).
             - name: Build
+              id: build
               run: dotnet build --no-incremental --configuration Release /p:WarningsAsErrors=true /warnaserror
 
             - name: Test
@@ -39,7 +40,7 @@ jobs:
 
             - name: Test Results
               uses: dorny/test-reporter@v2.0.0
-              if: success() || failure()
+              if: success() || steps.build.conclusion == 'success'
               with:
                 name: Test Results
                 path: tests/**/*.trx
@@ -47,7 +48,7 @@ jobs:
 
             - name: Upload Test Results Artifacts
               uses: actions/upload-artifact@v4.6.1
-              if: success() || failure()
+              if: success() || steps.build.conclusion == 'success'
               with:
                   include-hidden-files: true
                   name: test-results-with-screenshots

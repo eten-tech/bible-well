@@ -12,6 +12,6 @@
     x:Class="BibleWell.App.Views.Pages.BiblePageView"
     x:DataType="vm:Pages.BiblePageViewModel">
 
-    <TextBlock Classes="h2" Text="{x:Static resx:BiblePageView.BiblePage}" />
+    <TextBlock Classes="h2" Text="{x:Static resx:AppResources.BiblePage_Title}" />
 
 </UserControl>
