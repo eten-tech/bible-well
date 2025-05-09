@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using Avalonia;
+using BibleWell.App.Resources;
 using BibleWell.Aquifer;
 using BibleWell.Preferences;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -23,11 +24,7 @@ public partial class LanguagesPageViewModel(
     [ObservableProperty]
     private ObservableCollection<Language> _apiLanguages = [];
 
-    public static ObservableCollection<CultureInfo> SupportedCultureInfos { get; } =
-    [
-        new("en-US"),
-        new("es-ES"),
-    ];
+    public static ObservableCollection<CultureInfo> SupportedCultureInfos { get; } = [.. ResourceHelper.SupportedCultures];
 
     [RelayCommand]
     public void Close()
@@ -43,7 +40,8 @@ public partial class LanguagesPageViewModel(
         }
 
         _userPreferencesService.Set(PreferenceKeys.Language, value.Name);
-        Thread.CurrentThread.CurrentUICulture = value;
+
+        App.TrySetApplicationCulture(value);
         ((App)Application.Current!).ReloadMainView<HomePageViewModel>();
     }
 

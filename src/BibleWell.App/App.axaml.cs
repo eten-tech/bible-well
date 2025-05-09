@@ -6,6 +6,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
 using BibleWell.App.Configuration;
+using BibleWell.App.Resources;
 using BibleWell.App.Telemetry;
 using BibleWell.App.ViewModels;
 using BibleWell.App.ViewModels.Components;
@@ -100,6 +101,39 @@ public partial class App : Application, IDisposable
         router.GoTo<TViewModel>();
     }
 
+    /// <summary>
+    /// This method does not update user preferences.
+    /// </summary>
+    /// <param name="cultureInfo">The culture to use for the application.</param>
+    /// <returns><c>true</c> if the culture is supported, <c>false</c> otherwise.</returns>
+    public static bool TrySetApplicationCulture(CultureInfo cultureInfo)
+    {
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+        Thread.CurrentThread.CurrentCulture = cultureInfo;
+        Thread.CurrentThread.CurrentUICulture = cultureInfo;
+        AppResources.Culture = cultureInfo;
+
+        var isSupportedCulture = ResourceHelper.IsSupportedCulture(cultureInfo);
+        if (!isSupportedCulture)
+        {
+            var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+            logger.LogWarning(
+                "The user's culture '{Culture}' is not supported.  Defaulting to 'en' as display language.",
+                cultureInfo.Name);
+        }
+        
+        return isSupportedCulture;
+    }
+
+    /// <summary>
+    /// Gets the current application culture as set by either the OS or our language selection logic.
+    /// </summary>
+    public static CultureInfo GetApplicationCulture()
+    {
+        return Thread.CurrentThread.CurrentUICulture;
+    }
+
     private void ConfigureApplication(AppEnvironment? environmentOverride = null, bool isReload = false)
     {
         if (!isReload)
@@ -133,6 +167,10 @@ public partial class App : Application, IDisposable
         LoadMainView(isReload);
     }
 
+    /// <summary>
+    /// Configures the application based upon the user's previously saved preferences.
+    /// </summary>
+    /// <returns>The view model type to load as the first page.</returns>
     private void ConfigureUserPreferences(IUserPreferencesService userPreferencesService)
     {
         var userThemeVariant = userPreferencesService.Get(PreferenceKeys.ThemeVariant, "Default");
@@ -140,8 +178,17 @@ public partial class App : Application, IDisposable
 
         var userLanguage = userPreferencesService.Get(
             PreferenceKeys.Language,
-            Thread.CurrentThread.CurrentUICulture.ThreeLetterISOLanguageName);
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo(userLanguage);
+            GetApplicationCulture().Name);
+
+        try
+        {
+            var preferredCultureInfo = new CultureInfo(userLanguage);
+            TrySetApplicationCulture(preferredCultureInfo);
+        }
+        catch (CultureNotFoundException)
+        {
+            userPreferencesService.Remove(PreferenceKeys.Language);
+        }
     }
 
     private void LoadMainView(bool isReload = false)
