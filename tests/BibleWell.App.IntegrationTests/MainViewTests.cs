@@ -4,6 +4,7 @@ using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Styling;
 using BibleWell.App.ViewModels;
+using BibleWell.App.ViewModels.Pages;
 using BibleWell.App.Views;
 using BibleWell.App.Views.Pages;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -66,9 +67,15 @@ public sealed class MainViewTests
     {
         // create a MainView in a test window (does not use MainWindow).
         var mainView = Application.Current!.GetTestView<MainViewModel, MainView>();
+        var homePageView = Application.Current!.GetTestView<HomePageViewModel, HomePageView>();
 
         await mainView.ExecuteUiTestAsync(async () =>
         {
+
+            mainView.BottomNavBorder.BorderThickness.Should().BeEquivalentTo(new Thickness(0), "there should be no nav border when app is first opened");
+
+            homePageView.UseDefaultExperience.TestClick();
+
             // Ideally this would click on the window instead, but it's not clear how to click a certain list item in the view.
             mainView.MenuItemsListBox.SelectedIndex = 3;
 
