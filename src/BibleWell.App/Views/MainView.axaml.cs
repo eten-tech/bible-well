@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using BibleWell.App.ViewModels;
@@ -11,22 +9,6 @@ public partial class MainView : UserControl
     public MainView()
     {
         InitializeComponent();
-        DataContextChanged += (_, _) =>
-        {
-            if (DataContext is MainViewModel vm)
-            {
-                vm.PropertyChanged += Vm_PropertyChanged;
-            }
-        };
-    }
-
-    private void Vm_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        // Activate the line above the menu
-        if (sender is MainViewModel vm && e.PropertyName == nameof(vm.NavMenuVisible))
-        {
-            BottomNavBorder.BorderThickness = vm.NavMenuVisible ? new Thickness(0, 1, 0, 0) : new Thickness(0);
-        }
     }
 
     /// <summary>

@@ -13,6 +13,14 @@
     x:DataType="vm:MainViewModel">
 
     <Grid RowDefinitions="*, Auto">
+        <Grid.Styles>
+            <Style Selector="Border.visibleBorder">
+                <Setter Property="Margin" Value="0, 1, 0, 0" />
+            </Style>
+            <Style Selector="Border.notVisibleBorder">
+                <Setter Property="Margin" Value="0" />
+            </Style>
+        </Grid.Styles>
 
         <!-- Page Content -->
         <Border Grid.Row="0">
@@ -22,7 +30,8 @@
         </Border>
 
         <!-- Bottom Navigation -->
-        <Border Name="BottomNavBorder" Grid.Row="1" BorderBrush="{DynamicResource Bw-SubtleNeutral}" ClipToBounds="False">
+        <Border Name="BottomNavBorder" Grid.Row="1" BorderBrush="{DynamicResource Bw-SubtleNeutral}" ClipToBounds="False"
+            Classes.visibleBorder="{Binding NavMenuVisible}" Classes.notVisibleBorder="{Binding !NavMenuVisible}">
             <ListBox
                 Name="MenuItemsListBox"
                 ItemsSource="{Binding MenuItems}"
