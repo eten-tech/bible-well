@@ -46,7 +46,7 @@ public partial class MainViewModel : ViewModelBase
         _userPreferencesService = userPreferencesService;
         Experience = (AppExperience)userPreferencesService.Get(PreferenceKeys.Experience, (int)AppExperience.None);
         InitializeMenuItems();
-        // This is where we'd have the router go to the "First Time User Welcome" page (BIB-934), since there are no menu items
+        // TODO: This is where we'd have the router go to the "First Time User Welcome" page (BIB-934), since there are no menu items
         _router.GoTo<PageViewModelBase>(
             MenuItems.Count == 0
                 ? new MenuItemTemplate(typeof(HomePageViewModel), "HomeRegular").ViewModelType
@@ -95,10 +95,9 @@ public partial class MainViewModel : ViewModelBase
                 MenuItems.Add(new MenuItemTemplate(typeof(GuidePageViewModel), "CompassNorthwestRegular"));
                 MenuItems.Add(new MenuItemTemplate(typeof(ResourcesPageViewModel), "ClipboardRegular"));
                 break;
-            // disable below because there are compiler errors when it goes out
-            // ReSharper disable once RedundantEmptySwitchSection
+            // TODO: This should go to the Welcome Page and log an error BIB-934
             default:
-                break;
+                throw new NotImplementedException();
         }
     }
 
