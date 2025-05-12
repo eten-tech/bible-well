@@ -1,30 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Styling;
-using BibleWell.Preferences;
-using CommunityToolkit.Mvvm.Input;
-
-namespace BibleWell.App.ViewModels.Pages;
+﻿namespace BibleWell.App.ViewModels.Pages;
 
 /// <summary>
 /// View model for use with the <see cref="Views.Pages.HomePageView" />.
 /// </summary>
-public partial class HomePageViewModel(Router _router, IUserPreferencesService _userPreferencesService) : PageViewModelBase
+public partial class HomePageViewModel() : PageViewModelBase
 {
-    [RelayCommand]
-    public void ChangeTheme()
-    {
-        var newThemeVariant = Application.Current!.ActualThemeVariant == ThemeVariant.Dark
-            ? ThemeVariant.Light
-            : ThemeVariant.Dark;
-
-        Application.Current!.RequestedThemeVariant = newThemeVariant;
-
-        _userPreferencesService.Set(PreferenceKeys.ThemeVariant, newThemeVariant.ToString());
-    }
-
-    [RelayCommand]
-    public void ChangeLanguage()
-    {
-        _router.GoTo<LanguagesPageViewModel>();
-    }
+    
 }

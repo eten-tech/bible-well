@@ -12,23 +12,153 @@
     d:DataContext="{x:Static vm:DesignData.DesignHomePageViewModel}"
     x:DataType="vm:Pages.HomePageViewModel">
 
-    <StackPanel>
-        <TextBlock
-            Classes="h2"
-            Text="{x:Static resx:AppResources.HomePage_Title}" />
-        <TextBlock
-            Text="{x:Static resx:AppResources.Test_Chilly}" />
-        <Button
-            Name="ChangeThemeButton"
-            Command="{Binding ChangeTheme}"
-            Margin="0 0 0 10">
-            Change Theme (TODO localize)
-        </Button>
-        <Button
-            Name="ChangeLanguageButton"
-            Command="{Binding ChangeLanguage}">
-            Change Language (TODO localize)
-        </Button>
-    </StackPanel>
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollViewer>
+            <StackPanel>
+                <Image
+                    Source="/Resources/Images/Bible Well_2 Color_PRIMARY_Stack.png"
+                    Margin="30 40 30 50"
+                    Stretch="UniformToFill"/>
+                <TextBlock
+                    Text="Current Experience: FIA (SRV)"
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Margin="0 0 0 10"/>
+                <Button
+                    HorizontalAlignment="Center"
+                    BorderBrush="LightGray"
+                    BorderThickness="2"
+                    Padding="70 10 70 10"
+                    Margin="0 0 0 25">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            HorizontalAlignment="Center">
+                            Icon
+                        </TextBlock>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Padding="10 0 0 0">
+                            Change Experience
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                
+                        <Button 
+                            Grid.Row="0" 
+                            Grid.Column="0" 
+                            HorizontalAlignment="Center"
+                            BorderBrush="LightGray"
+                            BorderThickness="2"
+                            Margin="10"
+                            Width="150"
+                            >
+                            <StackPanel >
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Padding="0 10">
+                                    Icon
+                                </TextBlock>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Padding="0 10">
+                                    Profile
+                                </TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button 
+                            Grid.Row="0" 
+                            Grid.Column="1" 
+                            HorizontalAlignment="Center"
+                            BorderBrush="LightGray"
+                            BorderThickness="2"
+                            Margin="10"
+                            Width="150"
+                        >
+                            <StackPanel >
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Padding="0 10">
+                                    Icon
+                                </TextBlock>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Padding="0 10">
+                                    Resource Manager
+                                </TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button 
+                            Grid.Row="1" 
+                            Grid.Column="0" 
+                            HorizontalAlignment="Center"
+                            BorderBrush="LightGray"
+                            BorderThickness="2"
+                            Margin="10"
+                            Width="150"
+                        >
+                            <StackPanel >
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Padding="0 10">
+                                    Icon
+                                </TextBlock>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Padding="0 10">
+                                    Profile
+                                </TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button 
+                            Grid.Row="1" 
+                            Grid.Column="1" 
+                            HorizontalAlignment="Center"
+                            BorderBrush="LightGray"
+                            BorderThickness="2"
+                            Margin="10"
+                            Width="150"
+                        >
+                            <StackPanel >
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Padding="0 10">
+                                    Icon
+                                </TextBlock>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Padding="0 10">
+                                    Profile
+                                </TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+    
 
 </UserControl>

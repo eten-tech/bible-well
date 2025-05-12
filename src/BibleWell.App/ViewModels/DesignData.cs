@@ -38,10 +38,11 @@ public static class DesignData
         A.Fake<IStorageService>(),
         A.Fake<IReadWriteAquiferService>(),
         A.Fake<IOptions<ConfigurationOptions>>(),
-        A.Fake<ILogger<DevPageViewModel>>());
+        A.Fake<ILogger<DevPageViewModel>>(),
+        s_router, A.Fake<IUserPreferencesService>());
 
     public static GuidePageViewModel DesignGuidePageViewModel { get; } = new();
-    public static HomePageViewModel DesignHomePageViewModel { get; } = new(s_router, A.Fake<IUserPreferencesService>());
+    public static HomePageViewModel DesignHomePageViewModel { get; } = new();
     public static LanguagesPageViewModel DesignLanguagesPageViewModel { get; } = new(s_router, A.Fake<IUserPreferencesService>(), A.Fake<ICachingAquiferService>());
     public static LibraryPageViewModel DesignLibraryPageViewModel { get; } = new();
     public static ResourcesPageViewModel DesignResourcesPageViewModel { get; } = new(A.Fake<ICachingAquiferService>());
