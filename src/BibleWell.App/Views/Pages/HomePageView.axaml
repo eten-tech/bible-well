@@ -6,7 +6,7 @@
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
     xmlns:resx="clr-namespace:BibleWell.App.Resources"
     mc:Ignorable="d"
-    d:DesignWidth="492"
+    d:DesignWidth="492"    
     d:DesignHeight="960"
     x:Class="BibleWell.App.Views.Pages.HomePageView"
     d:DataContext="{x:Static vm:DesignData.DesignHomePageViewModel}"
@@ -26,26 +26,28 @@
                     Margin="30 40 30 50"
                     Stretch="UniformToFill"/>
                 <TextBlock
-                    Text="Current Experience: FIA (SRV)"
+                    Text="{x:Static resx:AppResources.HomePage_CurrentExperience}"
                     HorizontalAlignment="Center"
                     FontSize="14"
                     FontWeight="Bold"
                     Margin="0 0 0 10"/>
                 <Button
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    Background="{DynamicResource Bw-Transparent}"
                     BorderBrush="LightGray"
                     BorderThickness="2"
-                    Padding="70 10 70 10"
-                    Margin="0 0 0 25">
-                    <StackPanel Orientation="Horizontal">
+                    Margin="40 0 40 25">
+                    <StackPanel 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
                         <TextBlock
                             HorizontalAlignment="Center">
                             Icon
                         </TextBlock>
                         <TextBlock
                             HorizontalAlignment="Center"
-                            Padding="10 0 0 0">
-                            Change Experience
+                            Padding="10 0 0 0"
+                            Text="{x:Static resx:AppResources.HomePage_ChangeExperience}">
                         </TextBlock>
                     </StackPanel>
                 </Button>
@@ -63,6 +65,7 @@
                             Grid.Row="0" 
                             Grid.Column="0" 
                             HorizontalAlignment="Center"
+                            Background="{DynamicResource Bw-Transparent}"
                             BorderBrush="LightGray"
                             BorderThickness="2"
                             Margin="10"
@@ -78,21 +81,22 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     FontSize="12"
-                                    Padding="0 10">
-                                    Profile
+                                    Padding="0 10"
+                                    Text="{x:Static resx:AppResources.HomePage_Profile}">
                                 </TextBlock>
                             </StackPanel>
                         </Button>
                         <Button 
                             Grid.Row="0" 
-                            Grid.Column="1" 
+                            Grid.Column="1"
                             HorizontalAlignment="Center"
+                            Background="{DynamicResource Bw-Transparent}"
                             BorderBrush="LightGray"
                             BorderThickness="2"
                             Margin="10"
                             Width="150"
                         >
-                            <StackPanel >
+                            <StackPanel>
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     FontSize="12"
@@ -102,8 +106,8 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     FontSize="12"
-                                    Padding="0 10">
-                                    Resource Manager
+                                    Padding="0 10"
+                                    Text="{x:Static resx:AppResources.HomePage_ResourceManager}">
                                 </TextBlock>
                             </StackPanel>
                         </Button>
@@ -111,6 +115,7 @@
                             Grid.Row="1" 
                             Grid.Column="0" 
                             HorizontalAlignment="Center"
+                            Background="{DynamicResource Bw-Transparent}"
                             BorderBrush="LightGray"
                             BorderThickness="2"
                             Margin="10"
@@ -126,8 +131,8 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     FontSize="12"
-                                    Padding="0 10">
-                                    Profile
+                                    Padding="0 10" 
+                                    Text="{x:Static resx:AppResources.HomePage_Feedback}">
                                 </TextBlock>
                             </StackPanel>
                         </Button>
@@ -135,6 +140,7 @@
                             Grid.Row="1" 
                             Grid.Column="1" 
                             HorizontalAlignment="Center"
+                            Background="{DynamicResource Bw-Transparent}"
                             BorderBrush="LightGray"
                             BorderThickness="2"
                             Margin="10"
@@ -150,8 +156,9 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     FontSize="12"
-                                    Padding="0 10">
-                                    Profile
+                                    Padding="0 10"
+                                    Text="{x:Static resx:AppResources.HomePage_About}"
+                                    >
                                 </TextBlock>
                             </StackPanel>
                         </Button>
@@ -159,6 +166,4 @@
             </StackPanel>
         </ScrollViewer>
     </Grid>
-    
-
 </UserControl>
