@@ -46,16 +46,11 @@ public partial class MainViewModel : ViewModelBase
         _userPreferencesService = userPreferencesService;
         Experience = (AppExperience)userPreferencesService.Get(PreferenceKeys.Experience, 0);
         InitializeMenuItems();
-        if (MenuItems.Count == 0)
-        {
-            NavMenuVisible = false;
-            // This is where we'd have the router go to the "First Time User Welcome" page (BIB-934), since there are no menu items
-            _router.GoTo<PageViewModelBase>(new MenuItemTemplate(typeof(HomePageViewModel), "HomeRegular").ViewModelType);
-        }
-        else
-        {
-            _router.GoTo<PageViewModelBase>(MenuItems[0].ViewModelType);
-        }
+        // This is where we'd have the router go to the "First Time User Welcome" page (BIB-934), since there are no menu items
+        _router.GoTo<PageViewModelBase>(
+            MenuItems.Count == 0
+                ? new MenuItemTemplate(typeof(HomePageViewModel), "HomeRegular").ViewModelType
+                : MenuItems[0].ViewModelType);
 
         if (!ResourceHelper.IsSupportedCulture(App.GetApplicationCulture()))
         {
@@ -82,6 +77,7 @@ public partial class MainViewModel : ViewModelBase
         switch (Experience)
         {
             case AppExperience.None:
+                NavMenuVisible = false;
                 break;
             case AppExperience.Default:
                 NavMenuVisible = true;
