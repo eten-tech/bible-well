@@ -43,18 +43,4 @@ public static class FuncValueConverters
 
                 return null;
             });
-
-    public static FuncValueConverter<string?, DrawingBrush?> StringToDrawingBrushConverter { get; } =
-        new(
-            iconName =>
-            {
-                if (iconName != null &&
-                    Application.Current?.TryGetResource(iconName, out var resource) == true &&
-                    resource is DrawingBrush icon)
-                {
-                    return icon;
-                }
-
-                return null;
-            });
 }
