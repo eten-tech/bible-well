@@ -18,7 +18,7 @@ public partial class MenuItemTemplate(Type viewModelType, string iconName, bool 
         : throw new ArgumentException($"Type must derive from {nameof(PageViewModelBase)}.", nameof(viewModelType));
     public string IconName { get; } = iconName;
 
-    public string? IconNameInactive { get; } = iconNameInactive;
+    public string? IconNameInactive { get; } = iconNameInactive ?? iconName;
     public bool IsSvg { get; } = isSvg;
     public bool ShowActiveIndicator => IsSvg && IsSelected;
     public bool ShowInactiveIndicator => IsSvg && !IsSelected;
