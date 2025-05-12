@@ -1,6 +1,4 @@
 using System.Globalization;
-using System.Net;
-using System.Net.Http.Headers;
 using System.Reflection;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -8,6 +6,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
 using BibleWell.App.Configuration;
+using BibleWell.App.Resources;
 using BibleWell.App.Telemetry;
 using BibleWell.App.ViewModels;
 using BibleWell.App.ViewModels.Components;
@@ -17,6 +16,7 @@ using BibleWell.App.Views.Components;
 using BibleWell.App.Views.Pages;
 using BibleWell.Aquifer;
 using BibleWell.Aquifer.Api;
+using BibleWell.Aquifer.Api.Helpers;
 using BibleWell.Aquifer.Data;
 using BibleWell.Preferences;
 using CommunityToolkit.Extensions.DependencyInjection;
@@ -26,12 +26,11 @@ using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.ApplicationInsights;
 using Microsoft.Extensions.Options;
 using Polly;
-using Polly.Contrib.WaitAndRetry;
-using Polly.Extensions.Http;
 
 namespace BibleWell.App;
 
@@ -46,7 +45,7 @@ public partial class App : Application, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder)
+    protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder, string environment)
     {
         throw new NotImplementedException("This method must be implemented in platform-specific projects.");
     }
@@ -102,6 +101,39 @@ public partial class App : Application, IDisposable
         router.GoTo<TViewModel>();
     }
 
+    /// <summary>
+    /// This method does not update user preferences.
+    /// </summary>
+    /// <param name="cultureInfo">The culture to use for the application.</param>
+    /// <returns><c>true</c> if the culture is supported, <c>false</c> otherwise.</returns>
+    public static bool TrySetApplicationCulture(CultureInfo cultureInfo)
+    {
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+        Thread.CurrentThread.CurrentCulture = cultureInfo;
+        Thread.CurrentThread.CurrentUICulture = cultureInfo;
+        AppResources.Culture = cultureInfo;
+
+        var isSupportedCulture = ResourceHelper.IsSupportedCulture(cultureInfo);
+        if (!isSupportedCulture)
+        {
+            var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+            logger.LogWarning(
+                "The user's culture '{Culture}' is not supported.  Defaulting to 'en' as display language.",
+                cultureInfo.Name);
+        }
+        
+        return isSupportedCulture;
+    }
+
+    /// <summary>
+    /// Gets the current application culture as set by either the OS or our language selection logic.
+    /// </summary>
+    public static CultureInfo GetApplicationCulture()
+    {
+        return Thread.CurrentThread.CurrentUICulture;
+    }
+
     private void ConfigureApplication(AppEnvironment? environmentOverride = null, bool isReload = false)
     {
         if (!isReload)
@@ -135,6 +167,10 @@ public partial class App : Application, IDisposable
         LoadMainView(isReload);
     }
 
+    /// <summary>
+    /// Configures the application based upon the user's previously saved preferences.
+    /// </summary>
+    /// <returns>The view model type to load as the first page.</returns>
     private void ConfigureUserPreferences(IUserPreferencesService userPreferencesService)
     {
         var userThemeVariant = userPreferencesService.Get(PreferenceKeys.ThemeVariant, "Default");
@@ -142,8 +178,17 @@ public partial class App : Application, IDisposable
 
         var userLanguage = userPreferencesService.Get(
             PreferenceKeys.Language,
-            Thread.CurrentThread.CurrentUICulture.ThreeLetterISOLanguageName);
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo(userLanguage);
+            GetApplicationCulture().Name);
+
+        try
+        {
+            var preferredCultureInfo = new CultureInfo(userLanguage);
+            TrySetApplicationCulture(preferredCultureInfo);
+        }
+        catch (CultureNotFoundException)
+        {
+            userPreferencesService.Remove(PreferenceKeys.Language);
+        }
     }
 
     private void LoadMainView(bool isReload = false)
@@ -194,23 +239,27 @@ public partial class App : Application, IDisposable
             ?? nameof(AppEnvironment.Production);
 #endif
 
-        using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream("appsettings.json");
+        using var globalConfigurationSettingsFileStream = GetAppSettingsFileStream(
+            Assembly.GetExecutingAssembly(), 
+            "appsettings.json");
         configurationBuilder.AddJsonStream(globalConfigurationSettingsFileStream);
 
-        using var environmentConfigurationSettingsFileStream = GetAppSettingsFileStream($"appsettings.{environment}.json");
+        using var environmentConfigurationSettingsFileStream = GetAppSettingsFileStream(
+            Assembly.GetExecutingAssembly(),
+            $"appsettings.{environment}.json");
         configurationBuilder.AddJsonStream(environmentConfigurationSettingsFileStream);
 
-        ConfigurePlatform(configurationBuilder);
+        ConfigurePlatform(configurationBuilder, environment);
 
         return configurationBuilder.Build();
+    }
 
-        static Stream GetAppSettingsFileStream(string appSettingsFileName)
-        {
-            var appSettingsEmbeddedResourceFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.{appSettingsFileName}";
-            var configurationStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(appSettingsEmbeddedResourceFileName);
-            return configurationStream ??
-                throw new InvalidOperationException($"The embedded resource \"{appSettingsEmbeddedResourceFileName}\" was not found.");
-        }
+    protected static Stream GetAppSettingsFileStream(Assembly assembly, string appSettingsFileName)
+    {
+        var appSettingsEmbeddedResourceFileName = $"{assembly.GetName().Name}.{appSettingsFileName}";
+        var configurationStream = assembly.GetManifestResourceStream(appSettingsEmbeddedResourceFileName);
+        return configurationStream ??
+            throw new InvalidOperationException($"The embedded resource \"{appSettingsEmbeddedResourceFileName}\" was not found.");
     }
 
     private ServiceProvider ConfigureServiceProvider(IConfiguration configuration, ViewLocator viewLocator, bool isReload)
@@ -278,20 +327,26 @@ public partial class App : Application, IDisposable
 
         // HTTP clients
         services
-            .AddHttpClient<IReadOnlyAquiferService, AquiferApiService>(client =>
-            {
-                client.BaseAddress = new Uri(configurationOptions.AquiferApiBaseUri);
-                client.DefaultRequestHeaders.UserAgent.Add(
-                    new ProductInfoHeaderValue(
-                        new ProductHeaderValue(
-                            Assembly.GetExecutingAssembly().GetName().Name ?? "",
-                            Assembly.GetExecutingAssembly().GetName().Version?.ToString())));
-                client.DefaultRequestHeaders.Add("api-key", configurationOptions.AquiferApiKey);
-            })
-            .SetHandlerLifetime(TimeSpan.FromMinutes(minutes: 5))
-            .AddPolicyHandler(GetRetryPolicy());
+            .ConfigureHttpClientDefaults(builder => builder
+                .SetHandlerLifetime(TimeSpan.FromMinutes(minutes: 5))
+                .AddStandardResilienceHandler()
+                .Configure(o =>
+                {
+                    o.AttemptTimeout.Timeout = TimeSpan.FromSeconds(value: 30);
+
+                    o.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(60);
+
+                    o.Retry.BackoffType = DelayBackoffType.Exponential;
+                    o.Retry.Delay = TimeSpan.FromSeconds(value: 0.5);
+                    o.Retry.MaxRetryAttempts = 3;
+                    o.Retry.UseJitter = true;
+
+                    o.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(value: 60);
+                }))
+            .AddAquiferWellApiClient(configurationOptions.AquiferApiBaseUri, configurationOptions.AquiferApiKey);
 
         services.AddLocalization(options => options.ResourcesPath = "/Resources");
+
         RegisterPlatformServices(services);
 
         return services
@@ -370,16 +425,8 @@ public partial class App : Application, IDisposable
         }
     }
 
-    private static AsyncPolicy<HttpResponseMessage> GetRetryPolicy()
-    {
-        return HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
-            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(value: 0.5), retryCount: 2));
-    }
-
-    [Singleton(typeof(AquiferApiService), typeof(IReadOnlyAquiferService))]
-    [Singleton(typeof(CachingAquiferService), typeof(ICachingAquiferService))]
+    [Transient(typeof(AquiferApiService), typeof(IReadOnlyAquiferService))]
+    [Transient(typeof(CachingAquiferService), typeof(ICachingAquiferService))]
     [Singleton(typeof(ResourceContentRepository), typeof(ResourceContentRepository))]
     [Singleton(typeof(SqliteAquiferService), typeof(IReadWriteAquiferService))]
     [Singleton(typeof(SqliteDbManager), typeof(SqliteDbManager))]

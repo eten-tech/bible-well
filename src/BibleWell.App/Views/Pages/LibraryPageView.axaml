@@ -12,6 +12,6 @@
     x:Class="BibleWell.App.Views.Pages.LibraryPageView"
     x:DataType="vm:Pages.LibraryPageViewModel">
 
-    <TextBlock Classes="h2" Text="{x:Static resx:LibraryPageView.LibraryPage}" />
+    <TextBlock Classes="h2" Text="{x:Static resx:AppResources.LibraryPage_Title}" />
 
 </UserControl>

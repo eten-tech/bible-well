@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using BibleWell.App.Resources;
 using BibleWell.App.ViewModels.Pages;
 using BibleWell.Preferences;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -54,6 +55,12 @@ public partial class MainViewModel : ViewModelBase
         else
         {
             _router.GoTo<PageViewModelBase>(MenuItems[0].ViewModelType);
+        }
+
+        if (!ResourceHelper.IsSupportedCulture(App.GetApplicationCulture()))
+        {
+            // TODO BIB-934 open a modal instead
+            _router.GoTo<LanguagesPageViewModel>();
         }
     }
 

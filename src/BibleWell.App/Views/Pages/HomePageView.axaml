@@ -15,9 +15,9 @@
     <StackPanel>
         <TextBlock
             Classes="h2"
-            Text="{x:Static resx:MainView.HomePage}" />
+            Text="{x:Static resx:AppResources.HomePage_Title}" />
         <TextBlock
-            Text="{x:Static resx:MainView.Chilly}" />
+            Text="{x:Static resx:AppResources.Test_Chilly}" />
         <Button
             Name="ChangeThemeButton"
             Command="{Binding ChangeTheme}"

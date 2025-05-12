@@ -156,6 +156,9 @@ Global
 		{F317BA0B-F0E4-4296-3914-63A136AE6A1E} = {E7B33CD9-74EA-4287-A83F-42B9CE97EC49}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_SortFileContentOnSave = True
+		RESX_ConfirmAddLanguageFile = True
+		RESX_AutoCreateNewLanguageFiles = True
 		SolutionGuid = {D34B3E09-1D09-437F-AF13-C71E677DEA6E}
 	EndGlobalSection
 EndGlobal

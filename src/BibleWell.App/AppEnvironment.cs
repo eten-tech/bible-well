@@ -7,7 +7,6 @@
 public enum AppEnvironment
 {
     Development, // AKA Local
-    Dev,
     QA,
     Production, // AKA Prod
 }
