@@ -44,7 +44,7 @@ public partial class MainViewModel : ViewModelBase
         MenuItems = [];
         RegisterExperienceChangedHandler();
         _userPreferencesService = userPreferencesService;
-        Experience = (AppExperience)userPreferencesService.Get(PreferenceKeys.Experience, 0);
+        Experience = (AppExperience)userPreferencesService.Get(PreferenceKeys.Experience, (int)AppExperience.None);
         InitializeMenuItems();
         // This is where we'd have the router go to the "First Time User Welcome" page (BIB-934), since there are no menu items
         _router.GoTo<PageViewModelBase>(
