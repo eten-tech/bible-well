@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
     xmlns:resx="clr-namespace:BibleWell.App.Resources"
+    xmlns:local="clr-namespace:BibleWell;assembly=BibleWell"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
@@ -32,13 +33,15 @@
         <Separator />
         <Button
             Name="UseDefaultExperience"
-            Command="{Binding UseDefaultExperience}">
-            WellIcon (StreamGeometry)
+            Command="{Binding UseExperience}"
+            CommandParameter="{x:Static local:AppExperience.Default}">
+            Default Experience
         </Button>
         <Button
             Name="UseFiaExperience"
-            Command="{Binding UseFiaExperience}">
-            WellIcon (SvgImage)
+            Command="{Binding UseExperience}"
+            CommandParameter="{x:Static local:AppExperience.Fia}">
+            FIA Experience
         </Button>
     </StackPanel>
 

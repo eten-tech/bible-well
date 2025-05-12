@@ -30,16 +30,8 @@ public partial class HomePageViewModel(Router _router, IUserPreferencesService _
     }
 
     [RelayCommand]
-    public void UseDefaultExperience()
+    public void UseExperience(AppExperience experience)
     {
-        _userPreferencesService.Set(PreferenceKeys.Experience, AppExperience.Default);
-        WeakReferenceMessenger.Default.Send(new ExperienceChangedMessage(AppExperience.Default));
-    }
-
-    [RelayCommand]
-    public void UseFiaExperience()
-    {
-        _userPreferencesService.Set(PreferenceKeys.Experience, AppExperience.Fia);
-        WeakReferenceMessenger.Default.Send(new ExperienceChangedMessage(AppExperience.Fia));
+        WeakReferenceMessenger.Default.Send(new ExperienceChangedMessage(experience));
     }
 }
