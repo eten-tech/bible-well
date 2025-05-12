@@ -19,6 +19,33 @@
         <Border Padding="20">
             <StackPanel Spacing="15" Orientation="Vertical">
                 <TextBlock Classes="h2">h2</TextBlock>
+                <TextBlock Classes="h3">h3</TextBlock>
+                <TextBlock Classes="foreground-primary">TextBlock Foreground Primary</TextBlock>
+                <TextBlock Classes="foreground-success">TextBlock Foreground Success</TextBlock>
+                <TextBlock Classes="foreground-secondary">TextBlock foreground secondary</TextBlock>
+                <TextBlock Classes="background-danger">TextBlock background danger</TextBlock>
+                <TextBlock Classes="font-xs" Text="TextBlock font-xs (12)" />
+                <TextBlock Classes="font-sm" Text="TextBlock font-sm (14)" />
+                <TextBlock Classes="font-base" Text="TextBlock font-base (16)" />
+                <TextBlock Classes="font-lg" Text="TextBlock font-lg (18)" />
+                <TextBlock Classes="font-xl" Text="TextBlock font-xl (20)" />
+                <TextBlock Classes="font-2xl" Text="TextBlock font-2xl (24)" />
+                <TextBlock Classes="font-3xl" Text="TextBlock font-3xl (30)" />
+                <TextBlock Classes="font-4xl" Text="TextBlock font-4xl (36)" />
+                <Separator />
+                <Border Classes="tiptap-blockquote-border">
+                    <TextBlock>Tiptap blockquote border</TextBlock>
+                </Border>
+                <Border Classes="tiptap-otn-section-border">
+                    <TextBlock>Tiptap OTN section border</TextBlock>
+                </Border>
+                <Border Classes="tiptap-translation-options-border">
+                    <TextBlock>Tiptap translation options border</TextBlock>
+                </Border>
+                <TextBlock Classes="tiptap-translation-options-header">Tiptap translation options header</TextBlock>
+                <TextBlock Classes="tiptap-otn-default-option">tiptap otn default option</TextBlock>
+                <TextBlock Classes="tiptap-footnote-text-block">Tiptap footnote text block</TextBlock>
+                <TextBlock Classes="tiptap-paragraph">Tiptap paragraph</TextBlock>
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -84,13 +111,13 @@
     <Style Selector="TextBlock.foreground-success">
         <Setter Property="Foreground" Value="{DynamicResource Bw-Success}" />
     </Style>
-    <Style Selector="TextBlock.foreground-gray">
-        <Setter Property="Foreground" Value="{DynamicResource Bw-SubtleNeutral}" />
+    <Style Selector="TextBlock.foreground-secondary">
+        <Setter Property="Foreground" Value="{DynamicResource Bw-Secondary}" />
     </Style>
 
     <!-- BACKGROUND -->
     <Style Selector="TextBlock.background-danger">
-        <Setter Property="Background" Value="{DynamicResource Bw-Danger}" />
+        <Setter Property="Background" Value="{DynamicResource Bw-Error}" />
     </Style>
 
     <!-- FONTS -->
