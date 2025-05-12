@@ -38,14 +38,9 @@ public class NotificationRegistrationService(
     {
         var deviceInstallation = _deviceInstallationService?.GetDeviceInstallation(tags);
 
-        deviceInstallation = await _aquiferApiService.RegisterDeviceAsync(deviceInstallation!);
+        await _aquiferApiService.RegisterDeviceAsync(deviceInstallation!);
 
-        if (deviceInstallation == null)
-        {
-            throw new Exception("Unable to register device.");
-        }
-
-        await SecureStorage.SetAsync(CachedDeviceTokenKey, deviceInstallation.PushChannel)
+        await SecureStorage.SetAsync(CachedDeviceTokenKey, deviceInstallation!.PushChannel)
             .ConfigureAwait(false);
 
         await SecureStorage.SetAsync(CachedTagsKey, JsonSerializer.Serialize(tags));

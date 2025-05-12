@@ -57,53 +57,104 @@ public sealed class AquiferApiService(ILogger<AquiferApiService> _logger, Aquife
     }
 
     // --- push notifications ---
-    public async Task<DeviceInstallation?> RegisterDeviceAsync(DeviceInstallation deviceInstallation)
+    private static CreateDeviceInstallationRequest MapToCreateDeviceInstallationRequest(DeviceInstallation source)
     {
-        var response = await _aquiferClient.PostAsJsonAsync("push-notifications/device-installation", deviceInstallation).ConfigureAwait(false);
-
-        if (response.IsSuccessStatusCode)
+        return new CreateDeviceInstallationRequest()
         {
-            return new DeviceInstallation
-            {
-                InstallationId = deviceInstallation.InstallationId,
-                Platform = deviceInstallation.Platform,
-                PushChannel = deviceInstallation.PushChannel,
-                Tags = deviceInstallation.Tags,
-            };
+            InstallationId = source.InstallationId,
+            Platform = source.Platform,
+            PushChannel = source.PushChannel,
+            Tags = source.Tags,
+        };
+    }
+    
+    public async Task RegisterDeviceAsync(DeviceInstallation deviceInstallation)
+    {
+        try
+        {
+            await _aquiferClient.PushNotifications
+                .DeviceInstallation
+                .PostAsync(MapToCreateDeviceInstallationRequest(deviceInstallation))
+                .ConfigureAwait(false);
         }
-        
-        return null;
+        catch (ErrorResponse ex)
+        {
+            _logger.LogError(ex, "RegisterDeviceAsync failed.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating or updating device installation on Aquifer Well API.");
+            throw;
+        }
     }
 
     public async Task DeRegisterDeviceAsync(string deviceId)
     {
-        await _aquiferClient.DeleteAsync($"push-notifications/device-installation/{deviceId}").ConfigureAwait(false);
+        try
+        {
+            await _aquiferClient.PushNotifications.DeviceInstallation[deviceId].DeleteAsync().ConfigureAwait(false);
+        }
+        catch (ErrorResponse ex)
+        {
+            _logger.LogError(ex, "DeRegisterDeviceAsync failed.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error: device installation deletion on Aquifer Well API.");
+            throw;
+        }
     }
     
     // --- demo code for requesting notifications ---
-    public async Task<bool> RequestActionAAsync()
+    public async Task RequestActionAAsync()
     {
-        var result = await _aquiferClient.PostAsJsonAsync("push-notifications/requests", new
+        try
         {
-            Text = "Action A notification requested.",
-            Action = "action_a",
-            Tags = (List<object>) [],
-            Silent = true
-        });
-
-        return result.IsSuccessStatusCode;
+            await _aquiferClient.PushNotifications.Requests.PostAsync(
+                new NotificationRequest
+                {
+                    Text = "Action A notification requested.",
+                    Action = "action_a",
+                    Tags = [],
+                    Silent = true,
+                });
+        }
+        catch (ErrorResponse ex)
+        {
+            _logger.LogError(ex, "RequestActionAAsync failed.");
+            throw;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "RequestActionAAsync API call failed.");
+            throw;
+        }
     }
     
-    public async Task<bool> RequestActionBAsync()
+    public async Task RequestActionBAsync()
     {
-        var result = await _aquiferClient.PostAsJsonAsync("push-notifications/requests", new
+        try
         {
-            Text = "Action B notification requested.",
-            Action = "action_b",
-            Tags = (List<object>) [],
-            Silent = true
-        });
-
-        return result.IsSuccessStatusCode;
+            await _aquiferClient.PushNotifications.Requests.PostAsync(
+                new NotificationRequest
+                {
+                    Text = "Action B notification requested.",
+                    Action = "action_b",
+                    Tags = [],
+                    Silent = true,
+                });
+        }
+        catch (ErrorResponse ex)
+        {
+            _logger.LogError(ex, "RequestActionBAsync failed.");
+            throw;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "RequestActionBAsync API call failed.");
+            throw;
+        }
     }
 }

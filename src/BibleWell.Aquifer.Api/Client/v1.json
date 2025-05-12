@@ -7,6 +7,117 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/push-notifications/requests": {
+      "post": {
+        "tags": [
+          "Push-Notifications"
+        ],
+        "summary": "Requests a push notification.",
+        "description": "Requests a push notification be sent with the given content and action.",
+        "operationId": "AquiferWellAPIEndpointsPushNotificationsRequestsNotificationRequestsEndpoint",
+        "requestBody": {
+          "x-name": "NotificationRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/push-notifications/device-installation/{deviceInstallationId}": {
+      "delete": {
+        "tags": [
+          "Push-Notifications"
+        ],
+        "summary": "Delete a device installation.",
+        "description": "Delete a device installation with the relevant push notification service.",
+        "operationId": "AquiferWellAPIEndpointsPushNotificationsInstallationsDeleteDeleteDeviceInstallationEndpoint",
+        "parameters": [
+          {
+            "name": "deviceInstallationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/push-notifications/device-installation": {
+      "post": {
+        "tags": [
+          "Push-Notifications"
+        ],
+        "summary": "Create or update a device installation.",
+        "description": "Create or update a device installation with the relevant push notification service.",
+        "operationId": "AquiferWellAPIEndpointsPushNotificationsInstallationsCreateCreateDeviceInstallationEndpoint",
+        "requestBody": {
+          "x-name": "CreateDeviceInstallationRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDeviceInstallationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/languages": {
       "get": {
         "tags": [
@@ -35,6 +146,97 @@
   },
   "components": {
     "schemas": {
+      "NotificationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text",
+          "action",
+          "tags",
+          "silent"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "silent": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "the dto used to send an error response to the client",
+        "additionalProperties": false,
+        "required": [
+          "statusCode",
+          "message",
+          "errors"
+        ],
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "the http status code sent to the client. default is 400.",
+            "format": "int32",
+            "default": 400
+          },
+          "message": {
+            "type": "string",
+            "description": "the message for the error response",
+            "default": "One or more errors occurred!"
+          },
+          "errors": {
+            "type": "object",
+            "description": "the collection of errors for the current context",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "DeleteDeviceInstallationRequest": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "CreateDeviceInstallationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "installationId",
+          "platform",
+          "pushChannel",
+          "tags"
+        ],
+        "properties": {
+          "installationId": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "pushChannel": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "ListLanguagesResponse": {
         "type": "object",
         "additionalProperties": false,

@@ -8,23 +8,23 @@ public interface IReadOnlyAquiferService
     Task<ResourceContent?> GetResourceContentAsync(int contentId);
 
     // todo: rethink this interface and not use default implementations 
-    Task<DeviceInstallation?> RegisterDeviceAsync(DeviceInstallation deviceInstallation)
+    Task RegisterDeviceAsync(DeviceInstallation deviceInstallation)
     {
-        return Task.FromResult<DeviceInstallation?>(null);
+        throw new NotImplementedException();
     }
 
     Task DeRegisterDeviceAsync(string deviceId)
     {
-        return Task.CompletedTask;
+        throw new NotImplementedException();
     }
 
     // --- demo notification code: can be removed ---
-    Task<bool> RequestActionAAsync()
+    Task RequestActionAAsync()
     {
-        return Task.FromResult(true);
+        throw new NotImplementedException();
     }
-    Task<bool> RequestActionBAsync()
+    Task RequestActionBAsync()
     {
-        return Task.FromResult(true);
+        throw new NotImplementedException();
     }
 }

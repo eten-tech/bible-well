@@ -7,6 +7,7 @@ using Firebase.Messaging;
 using Kotlin;
 using IOnSuccessListener = Android.Gms.Tasks.IOnSuccessListener;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Exception = System.Exception;
 
 namespace BibleWell.App.Android;
 
@@ -80,7 +81,7 @@ public class MainActivity : AvaloniaMainActivity<AndroidApp>, IOnSuccessListener
         }
         catch (Exception e)
         {
-            throw new NotImplementedError(e.Message);
+            throw new NotImplementedError(e.Message!);
         }
     }
 }
