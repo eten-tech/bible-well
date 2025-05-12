@@ -40,16 +40,16 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel(Router router, IUserPreferencesService userPreferencesService)
     {
         _router = router;
-        _userPreferencesService = userPreferencesService;
-        Experience = _userPreferencesService.Get(PreferenceKeys.Experience, AppExperience.None);
         _router.CurrentViewModelChanged += OnRouterCurrentViewModelChanged;
         MenuItems = [];
         RegisterExperienceChangedHandler();
+        _userPreferencesService = userPreferencesService;
+        Experience = (AppExperience)userPreferencesService.Get(PreferenceKeys.Experience, 0);
         InitializeMenuItems();
         if (MenuItems.Count == 0)
         {
-            // This is where we'd put our very first "choose your experience" page, since there are no menu items
             NavMenuVisible = false;
+            // This is where we'd have the router go to the "First Time User Welcome" page (BIB-934), since there are no menu items
             _router.GoTo<PageViewModelBase>(new MenuItemTemplate(typeof(HomePageViewModel), "HomeRegular").ViewModelType);
         }
         else
@@ -71,6 +71,7 @@ public partial class MainViewModel : ViewModelBase
             (_, m) =>
             {
                 Experience = m.Value;
+                _userPreferencesService.Set(PreferenceKeys.Experience, (int)m.Value);
                 InitializeMenuItems();
             });
     }
@@ -84,7 +85,7 @@ public partial class MainViewModel : ViewModelBase
                 break;
             case AppExperience.Default:
                 NavMenuVisible = true;
-                MenuItems.Add(new MenuItemTemplate(typeof(HomePageViewModel), "TestBibleWellIcon"));
+                MenuItems.Add(new MenuItemTemplate(typeof(HomePageViewModel), "WellIcon", true, "WellIconInactive"));
                 MenuItems.Add(new MenuItemTemplate(typeof(BiblePageViewModel), "BookOpenRegular"));
                 MenuItems.Add(new MenuItemTemplate(typeof(GuidePageViewModel), "CompassNorthwestRegular"));
                 MenuItems.Add(new MenuItemTemplate(typeof(ResourcesPageViewModel), "ClipboardRegular"));
@@ -151,11 +152,6 @@ public partial class MainViewModel : ViewModelBase
     private void TriggerMenuPane()
     {
         IsMenuPaneOpen = !IsMenuPaneOpen;
-    }
-
-    [RelayCommand]
-    private void OnImageTapped()
-    {
     }
 }
 
