@@ -1,7 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using BibleWell.App.ViewModels.Pages;
+using BibleWell.Preferences;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace BibleWell.App.ViewModels;
 
@@ -10,33 +13,90 @@ namespace BibleWell.App.ViewModels;
 /// </summary>
 public partial class MainViewModel : ViewModelBase
 {
+
     private readonly Router _router;
+
+    private readonly IUserPreferencesService _userPreferencesService;
 
     [ObservableProperty]
     private ViewModelBase _currentPage = null!;
 
     [ObservableProperty]
+    private AppExperience _experience;
+
+    [ObservableProperty]
     private bool _isMenuPaneOpen;
+
+    [ObservableProperty]
+    private ObservableCollection<MenuItemTemplate> _menuItems;
+
+    [ObservableProperty]
+    private bool _navMenuVisible;
 
     [ObservableProperty]
     private MenuItemTemplate? _selectedMenuItem;
 
-    public MainViewModel(Router router)
+    public MainViewModel(Router router, IUserPreferencesService userPreferencesService)
     {
         _router = router;
+        _userPreferencesService = userPreferencesService;
+        Experience = _userPreferencesService.Get(PreferenceKeys.Experience, AppExperience.None);
         _router.CurrentViewModelChanged += OnRouterCurrentViewModelChanged;
-        _router.GoTo<PageViewModelBase>(MenuItems[0].ViewModelType);
+        MenuItems = [];
+        RegisterExperienceChangedHandler();
+        InitializeMenuItems();
+        if (MenuItems.Count == 0)
+        {
+            // This is where we'd put our very first "choose your experience" page, since there are no menu items
+            NavMenuVisible = false;
+            _router.GoTo<PageViewModelBase>(new MenuItemTemplate(typeof(HomePageViewModel), "HomeRegular").ViewModelType);
+        }
+        else
+        {
+            _router.GoTo<PageViewModelBase>(MenuItems[0].ViewModelType);
+        }
     }
 
-    public static ObservableCollection<MenuItemTemplate> MenuItems { get; } =
-    [
-        new(typeof(HomePageViewModel), "HomeRegular"),
-        new(typeof(BiblePageViewModel), "BookOpenRegular"),
-        new(typeof(GuidePageViewModel), "CompassNorthwestRegular"),
-        new(typeof(ResourcesPageViewModel), "ClipboardRegular"),
-        new(typeof(LibraryPageViewModel), "LibraryRegular"),
-        new(typeof(DevPageViewModel), "WindowDevToolsRegular"),
-    ];
+    private void RegisterExperienceChangedHandler()
+    {
+        WeakReferenceMessenger.Default.Register<ExperienceChangedMessage>(
+            this,
+            (_, m) =>
+            {
+                Experience = m.Value;
+                InitializeMenuItems();
+            });
+    }
+
+    private void InitializeMenuItems()
+    {
+        MenuItems.Clear();
+        switch (Experience)
+        {
+            case AppExperience.None:
+                break;
+            case AppExperience.Default:
+                NavMenuVisible = true;
+                MenuItems.Add(new MenuItemTemplate(typeof(HomePageViewModel), "TestBibleWellIcon"));
+                MenuItems.Add(new MenuItemTemplate(typeof(BiblePageViewModel), "BookOpenRegular"));
+                MenuItems.Add(new MenuItemTemplate(typeof(GuidePageViewModel), "CompassNorthwestRegular"));
+                MenuItems.Add(new MenuItemTemplate(typeof(ResourcesPageViewModel), "ClipboardRegular"));
+                MenuItems.Add(new MenuItemTemplate(typeof(LibraryPageViewModel), "LibraryRegular"));
+                MenuItems.Add(new MenuItemTemplate(typeof(DevPageViewModel), "WindowDevToolsRegular"));
+                break;
+            case AppExperience.Fia:
+                NavMenuVisible = true;
+                MenuItems.Add(new MenuItemTemplate(typeof(HomePageViewModel), "WellIcon", true, "WellIconInactive"));
+                MenuItems.Add(new MenuItemTemplate(typeof(BiblePageViewModel), "BookOpenRegular"));
+                MenuItems.Add(new MenuItemTemplate(typeof(GuidePageViewModel), "CompassNorthwestRegular"));
+                MenuItems.Add(new MenuItemTemplate(typeof(ResourcesPageViewModel), "ClipboardRegular"));
+                break;
+            // disable below because there are compiler errors when it goes out
+            // ReSharper disable once RedundantEmptySwitchSection
+            default:
+                break;
+        }
+    }
 
     private void OnRouterCurrentViewModelChanged(ViewModelBase vm)
     {
@@ -59,6 +119,11 @@ public partial class MainViewModel : ViewModelBase
             return;
         }
 
+        foreach (var item in MenuItems)
+        {
+            item.IsSelected = item == value;
+        }
+
         // Only route to the menu's view model if it's not already loaded.
         if (SelectedMenuItem?.ViewModelType != _router.Current?.GetType())
         {
@@ -79,5 +144,20 @@ public partial class MainViewModel : ViewModelBase
     private void TriggerMenuPane()
     {
         IsMenuPaneOpen = !IsMenuPaneOpen;
+    }
+
+    [RelayCommand]
+    private void OnImageTapped()
+    {
+    }
+}
+
+public class ExperienceChangedMessage(AppExperience newExperience) : ValueChangedMessage<AppExperience>(newExperience)
+{
+    public AppExperience NewExperience { get; init; } = newExperience;
+
+    public void Deconstruct(out AppExperience newExperience)
+    {
+        newExperience = NewExperience;
     }
 }

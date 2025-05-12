@@ -22,15 +22,7 @@
         </Border>
 
         <!-- Bottom Navigation -->
-        <Border Grid.Row="1">
-            <Border.Effect>
-                <DropShadowEffect
-                    Color="{DynamicResource Bw-DropShadowEffectColor}"
-                    BlurRadius="8"
-                    Opacity="0.2" />
-
-            </Border.Effect>
-
+        <Border Name="BottomNavBorder" Grid.Row="1" BorderBrush="{DynamicResource Bw-SubtleNeutral}" ClipToBounds="False">
             <ListBox
                 Name="MenuItemsListBox"
                 ItemsSource="{Binding MenuItems}"
@@ -38,9 +30,9 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Background="{DynamicResource Bw-Transparent}"
-                BorderThickness="0"
                 SelectionMode="Single"
                 Padding="10"
+                ClipToBounds="False"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                 <ListBox.ItemsPanel>
@@ -57,6 +49,7 @@
                         <Setter Property="Background" Value="{DynamicResource Bw-Transparent}" />
                         <Setter Property="BorderThickness" Value="0" />
                         <Setter Property="Focusable" Value="False" />
+                        <Setter Property="ClipToBounds" Value="False" />
                     </Style>
                     <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
                         <Setter Property="Background" Value="{DynamicResource Bw-Transparent}" />
@@ -74,23 +67,44 @@
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
                             Background="{DynamicResource Bw-Transparent}"
                             VerticalAlignment="Stretch">
-                            <PathIcon Width="24" Height="24"
+                            <Border Height="6"
+                                Width="42"
+                                Margin="0,-18,0,0"
+                                Background="{DynamicResource Bw-Primary}"
+                                CornerRadius="2"
+                                IsVisible="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" />
+                            <!-- PathIcon is simple to activate/inactive because we can directly set its Foreground property -->
+                            <PathIcon Width="24" Height="24" IsVisible="{Binding !IsSvg}"
                                 Data="{Binding IconName, Converter={x:Static conv:FuncValueConverters.StringToIconConverter}}">
                                 <PathIcon.Styles>
                                     <Style Selector="PathIcon">
-                                        <Setter Property="Foreground" Value="{DynamicResource Bw-IconInactiveBrush}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource Bw-SecondaryFocus}" />
                                     </Style>
                                     <Style Selector="ListBoxItem:selected PathIcon">
-                                        <Setter Property="Foreground" Value="{DynamicResource Bw-IconActiveBrush}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource Bw-Primary}" />
                                     </Style>
                                 </PathIcon.Styles>
                             </PathIcon>
-
+                            <!-- With an image, we have to have two: Active and Inactive, and toggle -->
+                            <!-- active -->
+                            <Image Width="24" Height="24" IsVisible="{Binding ShowActiveIndicator}">
+                                <Image.Source>
+                                    <SvgImage
+                                        Source="{Binding IconName, Converter={x:Static conv:FuncValueConverters.StringToSvgSourceConverter}}" />
+                                </Image.Source>
+                            </Image>
+                            <!-- inactive -->
+                            <Image Width="24" Height="24" IsVisible="{Binding  ShowInActiveIndicator}">
+                                <Image.Source>
+                                    <SvgImage
+                                        Source="{Binding IconNameInactive, Converter={x:Static conv:FuncValueConverters.StringToSvgSourceConverter}}" />
+                                </Image.Source>
+                            </Image>
                             <TextBlock Text="{Binding Label}" FontSize="12" HorizontalAlignment="Center"
                                 TextTrimming="CharacterEllipsis">
                                 <TextBlock.Styles>
                                     <Style Selector="ListBoxItem:selected TextBlock">
-                                        <Setter Property="Foreground" Value="{DynamicResource Bw-IconActiveBrush}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource Bw-Primary}" />
                                     </Style>
                                 </TextBlock.Styles>
                             </TextBlock>

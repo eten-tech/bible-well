@@ -101,7 +101,7 @@ public partial class TiptapRendererView : UserControl
     {
         var container = new StackPanel
         {
-            Margin = new Thickness(left: 0, top: 8, right: 0, bottom: 8),
+            Margin = new Thickness(0, 8, 0, 8),
             Name = "TiptapOtnSectionPanel",
         };
 
@@ -119,8 +119,8 @@ public partial class TiptapRendererView : UserControl
             {
                 "tiptap-otn-section-border",
             },
-            Margin = new Thickness(left: 0, top: 8, right: 0, bottom: 8),
-            Padding = new Thickness(left: 8, top: 8, right: 8, bottom: 8),
+            Margin = new Thickness(0, 8, 0, 8),
+            Padding = new Thickness(8, 8, 8, 8),
             Child = container,
             Name = "TiptapOtnSectionBorder",
         };
@@ -132,7 +132,7 @@ public partial class TiptapRendererView : UserControl
 
         var container = new StackPanel
         {
-            Margin = new Thickness(left: 0, top: 1, right: 0, bottom: 3),
+            Margin = new Thickness(0, 1, 0, 3),
             Name = "TiptapOtnTranslationPanel",
         };
 
@@ -150,8 +150,8 @@ public partial class TiptapRendererView : UserControl
             {
                 "tiptap-translation-options-border",
             },
-            Margin = new Thickness(left: 0, top: 8, right: 0, bottom: 8),
-            Padding = new Thickness(left: 8, top: 8, right: 8, bottom: 8),
+            Margin = new Thickness(0, 8, 0, 8),
+            Padding = new Thickness(8, 8, 8, 8),
             Child = new StackPanel
             {
                 Children =
@@ -163,7 +163,7 @@ public partial class TiptapRendererView : UserControl
                         {
                             "tiptap-translation-options-header",
                         },
-                        Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 8),
+                        Margin = new Thickness(0, 0, 0, 8),
                     },
                     container,
                 },
@@ -199,7 +199,7 @@ public partial class TiptapRendererView : UserControl
     {
         var container = new StackPanel
         {
-            Margin = new Thickness(left: 8, top: 4, right: 0, bottom: 4),
+            Margin = new Thickness(8, 4, 0, 4),
             Name = "TiptapOtnAdditionalOptionsPanel",
         };
 
@@ -266,7 +266,7 @@ public partial class TiptapRendererView : UserControl
         return new TextBlock
         {
             Text = headingText,
-            Margin = new Thickness(left: 0, top: 2, right: 0, bottom: 1),
+            Margin = new Thickness(0, 2, 0, 1),
             Classes =
             {
                 fontSizeClass,
@@ -291,7 +291,7 @@ public partial class TiptapRendererView : UserControl
             FlowDirection = flow,
             TextAlignment = GetTextAlignment(flow),
             Inlines = [],
-            Margin = new Thickness(left: 0, top: 4, right: 0, bottom: 4),
+            Margin = new Thickness(0, 4, 0, 4),
             Name = "TiptapParagraph",
         };
 
@@ -324,7 +324,7 @@ public partial class TiptapRendererView : UserControl
                 {
                     var type = mark.Attrs?.ResourceType;
                     var id = mark.Attrs?.ResourceId;
-                    return CreateInlineWithTooltip(text, $"{type} ({id})", ["foreground-primary"], style: null, TextDecorations.Underline);
+                    return CreateInlineWithTooltip(text, $"{type} ({id})", ["foreground-primary"], null, TextDecorations.Underline);
                 }
 
                 if (mark.Type.Equals("bibleReference", StringComparison.InvariantCultureIgnoreCase))
@@ -333,26 +333,27 @@ public partial class TiptapRendererView : UserControl
                     {
                         var tooltip = string.Join(
                             ", ",
-                            mark.Attrs?.Verses?.Select(v =>
-                            {
-                                var start = v.StartVerse;
-                                var end = v.EndVerse;
-                                return start == end ? start : $"{start}–{end}";
-                            }) ??
+                            mark.Attrs?.Verses?.Select(
+                                v =>
+                                {
+                                    var start = v.StartVerse;
+                                    var end = v.EndVerse;
+                                    return start == end ? start : $"{start}–{end}";
+                                }) ??
                             []);
 
                         return CreateInlineWithTooltip(
                             text,
                             "Reference: " + tooltip,
                             ["foreground-success"],
-                            style: null,
+                            null,
                             TextDecorations.Underline);
                     }
                 }
 
                 if (mark.Type.Equals("implied", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return CreateInlineWithTooltip(text, "Implied", ["foreground-gray"], FontStyle.Italic);
+                    return CreateInlineWithTooltip(text, "Implied", ["foreground-secondary"], FontStyle.Italic);
                 }
             }
         }
@@ -406,13 +407,16 @@ public partial class TiptapRendererView : UserControl
             TextDecorations = decorations,
             VerticalAlignment = VerticalAlignment.Center,
             MinWidth = 8, // Helps avoid clipping, especially with italic/gray text
-            Margin = new Thickness(left: 1, top: 0, right: 2, bottom: 0),
-            Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 0),
+            Margin = new Thickness(1, 0, 2, 0),
+            Padding = new Thickness(0, 0, 0, 0),
             Name = "TiptapInline",
         };
 
         tb.Classes.AddRange(
-            new[] { "tiptap-paragraph" }
+            new[]
+                {
+                    "tiptap-paragraph",
+                }
                 .Concat(classes));
 
         ToolTip.SetTip(tb, tooltip);
@@ -428,7 +432,7 @@ public partial class TiptapRendererView : UserControl
         var flow = GetFlowDirection(node);
         var bulletListContainer = new Grid
         {
-            Margin = new Thickness(left: 16, top: 4, right: 0, bottom: 4),
+            Margin = new Thickness(16, 4, 0, 4),
             FlowDirection = flow,
             Name = "TiptapBulletListGrid",
         };
@@ -441,20 +445,20 @@ public partial class TiptapRendererView : UserControl
                 bulletListContainer.RowDefinitions.Add(
                     new RowDefinition
                     {
-                        Height = new GridLength(value: 1, GridUnitType.Star),
+                        Height = new GridLength(1, GridUnitType.Star),
                     });
 
                 var dotChild = new TextBlock
                 {
                     Text = "• ",
-                    Margin = new Thickness(left: 0, top: 4, right: 4, bottom: 0),
+                    Margin = new Thickness(0, 4, 4, 0),
                     Name = "TiptapBulletListItemDot",
                 };
 
                 var listItem = RenderListItem(item);
 
-                Grid.SetColumn(dotChild, value: 0);
-                Grid.SetColumn(listItem, value: 1);
+                Grid.SetColumn(dotChild, 0);
+                Grid.SetColumn(listItem, 1);
 
                 var gridContainerItem = new Grid
                 {
@@ -469,12 +473,12 @@ public partial class TiptapRendererView : UserControl
                 gridContainerItem.ColumnDefinitions.Add(
                     new ColumnDefinition
                     {
-                        Width = new GridLength(value: 1, GridUnitType.Auto),
+                        Width = new GridLength(1, GridUnitType.Auto),
                     });
                 gridContainerItem.ColumnDefinitions.Add(
                     new ColumnDefinition
                     {
-                        Width = new GridLength(value: 1, GridUnitType.Star),
+                        Width = new GridLength(1, GridUnitType.Star),
                     });
 
                 Grid.SetRow(gridContainerItem, i);
@@ -492,7 +496,7 @@ public partial class TiptapRendererView : UserControl
         var flow = GetFlowDirection(node);
         var orderedListContainer = new Grid
         {
-            Margin = new Thickness(left: 16, top: 4, right: 0, bottom: 4),
+            Margin = new Thickness(16, 4, 0, 4),
             FlowDirection = flow,
             Name = "TiptapOrderedListGridContainer",
         };
@@ -505,20 +509,20 @@ public partial class TiptapRendererView : UserControl
                 orderedListContainer.RowDefinitions.Add(
                     new RowDefinition
                     {
-                        Height = new GridLength(value: 1, GridUnitType.Star),
+                        Height = new GridLength(1, GridUnitType.Star),
                     });
 
                 var dotChild = new TextBlock
                 {
                     Text = $"{i + 1}. ",
-                    Margin = new Thickness(left: 0, top: 4, right: 4, bottom: 0),
+                    Margin = new Thickness(0, 4, 4, 0),
                     Name = "TiptapOrderedListItemNumber",
                 };
 
                 var listItem = RenderListItem(item);
 
-                Grid.SetColumn(dotChild, value: 0);
-                Grid.SetColumn(listItem, value: 1);
+                Grid.SetColumn(dotChild, 0);
+                Grid.SetColumn(listItem, 1);
 
                 var gridContainerItem = new Grid
                 {
@@ -533,12 +537,12 @@ public partial class TiptapRendererView : UserControl
                 gridContainerItem.ColumnDefinitions.Add(
                     new ColumnDefinition
                     {
-                        Width = new GridLength(value: 1, GridUnitType.Auto),
+                        Width = new GridLength(1, GridUnitType.Auto),
                     });
                 gridContainerItem.ColumnDefinitions.Add(
                     new ColumnDefinition
                     {
-                        Width = new GridLength(value: 1, GridUnitType.Star),
+                        Width = new GridLength(1, GridUnitType.Star),
                     });
 
                 Grid.SetRow(gridContainerItem, i);
@@ -568,7 +572,7 @@ public partial class TiptapRendererView : UserControl
                 listItemContainer.RowDefinitions.Add(
                     new RowDefinition
                     {
-                        Height = new GridLength(value: 1, GridUnitType.Star),
+                        Height = new GridLength(1, GridUnitType.Star),
                     });
                 var childNode = RenderNode(child);
                 Grid.SetRow(childNode, i);

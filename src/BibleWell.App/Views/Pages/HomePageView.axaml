@@ -29,6 +29,17 @@
             Command="{Binding ChangeLanguage}">
             Change Language (TODO localize)
         </Button>
+        <Separator />
+        <Button
+            Name="UseDefaultExperience"
+            Command="{Binding UseDefaultExperience}">
+            WellIcon (StreamGeometry)
+        </Button>
+        <Button
+            Name="UseFiaExperience"
+            Command="{Binding UseFiaExperience}">
+            WellIcon (SvgImage)
+        </Button>
     </StackPanel>
 
 </UserControl>
