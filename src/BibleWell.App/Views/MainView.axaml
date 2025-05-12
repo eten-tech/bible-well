@@ -94,7 +94,7 @@
                                 </Image.Source>
                             </Image>
                             <!-- inactive -->
-                            <Image Width="24" Height="24" IsVisible="{Binding  ShowInActiveIndicator}">
+                            <Image Width="24" Height="24" IsVisible="{Binding  ShowInactiveIndicator}">
                                 <Image.Source>
                                     <SvgImage
                                         Source="{Binding IconNameInactive, Converter={x:Static conv:FuncValueConverters.StringToSvgSourceConverter}}" />

@@ -21,11 +21,11 @@ public partial class MenuItemTemplate(Type viewModelType, string iconName, bool 
     public string? IconNameInactive { get; } = iconNameInactive;
     public bool IsSvg { get; } = isSvg;
     public bool ShowActiveIndicator => IsSvg && IsSelected;
-    public bool ShowInActiveIndicator => IsSvg && !IsSelected;
+    public bool ShowInactiveIndicator => IsSvg && !IsSelected;
 
     partial void OnIsSelectedChanged(bool oldValue, bool newValue)
     {
         OnPropertyChanged(nameof(ShowActiveIndicator));
-        OnPropertyChanged(nameof(ShowInActiveIndicator));
+        OnPropertyChanged(nameof(ShowInactiveIndicator));
     }
 }
