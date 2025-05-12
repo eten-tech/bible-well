@@ -44,7 +44,7 @@
                 </Border>
                 <TextBlock Classes="tiptap-translation-options-header">Tiptap translation options header</TextBlock>
                 <TextBlock Classes="tiptap-otn-default-option">tiptap otn default option</TextBlock>
-                <TextBlock Classes="tiptap-footnote-text-block"> Tiptap footnote text block</TextBlock>
+                <TextBlock Classes="tiptap-footnote-text-block">Tiptap footnote text block</TextBlock>
                 <TextBlock Classes="tiptap-paragraph">Tiptap paragraph</TextBlock>
             </StackPanel>
         </Border>
