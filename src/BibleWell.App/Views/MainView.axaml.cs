@@ -27,14 +27,6 @@ public partial class MainView : UserControl
         {
             BottomNavBorder.BorderThickness = vm.NavMenuVisible ? new Thickness(0, 1, 0, 0) : new Thickness(0);
         }
-
-        // Selected Menu Item Changed
-        if (sender is MainViewModel vmSelectedMenuItem && e.PropertyName == nameof(vm.SelectedMenuItem))
-        {
-            if (string.Equals(vmSelectedMenuItem.SelectedMenuItem?.IconName, "WellIcon"))
-            {
-            }
-        }
     }
 
     /// <summary>
