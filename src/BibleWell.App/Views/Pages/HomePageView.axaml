@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
     xmlns:resx="clr-namespace:BibleWell.App.Resources"
+    xmlns:local="clr-namespace:BibleWell;assembly=BibleWell"
     mc:Ignorable="d"
     d:DesignWidth="492"
     d:DesignHeight="960"
@@ -28,6 +29,19 @@
             Name="ChangeLanguageButton"
             Command="{Binding ChangeLanguage}">
             Change Language (TODO localize)
+        </Button>
+        <Separator />
+        <Button
+            Name="UseDefaultExperience"
+            Command="{Binding UseExperience}"
+            CommandParameter="{x:Static local:AppExperience.Default}">
+            Default Experience
+        </Button>
+        <Button
+            Name="UseFiaExperience"
+            Command="{Binding UseExperience}"
+            CommandParameter="{x:Static local:AppExperience.Fia}">
+            FIA Experience
         </Button>
     </StackPanel>
 
