@@ -127,8 +127,6 @@ public partial class DevPageViewModel(
         _notificationRegistrationService.RequestActionBAsync()
             .ContinueWith((task) => ShowAlert(task.IsFaulted ? task.Exception.Message : $"Action B requested"));
     }
-    
-    // status = await Permissions.RequestAsync<Permissions.PostNotifications>(); // using maui essentials.
 
     private void ShowAlert(string message)
     {
