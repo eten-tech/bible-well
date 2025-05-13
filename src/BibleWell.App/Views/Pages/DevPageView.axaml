@@ -210,6 +210,7 @@
         </DataGrid>
 
         <TextBlock Classes="h2">Push Notifications</TextBlock>
+        <TextBlock>Only functional on Android</TextBlock>
         <StackPanel Margin="0,0,0,10">
             <Button x:Name="RegisterButton"
                     Content="Register"
