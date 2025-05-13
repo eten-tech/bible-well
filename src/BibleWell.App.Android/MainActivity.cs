@@ -62,7 +62,10 @@ public class MainActivity : AvaloniaMainActivity<AndroidApp>, IOnSuccessListener
     protected override void OnNewIntent(Intent? intent)
     {
         base.OnNewIntent(intent);
-        ProcessNotificationAction(intent!); // todo: null check ?
+        if (intent != null)
+        {
+            ProcessNotificationAction(intent);
+        }
     }
 
     public void ProcessNotificationAction(Intent intent)
