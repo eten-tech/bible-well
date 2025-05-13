@@ -18,17 +18,17 @@ public class AndroidNotificationDeviceInstallationService(IDeviceService _androi
     {
         if (!NotificationsSupported)
         {
-            throw new Exception(GetPlayServicesError());
+            throw new ArgumentException(GetPlayServicesError());
         }
 
         if (string.IsNullOrWhiteSpace(Token))
         {
-            throw new Exception("Unable to resolve token for FCMv1.");
+            throw new ArgumentException("Unable to resolve token for FCMv1.");
         }
 
         if (DeviceId == string.Empty)
         {
-            throw new Exception("Unable to resolve device id.");
+            throw new ArgumentException("Unable to resolve device id.");
         }
 
         var installation = new DeviceInstallation
