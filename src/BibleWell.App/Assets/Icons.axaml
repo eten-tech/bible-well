@@ -141,6 +141,21 @@
             <!-- well icon -->
             <SvgSource x:Key="WellIconInactive"
                 Path="/Assets/BibleWell_ICON_OUTLINE.svg" />
+            <!-- homepage about icon -->
+            <SvgSource x:Key="HomePageAbout"
+                Path="/Assets/BibleWell_HomePage_About.svg" />
+            <!-- homepage profile icon -->
+            <SvgSource x:Key="HomePageProfile"
+                Path="/Assets/BibleWell_HomePage_Profile.svg" />
+            <!-- homepage feedback icon -->
+            <SvgSource x:Key="HomePageFeedback"
+                Path="/Assets/BibleWell_HomePage_Feedback.svg" />
+            <!-- homepage resource manager icon -->
+            <SvgSource x:Key="HomePageResourceManager"
+                Path="/Assets/BibleWell_HomePage_ResourceManager.svg" />
+            <!-- homepage user experience icon -->
+            <SvgSource x:Key="HomePageUserExperience"
+                Path="/Assets/BibleWell_HomePage_UserExperience.svg" />
             <!-- add_regular -->
             <StreamGeometry x:Key="AddRegular">
                 M14.5,13 L14.5,3.75378577 C14.5,3.33978577 14.164,3.00378577 13.75,3.00378577 C13.336,3.00378577 13,3.33978577 13,3.75378577 L13,13 L3.75387573,13 C3.33987573,13 3.00387573,13.336 3.00387573,13.75 C3.00387573,14.164 3.33987573,14.5 3.75387573,14.5 L13,14.5 L13,23.7523651 C13,24.1663651 13.336,24.5023651 13.75,24.5023651 C14.164,24.5023651 14.5,24.1663651 14.5,23.7523651 L14.5,14.5 L23.7498262,14.5030754 C24.1638262,14.5030754 24.4998262,14.1670754 24.4998262,13.7530754 C24.4998262,13.3390754 24.1638262,13.0030754 23.7498262,13.0030754 L14.5,13 Z

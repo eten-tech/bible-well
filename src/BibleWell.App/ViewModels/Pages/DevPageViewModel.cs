@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BibleWell.App.ViewModels.Pages;
 
@@ -115,5 +116,11 @@ public partial class DevPageViewModel(
     public void ChangeLanguage()
     {
         _router.GoTo<LanguagesPageViewModel>();
+    }
+    
+    [RelayCommand]
+    public void UseExperience(AppExperience experience)
+    {
+        WeakReferenceMessenger.Default.Send(new ExperienceChangedMessage(experience));
     }
 }

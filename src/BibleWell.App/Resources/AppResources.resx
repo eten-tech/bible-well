@@ -179,6 +179,6 @@
       <value>Change Experience</value>
   </data>
   <data name="HomePage_CurrentExperience" xml:space="preserve">
-      <value>Current Experience</value>
+      <value>Current Experience:</value>
   </data>
 </root>
