@@ -22,9 +22,12 @@
         <ScrollViewer>
             <StackPanel>
                 <Image
-                    Source="/Resources/Images/Bible Well_2 Color_PRIMARY_Stack.png"
                     Margin="30 40 30 50"
-                    Stretch="UniformToFill" />
+                    Stretch="UniformToFill" >
+                    <Image.Source>
+                        <SvgImage Source="{DynamicResource HomePageLogo}" />
+                    </Image.Source>
+                </Image>
                 <StackPanel
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"

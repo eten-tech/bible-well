@@ -14,7 +14,7 @@ public sealed class RouterTests
         // These are the only services needed for the router to work.
         // We don't care about the services being injected into the view models for this test so inject null.
         var services = new ServiceCollection()
-            .AddTransient(_ => new HomePageViewModel(router, null!))
+            .AddTransient(_ => new HomePageViewModel())
             .AddTransient(_ => new BiblePageViewModel())
             .AddTransient(_ => new GuidePageViewModel())
             .AddTransient(_ => new ResourcesPageViewModel(null!));

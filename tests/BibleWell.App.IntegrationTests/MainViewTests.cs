@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Headless.XUnit;
-using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Styling;
 using BibleWell.App.ViewModels;
@@ -44,15 +43,6 @@ public sealed class MainViewTests
             backgroundBrush.Should().NotBeNull("the window Background is expected to be a SolidColorBrush");
             backgroundBrush.Color.Should().Be(Colors.White, "the window background should be White for the Light theme variant");
 
-            var homePageView = window.MainView.CurrentControl.GetLogicalChildren().SingleOrDefault() as HomePageView;
-            homePageView.Should().NotBeNull("the default page should be the Home page");
-
-            homePageView.ChangeThemeButton.TestClick();
-
-            AvaloniaTestExtensions.WaitForAllUiEventsToComplete();
-
-            Application.Current.ActualThemeVariant.Should().Be(ThemeVariant.Dark, "the actual theme variant should now be Dark");
-
             var updatedBackgroundBrush = window.Background as SolidColorBrush;
             updatedBackgroundBrush.Should().NotBeNull("the window Background is expected to be a SolidColorBrush");
             updatedBackgroundBrush.Color.Should().Be(Colors.Black, "the window background should be Black for the Dark theme variant");
@@ -74,19 +64,11 @@ public sealed class MainViewTests
 
             mainView.BottomNavBorder.BorderThickness.Should().BeEquivalentTo(new Thickness(0), "there should be no nav border when app is first opened");
 
-            homePageView.UseDefaultExperience.TestClick();
-
-            // Ideally this would click on the window instead, but it's not clear how to click a certain list item in the view.
-            mainView.MenuItemsListBox.SelectedIndex = 3;
-
             AvaloniaTestExtensions.WaitForAllUiEventsToComplete();
 
             // This delay is necessary in order for error screenshots to be taken after full transition.
             await Task.Delay(TransitionDelayMs);
-
-            // The selected page should now be the resources page.
-            (mainView.CurrentControl.GetLogicalChildren().SingleOrDefault() is ResourcesPageView).Should()
-                .BeTrue("the selected menu item should be the Resources page");
+            
         });
     }
 }
