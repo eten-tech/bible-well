@@ -21,28 +21,225 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="Bw-IconActiveBrush">DodgerBlue</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-IconInactiveBrush">Gray</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-SubtleNeutral">LightSlateGray</SolidColorBrush>
+
+            <!-- Colors -->
+            <Color x:Key="Bw-Primary">#00A3E0</Color>
+            <Color x:Key="Bw-PrimaryFocus">#0174a3</Color>
+            <Color x:Key="Bw-PrimaryContent">#FFFFFF</Color>
+
+            <Color x:Key="Bw-Secondary">#BABABA</Color>
+            <Color x:Key="Bw-SecondaryFocus">#676767</Color>
+            <Color x:Key="Bw-SecondaryContent">#FCFCFD</Color>
+
+            <Color x:Key="Bw-Neutral">#344054</Color>
+            <Color x:Key="Bw-NeutralFocus">#1D2939</Color>
+            <Color x:Key="Bw-NeutralContent">#D0D5DD</Color>
+            <Color x:Key="Bw-NeutralDefault">#475467</Color>
+            <Color x:Key="Bw-NeutralDisabled">#98A2B3</Color>
+
+            <Color x:Key="Bw-BaseContent">#000000</Color>
+            <Color x:Key="Bw-Base300">#D0D5DD</Color>
+            <Color x:Key="Bw-Base200">#F4F5F7</Color>
+            <Color x:Key="Bw-Base100">#ffffff</Color>
+
+            <Color x:Key="Bw-Info">#D0D5DD</Color>
+            <Color x:Key="Bw-Accent">#DC8850</Color>
+
+            <Color x:Key="Bw-Error">#f04438</Color>
+            <Color x:Key="Bw-ErrorFocus">#d92d20</Color>
+            <Color x:Key="Bw-ErrorContent">#fef3f2</Color>
+            <Color x:Key="Bw-ErrorText">#B42318</Color>
+            <Color x:Key="Bw-ErrorTextActive">#912018</Color>
+            <Color x:Key="Bw-ErrorDisabled">#FDA29B</Color>
+
+            <Color x:Key="Bw-Warning">#F79009</Color>
+            <Color x:Key="Bw-WarningFocus">#DC6803</Color>
+            <Color x:Key="Bw-WarningContent">#FFFAEB</Color>
+            <Color x:Key="Bw-WarningText">#B54708</Color>
+            <Color x:Key="Bw-WarningTextActive">#93370D</Color>
+
+            <Color x:Key="Bw-Success">#17B26A</Color>
+            <Color x:Key="Bw-SuccessFocus">#079455</Color>
+            <Color x:Key="Bw-SuccessContent">#ECFDF3</Color>
+            <Color x:Key="Bw-SuccessText">#067647</Color>
+            <Color x:Key="Bw-SuccessTextActive">#085D3A</Color>
+
+            <Color x:Key="Bw-Primary300">#80d4f3</Color>
+            <Color x:Key="Bw-Primary50">#ccf2ff</Color>
+            <Color x:Key="Bw-Base700">#344054</Color>
+            <Color x:Key="Bw-Base500">#667085</Color>
+            <Color x:Key="Bw-Gray25">#FCFCFD</Color>
+            <Color x:Key="Bw-Gray50">#F2F4F7</Color>
+            <Color x:Key="Bw-BlueTitle">#324C6E</Color>
+
+            <Color x:Key="Bw-DropShadowEffectColor">Black</Color>
+            <Color x:Key="Bw-Transparent">Transparent</Color>
+
+            <!-- Brushes -->
+            <SolidColorBrush x:Key="Bw-PrimaryBrush" Color="{StaticResource Bw-Primary}" />
+            <SolidColorBrush x:Key="Bw-PrimaryFocusBrush" Color="{StaticResource Bw-PrimaryFocus}" />
+            <SolidColorBrush x:Key="Bw-PrimaryContentBrush" Color="{StaticResource Bw-PrimaryContent}" />
+
+            <SolidColorBrush x:Key="Bw-SecondaryBrush" Color="{StaticResource Bw-Secondary}" />
+            <SolidColorBrush x:Key="Bw-SecondaryFocusBrush" Color="{StaticResource Bw-SecondaryFocus}" />
+            <SolidColorBrush x:Key="Bw-SecondaryContentBrush" Color="{StaticResource Bw-SecondaryContent}" />
+
+            <SolidColorBrush x:Key="Bw-NeutralBrush" Color="{StaticResource Bw-Neutral}" />
+            <SolidColorBrush x:Key="Bw-NeutralFocusBrush" Color="{StaticResource Bw-NeutralFocus}" />
+            <SolidColorBrush x:Key="Bw-NeutralContentBrush" Color="{StaticResource Bw-NeutralContent}" />
+            <SolidColorBrush x:Key="Bw-NeutralDefaultBrush" Color="{StaticResource Bw-NeutralDefault}" />
+            <SolidColorBrush x:Key="Bw-NeutralDisabledBrush" Color="{StaticResource Bw-NeutralDisabled}" />
+
+            <SolidColorBrush x:Key="Bw-BaseContentBrush" Color="{StaticResource Bw-BaseContent}" />
+            <SolidColorBrush x:Key="Bw-Base300Brush" Color="{StaticResource Bw-Base300}" />
+            <SolidColorBrush x:Key="Bw-Base200Brush" Color="{StaticResource Bw-Base200}" />
+            <SolidColorBrush x:Key="Bw-Base100Brush" Color="{StaticResource Bw-Base100}" />
+
+            <SolidColorBrush x:Key="Bw-InfoBrush" Color="{StaticResource Bw-Info}" />
+            <SolidColorBrush x:Key="Bw-AccentBrush" Color="{StaticResource Bw-Accent}" />
+
+            <SolidColorBrush x:Key="Bw-ErrorBrush" Color="{StaticResource Bw-Error}" />
+            <SolidColorBrush x:Key="Bw-ErrorFocusBrush" Color="{StaticResource Bw-ErrorFocus}" />
+            <SolidColorBrush x:Key="Bw-ErrorContentBrush" Color="{StaticResource Bw-ErrorContent}" />
+            <SolidColorBrush x:Key="Bw-ErrorTextBrush" Color="{StaticResource Bw-ErrorText}" />
+            <SolidColorBrush x:Key="Bw-ErrorTextActiveBrush" Color="{StaticResource Bw-ErrorTextActive}" />
+            <SolidColorBrush x:Key="Bw-ErrorDisabledBrush" Color="{StaticResource Bw-ErrorDisabled}" />
+
+            <SolidColorBrush x:Key="Bw-WarningBrush" Color="{StaticResource Bw-Warning}" />
+            <SolidColorBrush x:Key="Bw-WarningFocusBrush" Color="{StaticResource Bw-WarningFocus}" />
+            <SolidColorBrush x:Key="Bw-WarningContentBrush" Color="{StaticResource Bw-WarningContent}" />
+            <SolidColorBrush x:Key="Bw-WarningTextBrush" Color="{StaticResource Bw-WarningText}" />
+            <SolidColorBrush x:Key="Bw-WarningTextActiveBrush" Color="{StaticResource Bw-WarningTextActive}" />
+
+            <SolidColorBrush x:Key="Bw-SuccessBrush" Color="{StaticResource Bw-Success}" />
+            <SolidColorBrush x:Key="Bw-SuccessFocusBrush" Color="{StaticResource Bw-SuccessFocus}" />
+            <SolidColorBrush x:Key="Bw-SuccessContentBrush" Color="{StaticResource Bw-SuccessContent}" />
+            <SolidColorBrush x:Key="Bw-SuccessTextBrush" Color="{StaticResource Bw-SuccessText}" />
+            <SolidColorBrush x:Key="Bw-SuccessTextActiveBrush" Color="{StaticResource Bw-SuccessTextActive}" />
+
+            <SolidColorBrush x:Key="Bw-Primary300Brush" Color="{StaticResource Bw-Primary300}" />
+            <SolidColorBrush x:Key="Bw-Primary50Brush" Color="{StaticResource Bw-Primary50}" />
+            <SolidColorBrush x:Key="Bw-Base700Brush" Color="{StaticResource Bw-Base700}" />
+            <SolidColorBrush x:Key="Bw-Base500Brush" Color="{StaticResource Bw-Base500}" />
+            <SolidColorBrush x:Key="Bw-Gray25Brush" Color="{StaticResource Bw-Gray25}" />
+            <SolidColorBrush x:Key="Bw-Gray50Brush" Color="{StaticResource Bw-Gray50}" />
+            <SolidColorBrush x:Key="Bw-BlueTitleBrush" Color="{StaticResource Bw-BlueTitle}" />
+            <SolidColorBrush x:Key="Bw-DropShadowEffectColorBrush" Color="{StaticResource Bw-DropShadowEffectColor}" />
+
+            <SolidColorBrush x:Key="Bw-SubtleNeutral">LightGray</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Highlight">LightYellow</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-EmphasisNeutral">DarkSlateGray</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Danger">Red</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-Primary">Blue</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-Success">DarkGreen</SolidColorBrush>
-            <Color x:Key="Bw-DropShadowEffectColor">Black</Color>
-            <Color x:Key="Bw-Transparent">Transparent</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="Bw-IconActiveBrush">DodgerBlue</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-IconInactiveBrush">Gray</SolidColorBrush>
+            <!-- Colors -->
+            <Color x:Key="Bw-Primary">#a0967e</Color>
+            <Color x:Key="Bw-PrimaryFocus">#0174a3</Color>
+            <Color x:Key="Bw-PrimaryContent">#202020</Color>
+
+            <Color x:Key="Bw-Secondary">#232427</Color>
+            <Color x:Key="Bw-SecondaryFocus">#676767</Color>
+            <Color x:Key="Bw-SecondaryContent">#bbbbbb</Color>
+
+            <Color x:Key="Bw-Neutral">#7e8795</Color>
+            <Color x:Key="Bw-NeutralFocus">#1D2939</Color>
+            <Color x:Key="Bw-NeutralContent">#D0D5DD</Color>
+            <Color x:Key="Bw-NeutralDefault">#475467</Color>
+            <Color x:Key="Bw-NeutralDisabled">#98A2B3</Color>
+
+            <Color x:Key="Bw-BaseContent">#dedfe2</Color>
+            <Color x:Key="Bw-Base300">#D0D5DD</Color>
+            <Color x:Key="Bw-Base200">#232427</Color>
+            <Color x:Key="Bw-Base100">#202020</Color>
+
+            <Color x:Key="Bw-Info">#686b6f</Color>
+            <Color x:Key="Bw-Accent">#DC8850</Color>
+
+            <Color x:Key="Bw-Error">#f04438</Color>
+            <Color x:Key="Bw-ErrorFocus">#d92d20</Color>
+            <Color x:Key="Bw-ErrorContent">#fef3f2</Color>
+            <Color x:Key="Bw-ErrorText">#B42318</Color>
+            <Color x:Key="Bw-ErrorTextActive">#912018</Color>
+            <Color x:Key="Bw-ErrorDisabled">#FDA29B</Color>
+
+            <Color x:Key="Bw-Warning">#F79009</Color>
+            <Color x:Key="Bw-WarningFocus">#DC6803</Color>
+            <Color x:Key="Bw-WarningContent">#FFFAEB</Color>
+            <Color x:Key="Bw-WarningText">#B54708</Color>
+            <Color x:Key="Bw-WarningTextActive">#93370D</Color>
+
+            <Color x:Key="Bw-Success">#17B26A</Color>
+            <Color x:Key="Bw-SuccessFocus">#079455</Color>
+            <Color x:Key="Bw-SuccessContent">#ECFDF3</Color>
+            <Color x:Key="Bw-SuccessText">#067647</Color>
+            <Color x:Key="Bw-SuccessTextActive">#085D3A</Color>
+
+            <Color x:Key="Bw-Primary300">#776e5a</Color>
+            <Color x:Key="Bw-Primary50">#3c372d</Color>
+            <Color x:Key="Bw-Base700">#344054</Color>
+            <Color x:Key="Bw-Base500">#667085</Color>
+            <Color x:Key="Bw-Gray25">#FCFCFD</Color>
+            <Color x:Key="Bw-Gray50">#F2F4F7</Color>
+            <Color x:Key="Bw-BlueTitle">#324C6E</Color>
+
+            <Color x:Key="Bw-DropShadowEffectColor">Black</Color>
+            <Color x:Key="Bw-Transparent">Transparent</Color>
+
+            <!-- Brushes -->
+            <SolidColorBrush x:Key="Bw-PrimaryBrush" Color="{StaticResource Bw-Primary}" />
+            <SolidColorBrush x:Key="Bw-PrimaryFocusBrush" Color="{StaticResource Bw-PrimaryFocus}" />
+            <SolidColorBrush x:Key="Bw-PrimaryContentBrush" Color="{StaticResource Bw-PrimaryContent}" />
+
+            <SolidColorBrush x:Key="Bw-SecondaryBrush" Color="{StaticResource Bw-Secondary}" />
+            <SolidColorBrush x:Key="Bw-SecondaryFocusBrush" Color="{StaticResource Bw-SecondaryFocus}" />
+            <SolidColorBrush x:Key="Bw-SecondaryContentBrush" Color="{StaticResource Bw-SecondaryContent}" />
+
+            <SolidColorBrush x:Key="Bw-NeutralBrush" Color="{StaticResource Bw-Neutral}" />
+            <SolidColorBrush x:Key="Bw-NeutralFocusBrush" Color="{StaticResource Bw-NeutralFocus}" />
+            <SolidColorBrush x:Key="Bw-NeutralContentBrush" Color="{StaticResource Bw-NeutralContent}" />
+            <SolidColorBrush x:Key="Bw-NeutralDefaultBrush" Color="{StaticResource Bw-NeutralDefault}" />
+            <SolidColorBrush x:Key="Bw-NeutralDisabledBrush" Color="{StaticResource Bw-NeutralDisabled}" />
+
+            <SolidColorBrush x:Key="Bw-BaseContentBrush" Color="{StaticResource Bw-BaseContent}" />
+            <SolidColorBrush x:Key="Bw-Base300Brush" Color="{StaticResource Bw-Base300}" />
+            <SolidColorBrush x:Key="Bw-Base200Brush" Color="{StaticResource Bw-Base200}" />
+            <SolidColorBrush x:Key="Bw-Base100Brush" Color="{StaticResource Bw-Base100}" />
+
+            <SolidColorBrush x:Key="Bw-InfoBrush" Color="{StaticResource Bw-Info}" />
+            <SolidColorBrush x:Key="Bw-AccentBrush" Color="{StaticResource Bw-Accent}" />
+
+            <SolidColorBrush x:Key="Bw-ErrorBrush" Color="{StaticResource Bw-Error}" />
+            <SolidColorBrush x:Key="Bw-ErrorFocusBrush" Color="{StaticResource Bw-ErrorFocus}" />
+            <SolidColorBrush x:Key="Bw-ErrorContentBrush" Color="{StaticResource Bw-ErrorContent}" />
+            <SolidColorBrush x:Key="Bw-ErrorTextBrush" Color="{StaticResource Bw-ErrorText}" />
+            <SolidColorBrush x:Key="Bw-ErrorTextActiveBrush" Color="{StaticResource Bw-ErrorTextActive}" />
+            <SolidColorBrush x:Key="Bw-ErrorDisabledBrush" Color="{StaticResource Bw-ErrorDisabled}" />
+
+            <SolidColorBrush x:Key="Bw-WarningBrush" Color="{StaticResource Bw-Warning}" />
+            <SolidColorBrush x:Key="Bw-WarningFocusBrush" Color="{StaticResource Bw-WarningFocus}" />
+            <SolidColorBrush x:Key="Bw-WarningContentBrush" Color="{StaticResource Bw-WarningContent}" />
+            <SolidColorBrush x:Key="Bw-WarningTextBrush" Color="{StaticResource Bw-WarningText}" />
+            <SolidColorBrush x:Key="Bw-WarningTextActiveBrush" Color="{StaticResource Bw-WarningTextActive}" />
+
+            <SolidColorBrush x:Key="Bw-SuccessBrush" Color="{StaticResource Bw-Success}" />
+            <SolidColorBrush x:Key="Bw-SuccessFocusBrush" Color="{StaticResource Bw-SuccessFocus}" />
+            <SolidColorBrush x:Key="Bw-SuccessContentBrush" Color="{StaticResource Bw-SuccessContent}" />
+            <SolidColorBrush x:Key="Bw-SuccessTextBrush" Color="{StaticResource Bw-SuccessText}" />
+            <SolidColorBrush x:Key="Bw-SuccessTextActiveBrush" Color="{StaticResource Bw-SuccessTextActive}" />
+
+            <SolidColorBrush x:Key="Bw-Primary300Brush" Color="{StaticResource Bw-Primary300}" />
+            <SolidColorBrush x:Key="Bw-Primary50Brush" Color="{StaticResource Bw-Primary50}" />
+            <SolidColorBrush x:Key="Bw-Base700Brush" Color="{StaticResource Bw-Base700}" />
+            <SolidColorBrush x:Key="Bw-Base500Brush" Color="{StaticResource Bw-Base500}" />
+            <SolidColorBrush x:Key="Bw-Gray25Brush" Color="{StaticResource Bw-Gray25}" />
+            <SolidColorBrush x:Key="Bw-Gray50Brush" Color="{StaticResource Bw-Gray50}" />
+            <SolidColorBrush x:Key="Bw-BlueTitleBrush" Color="{StaticResource Bw-BlueTitle}" />
+            <SolidColorBrush x:Key="Bw-DropShadowEffectColorBrush" Color="{StaticResource Bw-DropShadowEffectColor}" />
+
             <SolidColorBrush x:Key="Bw-SubtleNeutral">LightSlateGray</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-EmphasisNeutral">DarkSlateGray</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Danger">DarkRed</SolidColorBrush>
             <SolidColorBrush x:Key="Bw-Highlight">#8A7634</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-Primary">SlateBlue</SolidColorBrush>
-            <SolidColorBrush x:Key="Bw-Success">#2E7D32</SolidColorBrush>
-            <Color x:Key="Bw-DropShadowEffectColor">Black</Color>
-            <Color x:Key="Bw-Transparent">Transparent</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

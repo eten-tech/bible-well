@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BibleWell.App.ViewModels"
     xmlns:resx="clr-namespace:BibleWell.App.Resources"
+    xmlns:local="clr-namespace:BibleWell;assembly=BibleWell"
     mc:Ignorable="d"
     d:DesignWidth="492"    
     d:DesignHeight="960"
