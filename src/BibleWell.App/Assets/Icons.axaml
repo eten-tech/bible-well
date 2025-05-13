@@ -21,6 +21,54 @@
                     <TextBlock>WellIconInactive</TextBlock>
                 </StackPanel>
                 <StackPanel Spacing="10" Orientation="Horizontal">
+                    <Image Width="20" Height="20">
+                        <Image.Source>
+                            <SvgImage Source="{DynamicResource HomePageFeedback}" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock>HomePageFeedback</TextBlock>
+                </StackPanel>
+                <StackPanel Spacing="10" Orientation="Horizontal">
+                    <Image Width="20" Height="20">
+                        <Image.Source>
+                            <SvgImage Source="{DynamicResource HomePageProfile}" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock>HomePageProfile</TextBlock>
+                </StackPanel>
+                <StackPanel Spacing="10" Orientation="Horizontal">
+                    <Image Width="20" Height="20">
+                        <Image.Source>
+                            <SvgImage Source="{DynamicResource HomePageResourceManager}" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock>HomePageResourceManager</TextBlock>
+                </StackPanel>
+                <StackPanel Spacing="10" Orientation="Horizontal">
+                    <Image Width="20" Height="20">
+                        <Image.Source>
+                            <SvgImage Source="{DynamicResource HomePageUserExperience}" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock>HomePageUserExperience</TextBlock>
+                </StackPanel>
+                <StackPanel Spacing="10" Orientation="Horizontal">
+                    <Image Width="20" Height="20">
+                        <Image.Source>
+                            <SvgImage Source="{DynamicResource HomePageAbout}" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock>HomePaAgebout</TextBlock>
+                </StackPanel>
+                <StackPanel Spacing="10" Orientation="Horizontal">
+                    <Image Width="20" Height="20">
+                        <Image.Source>
+                            <SvgImage Source="{DynamicResource HomePageLogo}" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock>HomePageLogo</TextBlock>
+                </StackPanel>
+                <StackPanel Spacing="10" Orientation="Horizontal">
                     <PathIcon Data="{StaticResource AddRegular}" />
                     <TextBlock>AddRegular</TextBlock>
                 </StackPanel>
