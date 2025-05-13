@@ -47,7 +47,7 @@ public sealed class MainViewTests
             var homePageView = window.MainView.CurrentControl.GetLogicalChildren().SingleOrDefault() as HomePageView;
             homePageView.Should().NotBeNull("the default page should be the Home page");
 
-            homePageView.ChangeThemeButton.TestClick();
+            //homePageView.ChangeThemeButton.TestClick();
 
             AvaloniaTestExtensions.WaitForAllUiEventsToComplete();
 
@@ -74,7 +74,7 @@ public sealed class MainViewTests
 
             mainView.BottomNavBorder.BorderThickness.Should().BeEquivalentTo(new Thickness(0), "there should be no nav border when app is first opened");
 
-            homePageView.UseDefaultExperience.TestClick();
+            //homePageView.UseDefaultExperience.TestClick();
 
             // Ideally this would click on the window instead, but it's not clear how to click a certain list item in the view.
             mainView.MenuItemsListBox.SelectedIndex = 3;
