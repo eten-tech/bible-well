@@ -163,4 +163,22 @@
   <data name="Test_Chilly" xml:space="preserve">
     <value>Chilly</value>
   </data>
+  <data name="HomePage_Profile" xml:space="preserve">
+      <value>Profile</value>
+  </data>
+  <data name="HomePage_ResourceManager" xml:space="preserve">
+      <value>Resource Manager</value>
+  </data>
+  <data name="HomePage_Feedback" xml:space="preserve">
+      <value>Feedback</value>
+  </data>
+  <data name="HomePage_About" xml:space="preserve">
+      <value>About</value>
+  </data>
+  <data name="HomePage_ChangeExperience" xml:space="preserve">
+      <value>Change Experience</value>
+  </data>
+  <data name="HomePage_CurrentExperience" xml:space="preserve">
+      <value>Current Experience:</value>
+  </data>
 </root>

@@ -1,6 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Styling;
-using BibleWell.Preferences;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -9,29 +7,19 @@ namespace BibleWell.App.ViewModels.Pages;
 /// <summary>
 /// View model for use with the <see cref="Views.Pages.HomePageView" />.
 /// </summary>
-public partial class HomePageViewModel(Router _router, IUserPreferencesService _userPreferencesService) : PageViewModelBase
+public partial class HomePageViewModel : PageViewModelBase
 {
-    [RelayCommand]
-    public void ChangeTheme()
+    [ObservableProperty]
+    private AppExperience _currentExperience;
+    public HomePageViewModel()
     {
-        var newThemeVariant = Application.Current!.ActualThemeVariant == ThemeVariant.Dark
-            ? ThemeVariant.Light
-            : ThemeVariant.Dark;
-
-        Application.Current!.RequestedThemeVariant = newThemeVariant;
-
-        _userPreferencesService.Set(PreferenceKeys.ThemeVariant, newThemeVariant.ToString());
-    }
-
-    [RelayCommand]
-    public void ChangeLanguage()
-    {
-        _router.GoTo<LanguagesPageViewModel>();
+        UseExperience(AppExperience.Default);
     }
 
     [RelayCommand]
     public void UseExperience(AppExperience experience)
     {
+        CurrentExperience = experience;
         WeakReferenceMessenger.Default.Send(new ExperienceChangedMessage(experience));
     }
 }

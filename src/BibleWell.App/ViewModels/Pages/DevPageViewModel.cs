@@ -1,14 +1,17 @@
 using System.Collections.ObjectModel;
 using System.Reflection;
 using Avalonia;
+using Avalonia.Styling;
 using BibleWell.App.Configuration;
 using BibleWell.Aquifer;
 using BibleWell.Devices;
+using BibleWell.Preferences;
 using BibleWell.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BibleWell.App.ViewModels.Pages;
 
@@ -21,7 +24,9 @@ public partial class DevPageViewModel(
     IStorageService _storageService,
     IReadWriteAquiferService _readWriteAquiferService,
     IOptions<ConfigurationOptions> _configurationOptions,
-    ILogger<DevPageViewModel> _logger)
+    ILogger<DevPageViewModel> _logger,
+    Router _router,
+    IUserPreferencesService _userPreferencesService)
     : PageViewModelBase
 {
     [ObservableProperty]
@@ -94,4 +99,28 @@ public partial class DevPageViewModel(
     }
 
     public record InfoItem(string Name, string Value);
+    
+    [RelayCommand]
+    public void ChangeTheme()
+    {
+        var newThemeVariant = Application.Current!.ActualThemeVariant == ThemeVariant.Dark
+            ? ThemeVariant.Light
+            : ThemeVariant.Dark;
+
+        Application.Current!.RequestedThemeVariant = newThemeVariant;
+
+        _userPreferencesService.Set(PreferenceKeys.ThemeVariant, newThemeVariant.ToString());
+    }
+
+    [RelayCommand]
+    public void ChangeLanguage()
+    {
+        _router.GoTo<LanguagesPageViewModel>();
+    }
+    
+    [RelayCommand]
+    public void UseExperience(AppExperience experience)
+    {
+        WeakReferenceMessenger.Default.Send(new ExperienceChangedMessage(experience));
+    }
 }
