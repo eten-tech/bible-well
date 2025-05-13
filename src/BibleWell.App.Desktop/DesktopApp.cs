@@ -1,6 +1,7 @@
 ﻿using BibleWell.App.Desktop.Platform;
 using BibleWell.Devices;
 using BibleWell.Preferences;
+using BibleWell.PushNotifications;
 using BibleWell.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,5 +20,8 @@ public class DesktopApp : App
         services.AddSingleton<IDeviceService, DesktopDeviceService>();
         services.AddSingleton<IStorageService, DesktopStorageService>();
         services.AddSingleton<IUserPreferencesService, DesktopUserPreferencesServices>();
+        services.AddSingleton<DesktopNotificationDeviceInstallationService, DesktopNotificationDeviceInstallationService>();
+        // Use the mock implementation for Desktop to avoid NotImplementedException
+        services.AddSingleton<INotificationRegistrationService, MockNotificationRegistrationService>();
     }
 }

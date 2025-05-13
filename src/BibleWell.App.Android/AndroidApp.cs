@@ -31,7 +31,7 @@ public sealed class AndroidApp : App
         services.AddSingleton<IDeviceService, AndroidDeviceService>();
         services.AddSingleton<IStorageService, MauiStorageService>();
         services.AddSingleton<IUserPreferencesService, MauiUserPreferencesService>();
-        services.AddSingleton<IDeviceInstallationService, DeviceInstallationService>();
+        services.AddSingleton<IDeviceInstallationService, AndroidNotificationDeviceInstallationService>();
         services.AddSingleton<INotificationRegistrationService, NotificationRegistrationService>();
     }
 }

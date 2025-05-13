@@ -5,7 +5,7 @@ using MonoAndroidApplication = Android.App.Application;
 
 namespace BibleWell.App.Android.Platform;
 
-public class DeviceInstallationService(IDeviceService _androidDeviceInfo) : IDeviceInstallationService
+public class AndroidNotificationDeviceInstallationService(IDeviceService _androidDeviceInfo) : IDeviceInstallationService
 {
     public string Token { get; set; } = string.Empty;
 
