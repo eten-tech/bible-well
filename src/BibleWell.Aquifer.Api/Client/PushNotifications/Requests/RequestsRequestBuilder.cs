@@ -39,7 +39,7 @@ namespace BibleWell.Aquifer.API.Client.PushNotifications.Requests
         /// <param name="body">The request body</param>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
-        /// <exception cref="global::BibleWell.Aquifer.API.Client.Models.ErrorResponse">When receiving a 422 status code</exception>
+        /// <exception cref="global::BibleWell.Aquifer.API.Client.Models.ErrorResponse">When receiving a 400 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public async Task PostAsync(global::BibleWell.Aquifer.API.Client.Models.NotificationRequest body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
@@ -53,7 +53,7 @@ namespace BibleWell.Aquifer.API.Client.PushNotifications.Requests
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
             {
-                { "422", global::BibleWell.Aquifer.API.Client.Models.ErrorResponse.CreateFromDiscriminatorValue },
+                { "400", global::BibleWell.Aquifer.API.Client.Models.ErrorResponse.CreateFromDiscriminatorValue },
             };
             await RequestAdapter.SendNoContentAsync(requestInfo, errorMapping, cancellationToken).ConfigureAwait(false);
         }

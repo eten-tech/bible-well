@@ -32,8 +32,8 @@
           "204": {
             "description": "No Content"
           },
-          "422": {
-            "description": "",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -67,8 +67,8 @@
           "204": {
             "description": "No Content"
           },
-          "422": {
-            "description": "",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -105,8 +105,8 @@
           "204": {
             "description": "No Content"
           },
-          "422": {
-            "description": "",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/problem+json": {
                 "schema": {
