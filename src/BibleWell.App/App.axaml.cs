@@ -248,10 +248,7 @@ public partial class App : Application, IDisposable
 
     private void NotificationActionTriggered(object? sender, ActionEnum action)
     {
-        // Handle the notification action here
-        System.Diagnostics.Debug.WriteLine($"Notification action triggered: {action}");
-        
-        // You can navigate to different pages based on the action
+        // As an example, we navigate to different pages based on the action
         var router = Ioc.Default.GetService<Router>();
         switch (action)
         {
