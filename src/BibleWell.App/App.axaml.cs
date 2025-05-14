@@ -45,8 +45,6 @@ public partial class App : Application, IDisposable
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
-    
-    private IPushNotificationActionService? _pushNotificationActionService;
 
     protected virtual void ConfigurePlatform(ConfigurationBuilder configurationBuilder, string environment)
     {
@@ -165,9 +163,10 @@ public partial class App : Application, IDisposable
 
         Ioc.Default.ConfigureServices(serviceProvider);
 
+        // Initialize push notification service
+        Ioc.Default.GetService<IPushNotificationActionService>()?.Initialize();
+
         ConfigureUserPreferences(serviceProvider.GetRequiredService<IUserPreferencesService>());
-        
-        ConfigurePushNotifications();
 
         LoadMainView(isReload);
     }
@@ -193,21 +192,6 @@ public partial class App : Application, IDisposable
         catch (CultureNotFoundException)
         {
             userPreferencesService.Remove(PreferenceKeys.Language);
-        }
-    }
-    
-    private void ConfigurePushNotifications()
-    {
-        // Subscribe to push notification actions
-        if (_pushNotificationActionService != null)
-        {
-            _pushNotificationActionService.ActionTriggered -= NotificationActionTriggered;
-        }
-        
-        _pushNotificationActionService = Ioc.Default.GetService<IPushNotificationActionService>();
-        if (_pushNotificationActionService != null)
-        {
-            _pushNotificationActionService.ActionTriggered += NotificationActionTriggered;
         }
     }
 
@@ -243,23 +227,6 @@ public partial class App : Application, IDisposable
             var mainView = viewLocator.Build(mainViewModel);
             mainView.DataContext = mainViewModel;
             singleViewPlatform.MainView = mainView;
-        }
-    }
-
-    private void NotificationActionTriggered(object? sender, ActionEnum action)
-    {
-        // As an example, we navigate to different pages based on the action
-        var router = Ioc.Default.GetService<Router>();
-        switch (action)
-        {
-            case ActionEnum.ActionA:
-                router?.GoTo<HomePageViewModel>();
-                break;
-            case ActionEnum.ActionB:
-                router?.GoTo<BiblePageViewModel>();
-                break;
-            default:
-                break;
         }
     }
     
@@ -456,12 +423,6 @@ public partial class App : Application, IDisposable
 
             if (disposing)
             {
-                // Unsubscribe from events
-                if (_pushNotificationActionService != null)
-                {
-                    _pushNotificationActionService.ActionTriggered -= NotificationActionTriggered;
-                }
-                
                 _telemetryChannel.Dispose();
                 _telemetryChannel = null!;
             }
