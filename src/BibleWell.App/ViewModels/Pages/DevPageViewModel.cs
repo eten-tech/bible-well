@@ -100,6 +100,7 @@ public partial class DevPageViewModel(
     // --- push notifications ---
     [ObservableProperty]
     private string _pushText = "";
+
     [RelayCommand]
     public void RegisterDeviceButtonClicked()
     {
