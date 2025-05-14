@@ -30,6 +30,11 @@
             Command="{Binding ChangeLanguage}">
             Change Language (TODO localize)
         </Button>
+        <Button
+            Name="ViewParentResourcesButton"
+            Command="{Binding ViewParentResources}">
+            View Parent Resources
+        </Button>        
         <Separator />
         <Button
             Name="UseDefaultExperience"

@@ -46,6 +46,10 @@ public static class DesignData
         s_router,
         A.Fake<IUserPreferencesService>(),
         A.Fake<ICachingAquiferService>());
+
+    public static ParentResourcesPageViewModel DesignParentResourcesPageViewModel { get; } = new(
+        s_router,
+        A.Fake<ICachingAquiferService>());   
     public static LibraryPageViewModel DesignLibraryPageViewModel { get; } = new();
     public static ResourcesPageViewModel DesignResourcesPageViewModel { get; } = new(A.Fake<ICachingAquiferService>());
 

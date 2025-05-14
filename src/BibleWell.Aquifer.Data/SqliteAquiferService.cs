@@ -12,6 +12,11 @@ public sealed class SqliteAquiferService(ResourceContentRepository resourceConte
         return [];
     }
 
+    public Task<IReadOnlyList<ParentResource>> GetParentResourcesAsync()
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<ResourceContent?> GetResourceContentAsync(int id)
     {
         return MapToResourceContent(resourceContentRepository.GetById(id));

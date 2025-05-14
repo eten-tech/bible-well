@@ -28,6 +28,12 @@ public partial class HomePageViewModel(Router _router, IUserPreferencesService _
     {
         _router.GoTo<LanguagesPageViewModel>();
     }
+    
+    [RelayCommand]
+    public void ViewParentResources()
+    {
+        _router.GoTo<ParentResourcesPageViewModel>();
+    }
 
     [RelayCommand]
     public void UseExperience(AppExperience experience)

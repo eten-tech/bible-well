@@ -39,6 +39,7 @@ namespace BibleWell.Aquifer.API.Client.Languages
         /// <returns>A List&lt;global::BibleWell.Aquifer.API.Client.Models.ListLanguagesResponse&gt;</returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        /// <exception cref="global::BibleWell.Aquifer.API.Client.Models.ErrorResponse">When receiving a 400 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public async Task<List<global::BibleWell.Aquifer.API.Client.Models.ListLanguagesResponse>?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
@@ -49,7 +50,11 @@ namespace BibleWell.Aquifer.API.Client.Languages
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendCollectionAsync<global::BibleWell.Aquifer.API.Client.Models.ListLanguagesResponse>(requestInfo, global::BibleWell.Aquifer.API.Client.Models.ListLanguagesResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
+            {
+                { "400", global::BibleWell.Aquifer.API.Client.Models.ErrorResponse.CreateFromDiscriminatorValue },
+            };
+            var collectionResult = await RequestAdapter.SendCollectionAsync<global::BibleWell.Aquifer.API.Client.Models.ListLanguagesResponse>(requestInfo, global::BibleWell.Aquifer.API.Client.Models.ListLanguagesResponse.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
             return collectionResult?.AsList();
         }
         /// <summary>

@@ -163,4 +163,7 @@
   <data name="Test_Chilly" xml:space="preserve">
     <value>Chilly</value>
   </data>
+  <data name="ParentResourcesPage_Title" xml:space="preserve">
+      <value>Parent Resources</value>
+  </data>
 </root>

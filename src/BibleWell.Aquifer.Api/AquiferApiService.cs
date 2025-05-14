@@ -26,6 +26,36 @@ public sealed class AquiferApiService(ILogger<AquiferApiService> _logger, Aquife
             return [];
         }
     }
+    
+    public async Task<IReadOnlyList<ParentResource>> GetParentResourcesAsync()
+    {
+        try
+        {
+            // TODO actually implement real paging
+            var parentResources = await _aquiferClient.Resources.ParentResources
+                .GetAsync(b =>
+                {
+                    b.QueryParameters.Offset = 0;
+                    b.QueryParameters.Limit = 100;
+                });
+
+            return parentResources!
+                .Select(MapToParentResource)
+                .ToList();
+        }
+        catch (ErrorResponse)
+        {
+            // TODO
+            return [];
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching parent resources from Aquifer Well API.");
+
+            // TODO return some kind of Result<T> which allows for handling API errors?
+            return [];
+        }
+    }
 
     public Task<ResourceContent?> GetResourceContentAsync(int contentId)
     {
@@ -40,6 +70,16 @@ public sealed class AquiferApiService(ILogger<AquiferApiService> _logger, Aquife
 
         // TODO need actual API implementation
         return Task.FromResult<ResourceContent?>(null);
+    }
+    
+    private static ParentResource MapToParentResource(ListParentResourcesResponse source)
+    {
+        return new ParentResource(
+            source.Id!.Value,
+            source.Code!,
+            source.DisplayName!,
+            source.ShortName!
+        );
     }
 
     private static Language MapToLanguage(ListLanguagesResponse source)

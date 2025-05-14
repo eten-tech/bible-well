@@ -18,6 +18,12 @@ public class CachingAquiferService(IReadOnlyAquiferService _readOnlyAquiferServi
         return languages;
     }
 
+    public async Task<IReadOnlyList<ParentResource>> GetParentResourcesAsync()
+    {
+        // TODO actually cache in SQLite
+        return await _readOnlyAquiferService.GetParentResourcesAsync();
+    }
+
     public async Task<ResourceContent?> GetResourceContentAsync(int contentId)
     {
         var resource = await _readWriteAquiferService.GetResourceContentAsync(contentId);

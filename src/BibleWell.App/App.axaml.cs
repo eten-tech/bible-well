@@ -442,6 +442,7 @@ public partial class App : Application, IDisposable
     [Transient(typeof(HomePageViewModel))]
     [Transient(typeof(LanguagesPageViewModel))]
     [Transient(typeof(LibraryPageViewModel))]
+    [Transient(typeof(ParentResourcesPageViewModel))]
     [Transient(typeof(ResourcesPageViewModel))]
     private static partial void ConfigureViewModels(IServiceCollection services);
 
@@ -455,6 +456,7 @@ public partial class App : Application, IDisposable
     [Transient(typeof(HomePageView))]
     [Transient(typeof(LanguagesPageView))]
     [Transient(typeof(LibraryPageView))]
+    [Transient(typeof(ParentResourcesPageView))]
     [Transient(typeof(ResourcesPageView))]
     private static partial void ConfigureViews(IServiceCollection services);
 
@@ -475,6 +477,7 @@ public partial class App : Application, IDisposable
         viewLocator.RegisterViewFactory<HomePageViewModel, HomePageView>();
         viewLocator.RegisterViewFactory<LanguagesPageViewModel, LanguagesPageView>();
         viewLocator.RegisterViewFactory<LibraryPageViewModel, LibraryPageView>();
+        viewLocator.RegisterViewFactory<ParentResourcesPageViewModel, ParentResourcesPageView>();
         viewLocator.RegisterViewFactory<ResourcesPageViewModel, ResourcesPageView>();
 
         return viewLocator;

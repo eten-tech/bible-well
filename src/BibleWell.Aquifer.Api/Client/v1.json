@@ -7,6 +7,63 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/resources/parent-resources": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Return parent resources list.",
+        "description": "Return a list of parent resources and localization information.",
+        "operationId": "AquiferWellAPIEndpointsResourcesParentResourcesListListParentResourcesEndpoint",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of results to return.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Records to skip if paging through results.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ListParentResourcesResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/languages": {
       "get": {
         "tags": [
@@ -28,6 +85,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -35,6 +102,211 @@
   },
   "components": {
     "schemas": {
+      "ListParentResourcesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "code",
+          "displayName",
+          "shortName",
+          "resourceType",
+          "licenseInfo",
+          "localizations"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
+          },
+          "resourceType": {
+            "$ref": "#/components/schemas/ResourceType"
+          },
+          "licenseInfo": {
+            "$ref": "#/components/schemas/ResourceLicenseInfo"
+          },
+          "localizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParentResourcesLocalization"
+            }
+          }
+        }
+      },
+      "ResourceType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Guide",
+          "Dictionary",
+          "StudyNotes",
+          "Images",
+          "Videos"
+        ],
+        "enum": [
+          "None",
+          "Guide",
+          "Dictionary",
+          "StudyNotes",
+          "Images",
+          "Videos"
+        ]
+      },
+      "ResourceLicenseInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title",
+          "copyright",
+          "licenses",
+          "showAdaptationNoticeForEnglish",
+          "showAdaptationNoticeForNonEnglish"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "copyright": {
+            "$ref": "#/components/schemas/ResourceLicenseInfo_LicenseCopyright"
+          },
+          "licenses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourceLicenseInfo_LicenseDetails"
+            }
+          },
+          "showAdaptationNoticeForEnglish": {
+            "type": "boolean"
+          },
+          "showAdaptationNoticeForNonEnglish": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResourceLicenseInfo_LicenseCopyright": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "holder"
+        ],
+        "properties": {
+          "dates": {
+            "type": "string",
+            "nullable": true
+          },
+          "holder": {
+            "$ref": "#/components/schemas/ResourceLicenseInfo_LicenseCopyrightHolder"
+          }
+        }
+      },
+      "ResourceLicenseInfo_LicenseCopyrightHolder": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "url"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "ResourceLicenseInfo_LicenseDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "eng"
+        ],
+        "properties": {
+          "eng": {
+            "$ref": "#/components/schemas/ResourceLicenseInfo_LicenseData"
+          }
+        }
+      },
+      "ResourceLicenseInfo_LicenseData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "url"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "ParentResourcesLocalization": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "languageId",
+          "displayName"
+        ],
+        "properties": {
+          "languageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "displayName": {
+            "type": "string"
+          }
+        }
+      },
+      "ListParentResourcesRequest": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "the dto used to send an error response to the client",
+        "additionalProperties": false,
+        "required": [
+          "statusCode",
+          "message",
+          "errors"
+        ],
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "the http status code sent to the client. default is 400.",
+            "format": "int32",
+            "default": 400
+          },
+          "message": {
+            "type": "string",
+            "description": "the message for the error response",
+            "default": "One or more errors occurred!"
+          },
+          "errors": {
+            "type": "object",
+            "description": "the collection of errors for the current context",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
       "ListLanguagesResponse": {
         "type": "object",
         "additionalProperties": false,
