@@ -4,9 +4,9 @@ using Avalonia;
 using Avalonia.Android;
 using BibleWell.PushNotifications;
 using Firebase.Messaging;
-using Kotlin;
 using IOnSuccessListener = Android.Gms.Tasks.IOnSuccessListener;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Exception = System.Exception;
 
 namespace BibleWell.App.Android;
@@ -48,7 +48,10 @@ public class MainActivity : AvaloniaMainActivity<AndroidApp>, IOnSuccessListener
             FirebaseMessaging.Instance.GetToken().AddOnSuccessListener(this);
         }
 
-        ProcessNotificationAction(Intent!); // todo null check?
+        if (Intent != null)
+        {
+            ProcessNotificationAction(Intent);
+        }
     }
 
     public void OnSuccess(Java.Lang.Object? result)
@@ -68,8 +71,10 @@ public class MainActivity : AvaloniaMainActivity<AndroidApp>, IOnSuccessListener
         }
     }
 
-    public void ProcessNotificationAction(Intent intent)
+    private void ProcessNotificationAction(Intent intent)
     {
+        var logger = Ioc.Default.GetService<ILogger<MainActivity>>();
+
         try
         {
             if (intent?.HasExtra("action") == true && _notificationActionService != null)
@@ -82,9 +87,16 @@ public class MainActivity : AvaloniaMainActivity<AndroidApp>, IOnSuccessListener
                 }
             }
         }
-        catch (Exception e)
+        catch (AggregateException ex)
         {
-            throw new NotImplementedError(e.Message!);
+            foreach (var innerException in ex.InnerExceptions)
+            {
+                logger!.LogError(innerException, "An exception occurred while processing notification action");
+            }
+        }
+        catch (Exception ex)
+        {
+            logger!.LogError(ex, "An exception occurred while processing notification action");
         }
     }
 }
