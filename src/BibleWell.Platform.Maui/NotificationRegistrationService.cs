@@ -1,12 +1,11 @@
 using System.Text.Json;
-using BibleWell.Aquifer;
 using BibleWell.PushNotifications;
 using Microsoft.Maui.Storage;
 
 namespace BibleWell.Platform.Maui;
 
 public class NotificationRegistrationService(
-    IReadOnlyAquiferService _aquiferApiService,
+    IPushNotificationWellApiService _wellApiService,
     IDeviceInstallationService _deviceInstallationService) 
     : INotificationRegistrationService
 {
@@ -28,7 +27,7 @@ public class NotificationRegistrationService(
             throw new Exception("Unable to resolve an ID for the device.");
         }
 
-        await _aquiferApiService.DeregisterDeviceAsync(_deviceInstallationService.DeviceId);
+        await _wellApiService.DeregisterDeviceAsync(_deviceInstallationService.DeviceId);
 
         SecureStorage.Remove(CachedDeviceTokenKey);
         SecureStorage.Remove(CachedTagsKey);
@@ -38,7 +37,7 @@ public class NotificationRegistrationService(
     {
         var deviceInstallation = _deviceInstallationService?.GetDeviceInstallation(tags);
 
-        await _aquiferApiService.RegisterDeviceAsync(deviceInstallation!);
+        await _wellApiService.RegisterDeviceAsync(deviceInstallation!);
 
         await SecureStorage.SetAsync(CachedDeviceTokenKey, deviceInstallation!.PushChannel)
             .ConfigureAwait(false);
@@ -70,11 +69,11 @@ public class NotificationRegistrationService(
     // --- demo code to trigger notifications ---
     public async Task RequestActionAAsync()
     {
-        await _aquiferApiService.RequestActionAAsync();
+        await _wellApiService.RequestActionAAsync();
     }
 
     public async Task RequestActionBAsync()
     {
-        await _aquiferApiService.RequestActionBAsync();
+        await _wellApiService.RequestActionBAsync();
     }
 }

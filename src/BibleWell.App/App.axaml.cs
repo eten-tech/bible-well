@@ -434,6 +434,7 @@ public partial class App : Application, IDisposable
     [Singleton(typeof(ResourceContentRepository), typeof(ResourceContentRepository))]
     [Singleton(typeof(SqliteAquiferService), typeof(IReadWriteAquiferService))]
     [Singleton(typeof(SqliteDbManager), typeof(SqliteDbManager))]
+    [Singleton(typeof(PushNotificationWellApiService), typeof(IPushNotificationWellApiService))]
     [Singleton(typeof(PushNotificationActionService), typeof(IPushNotificationActionService))]
     private static partial void ConfigureServices(IServiceCollection services);
 
