@@ -20,6 +20,7 @@ public class DesktopApp : App
         services.AddSingleton<IDeviceService, DesktopDeviceService>();
         services.AddSingleton<IStorageService, DesktopStorageService>();
         services.AddSingleton<IUserPreferencesService, DesktopUserPreferencesServices>();
+        services.AddSingleton<ISecureUserStorageService, DesktopSecureUserStorageService>();
         services.AddSingleton<DesktopNotificationDeviceInstallationService, DesktopNotificationDeviceInstallationService>();
         // Use the mock implementation for Desktop to avoid NotImplementedException
         services.AddSingleton<INotificationRegistrationService, MockNotificationRegistrationService>();

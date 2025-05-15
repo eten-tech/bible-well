@@ -24,6 +24,7 @@ public sealed class iOSApp : App
         services.AddSingleton<IDeviceService, iOSDeviceService>();
         services.AddSingleton<IStorageService, MauiStorageService>();
         services.AddSingleton<IUserPreferencesService, MauiUserPreferencesService>();
+        services.AddSingleton<ISecureUserStorageService, MauiSecureUserStorageService>();
         services.AddSingleton<IDeviceInstallationService, IosNotificationDeviceInstallationService>();
         // Use the mock implementation for iOS to avoid NotImplementedException
         services.AddSingleton<INotificationRegistrationService, MockNotificationRegistrationService>();

@@ -1,12 +1,12 @@
 using System.Text.Json;
-using BibleWell.PushNotifications;
-using Microsoft.Maui.Storage;
+using BibleWell.Storage;
 
-namespace BibleWell.Platform.Maui;
+namespace BibleWell.PushNotifications;
 
 public class NotificationRegistrationService(
     IPushNotificationWellApiService _wellApiService,
-    IDeviceInstallationService _deviceInstallationService) 
+    IDeviceInstallationService _deviceInstallationService,
+    ISecureUserStorageService _secureUserStorageService) 
     : INotificationRegistrationService
 {
     private const string CachedDeviceTokenKey = "cached_device_token";
@@ -14,7 +14,7 @@ public class NotificationRegistrationService(
 
     public async Task DeregisterDeviceAsync()
     {
-        var cachedToken = await SecureStorage.GetAsync(CachedDeviceTokenKey)
+        var cachedToken = await _secureUserStorageService.GetAsync(CachedDeviceTokenKey)
             .ConfigureAwait(false);
 
         if (cachedToken == null)
@@ -29,8 +29,8 @@ public class NotificationRegistrationService(
 
         await _wellApiService.DeregisterDeviceAsync(_deviceInstallationService.DeviceId);
 
-        SecureStorage.Remove(CachedDeviceTokenKey);
-        SecureStorage.Remove(CachedTagsKey);
+        _secureUserStorageService.Remove(CachedDeviceTokenKey);
+        _secureUserStorageService.Remove(CachedTagsKey);
     }
 
     public async Task RegisterDeviceAsync(params string[] tags)
@@ -39,18 +39,18 @@ public class NotificationRegistrationService(
 
         await _wellApiService.RegisterDeviceAsync(deviceInstallation!);
 
-        await SecureStorage.SetAsync(CachedDeviceTokenKey, deviceInstallation!.PushChannel)
+        await _secureUserStorageService.SetAsync(CachedDeviceTokenKey, deviceInstallation!.PushChannel)
             .ConfigureAwait(false);
 
-        await SecureStorage.SetAsync(CachedTagsKey, JsonSerializer.Serialize(tags));
+        await _secureUserStorageService.SetAsync(CachedTagsKey, JsonSerializer.Serialize(tags));
     }
 
     public async Task RefreshRegistrationAsync()
     {
-        var cachedToken = await SecureStorage.GetAsync(CachedDeviceTokenKey)
+        var cachedToken = await _secureUserStorageService.GetAsync(CachedDeviceTokenKey)
             .ConfigureAwait(false);
 
-        var serializedTags = await SecureStorage.GetAsync(CachedTagsKey)
+        var serializedTags = await _secureUserStorageService.GetAsync(CachedTagsKey)
             .ConfigureAwait(false);
 
         if (string.IsNullOrWhiteSpace(cachedToken) ||
