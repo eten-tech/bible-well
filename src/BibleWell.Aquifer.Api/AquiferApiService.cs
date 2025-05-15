@@ -89,7 +89,7 @@ public sealed class AquiferApiService(ILogger<AquiferApiService> _logger, Aquife
         }
     }
 
-    public async Task DeRegisterDeviceAsync(string deviceId)
+    public async Task DeregisterDeviceAsync(string deviceId)
     {
         try
         {

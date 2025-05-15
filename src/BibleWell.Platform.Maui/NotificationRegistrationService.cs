@@ -28,7 +28,7 @@ public class NotificationRegistrationService(
             throw new Exception("Unable to resolve an ID for the device.");
         }
 
-        await _aquiferApiService.DeRegisterDeviceAsync(_deviceInstallationService.DeviceId);
+        await _aquiferApiService.DeregisterDeviceAsync(_deviceInstallationService.DeviceId);
 
         SecureStorage.Remove(CachedDeviceTokenKey);
         SecureStorage.Remove(CachedTagsKey);

@@ -13,7 +13,7 @@ public interface IReadOnlyAquiferService
         throw new NotImplementedException();
     }
 
-    Task DeRegisterDeviceAsync(string deviceId)
+    Task DeregisterDeviceAsync(string deviceId)
     {
         throw new NotImplementedException();
     }
