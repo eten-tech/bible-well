@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace BibleWell.PushNotifications;
 
 public interface IPushNotificationActionService : INotificationActionService, IDisposable
@@ -9,8 +11,8 @@ public interface IPushNotificationActionService : INotificationActionService, ID
     
     void Initialize();
 }
-
-public class PushNotificationActionService : IPushNotificationActionService
+// TODO: refactor and possibly move service to device-specific implementations as needed
+public class PushNotificationActionService(ILogger<PushNotificationActionService> _logger) : IPushNotificationActionService
 {
     private readonly Dictionary<string, ActionEnum> _actionMappings = new()
     {
@@ -41,12 +43,10 @@ public class PushNotificationActionService : IPushNotificationActionService
         {
             // TODO take action here
             case ActionEnum.ActionA:
-                // _router.GoTo<HomePageViewModel>();
-                Console.WriteLine("ActionA triggered");
+                _logger.LogInformation("ActionA triggered");
                 break;
             case ActionEnum.ActionB:
-                // _router.GoTo<BiblePageViewModel>();
-                Console.WriteLine("ActionB triggered");
+                _logger.LogDebug("ActionB triggered");
                 break;
             default:
                 // TODO take action here
