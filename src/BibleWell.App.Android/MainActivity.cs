@@ -56,9 +56,11 @@ public class MainActivity : AvaloniaMainActivity<AndroidApp>, IOnSuccessListener
 
     public void OnSuccess(Java.Lang.Object? result)
     {
-        if (_deviceInstallationService != null)
+        var token = result?.ToString();
+        if (!string.IsNullOrEmpty(token))
         {
-            _deviceInstallationService.Token = result?.ToString() ?? "";
+            // Store the token in the AndroidApp class
+            AndroidApp.SetPushNotificationToken(token);
         }
     }
 

@@ -10,7 +10,6 @@ public class PushNotificationFirebaseMessagingService : FirebaseMessagingService
 {
     private IPushNotificationActionService? _notificationActionService;
     private INotificationRegistrationService? _notificationRegistrationService;
-    private IDeviceInstallationService? _deviceInstallationService;
 
     // Default parameterless constructor required by Android
     public PushNotificationFirebaseMessagingService()
@@ -25,24 +24,22 @@ public class PushNotificationFirebaseMessagingService : FirebaseMessagingService
         // Resolve dependencies using Ioc container
         _notificationActionService = Ioc.Default.GetService<IPushNotificationActionService>();
         _notificationRegistrationService = Ioc.Default.GetService<INotificationRegistrationService>();
-        _deviceInstallationService = Ioc.Default.GetService<IDeviceInstallationService>();
     }
 
     public override void OnNewToken(string token)
     {
-        if (_deviceInstallationService != null)
-        {
-            _deviceInstallationService.Token = token;
+        // Store the token in the AndroidApp class
+        AndroidApp.SetPushNotificationToken(token);
 
-            _notificationRegistrationService?.RefreshRegistrationAsync()
-                .ContinueWith((task) =>
+        // Refresh registration with the backend
+        _notificationRegistrationService?.RefreshRegistrationAsync()
+            .ContinueWith((task) =>
+            {
+                if (task.IsFaulted)
                 {
-                    if (task.IsFaulted)
-                    {
-                        throw task.Exception;
-                    }
-                });
-        }
+                    throw task.Exception;
+                }
+            });
     }
 
     public override void OnMessageReceived(RemoteMessage message)

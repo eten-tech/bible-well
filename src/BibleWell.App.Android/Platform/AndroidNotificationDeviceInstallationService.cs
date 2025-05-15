@@ -7,12 +7,12 @@ namespace BibleWell.App.Android.Platform;
 
 public class AndroidNotificationDeviceInstallationService(IDeviceService _androidDeviceInfo) : IDeviceInstallationService
 {
-    public string Token { get; set; } = string.Empty;
-
     public bool NotificationsSupported => 
         GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(MonoAndroidApplication.Context) == ConnectionResult.Success;
 
     public string DeviceId => _androidDeviceInfo.DeviceId;
+    
+    public string? Token => ((AndroidApp)Avalonia.Application.Current!).PushNotificationToken;
 
     public DeviceInstallation GetDeviceInstallation(params string[] tags)
     {
