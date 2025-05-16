@@ -252,6 +252,29 @@
                 <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <TextBlock Classes="h2">Push Notifications</TextBlock>
+        <TextBlock>Only functional on Android</TextBlock>
+        <StackPanel Margin="0,0,0,10">
+            <Button x:Name="RegisterButton"
+                    Content="Register"
+                    Command="{Binding RegisterDeviceButtonClicked}" >
+            </Button>
+            <Button x:Name="DeregisterButton"
+                    Content="Deregister"
+                    Command="{Binding DeregisterDeviceButtonClicked}" >
+            </Button>
+            
+            <Button x:Name="RequestActionA"
+                    Content="Request Action A Notification"
+                    Command="{Binding RequestActionAClicked}">
+            </Button>
+            <Button x:Name="RequestActionB"
+                    Content="Request Action B Notification"
+                    Command="{Binding RequestActionBClicked}">
+            </Button>
+            <TextBlock Name="PushText" Text="{Binding PushText}"></TextBlock>
+        </StackPanel>
     </StackPanel>
 
 </UserControl>

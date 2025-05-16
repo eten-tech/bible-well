@@ -5,6 +5,7 @@ using BibleWell.App.ViewModels.Pages;
 using BibleWell.Aquifer;
 using BibleWell.Devices;
 using BibleWell.Preferences;
+using BibleWell.PushNotifications;
 using BibleWell.Storage;
 using BibleWell.Utility;
 using FakeItEasy;
@@ -39,7 +40,9 @@ public static class DesignData
         A.Fake<IReadWriteAquiferService>(),
         A.Fake<IOptions<ConfigurationOptions>>(),
         A.Fake<ILogger<DevPageViewModel>>(),
-        s_router, A.Fake<IUserPreferencesService>());
+        s_router, 
+        A.Fake<IUserPreferencesService>(),
+        A.Fake<INotificationRegistrationService>());
 
     public static GuidePageViewModel DesignGuidePageViewModel { get; } = new();
     public static HomePageViewModel DesignHomePageViewModel { get; } = new();

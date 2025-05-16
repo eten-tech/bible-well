@@ -19,6 +19,7 @@ using BibleWell.Aquifer.Api;
 using BibleWell.Aquifer.Api.Helpers;
 using BibleWell.Aquifer.Data;
 using BibleWell.Preferences;
+using BibleWell.PushNotifications;
 using CommunityToolkit.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.ApplicationInsights;
@@ -162,6 +163,9 @@ public partial class App : Application, IDisposable
 
         Ioc.Default.ConfigureServices(serviceProvider);
 
+        // Initialize push notification service
+        Ioc.Default.GetService<IPushNotificationActionService>()?.Initialize();
+
         ConfigureUserPreferences(serviceProvider.GetRequiredService<IUserPreferencesService>());
 
         LoadMainView(isReload);
@@ -225,7 +229,7 @@ public partial class App : Application, IDisposable
             singleViewPlatform.MainView = mainView;
         }
     }
-
+    
     private IConfiguration ConfigureConfiguration(AppEnvironment? environmentOverride = null)
     {
         var configurationBuilder = new ConfigurationBuilder();
@@ -430,6 +434,8 @@ public partial class App : Application, IDisposable
     [Singleton(typeof(ResourceContentRepository), typeof(ResourceContentRepository))]
     [Singleton(typeof(SqliteAquiferService), typeof(IReadWriteAquiferService))]
     [Singleton(typeof(SqliteDbManager), typeof(SqliteDbManager))]
+    [Singleton(typeof(PushNotificationWellApiService), typeof(IPushNotificationWellApiService))]
+    [Singleton(typeof(PushNotificationActionService), typeof(IPushNotificationActionService))]
     private static partial void ConfigureServices(IServiceCollection services);
 
     [Singleton(typeof(MainViewModel))]

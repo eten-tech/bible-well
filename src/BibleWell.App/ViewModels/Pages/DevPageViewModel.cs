@@ -6,6 +6,7 @@ using BibleWell.App.Configuration;
 using BibleWell.Aquifer;
 using BibleWell.Devices;
 using BibleWell.Preferences;
+using BibleWell.PushNotifications;
 using BibleWell.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -26,7 +27,8 @@ public partial class DevPageViewModel(
     IOptions<ConfigurationOptions> _configurationOptions,
     ILogger<DevPageViewModel> _logger,
     Router _router,
-    IUserPreferencesService _userPreferencesService)
+    IUserPreferencesService _userPreferencesService,
+    INotificationRegistrationService _notificationRegistrationService)
     : PageViewModelBase
 {
     [ObservableProperty]
@@ -122,5 +124,42 @@ public partial class DevPageViewModel(
     public void UseExperience(AppExperience experience)
     {
         WeakReferenceMessenger.Default.Send(new ExperienceChangedMessage(experience));
+    }
+
+    // --- push notifications ---
+    [ObservableProperty]
+    private string _pushText = "";
+
+    [RelayCommand]
+    public void RegisterDeviceButtonClicked()
+    {
+        _notificationRegistrationService.RegisterDeviceAsync()
+            .ContinueWith((task) => ShowAlert(task.IsFaulted ? task.Exception.Message : $"Device registered"));
+    }
+
+    [RelayCommand]
+    public void DeregisterDeviceButtonClicked()
+    {
+        _notificationRegistrationService.DeregisterDeviceAsync()
+            .ContinueWith((task) => ShowAlert(task.IsFaulted ? task.Exception.Message : $"Device deregistered"));
+    }
+
+    [RelayCommand]
+    public void RequestActionAClicked()
+    {
+        _notificationRegistrationService.RequestActionAAsync()
+            .ContinueWith((task) => ShowAlert(task.IsFaulted ? task.Exception.Message : $"Action A requested"));
+    }
+
+    [RelayCommand]
+    public void RequestActionBClicked()
+    {
+        _notificationRegistrationService.RequestActionBAsync()
+            .ContinueWith((task) => ShowAlert(task.IsFaulted ? task.Exception.Message : $"Action B requested"));
+    }
+
+    private void ShowAlert(string message)
+    {
+        PushText = message;
     }
 }

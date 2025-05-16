@@ -38,6 +38,7 @@
         <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.4" />
         <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="9.0.4" />
         <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.4.0" />
+        <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.4" />
         <PackageVersion Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.23.0" />
         <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.4" />
         <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.4" />
@@ -51,6 +52,7 @@
         <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
         <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
         <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />
+        <PackageVersion Include="Xamarin.Firebase.Messaging" Version="124.1.1" />
         <PackageVersion Include="xunit" Version="2.9.3" />
         <PackageVersion Include="xunit.v3" Version="2.0.1" />
         <PackageVersion Include="xunit.analyzers" Version="1.21.0" />

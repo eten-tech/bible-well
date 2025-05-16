@@ -3,6 +3,7 @@ using BibleWell.App.Android.Platform;
 using BibleWell.Devices;
 using BibleWell.Platform.Maui;
 using BibleWell.Preferences;
+using BibleWell.PushNotifications;
 using BibleWell.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,10 @@ namespace BibleWell.App.Android;
 
 public sealed class AndroidApp : App
 {
+    private static volatile string? s_pushNotificationToken;
+    
+    public string? PushNotificationToken => s_pushNotificationToken;
+    
     protected override void ConfigurePlatform(ConfigurationBuilder configurationBuilder, string environment)
     {
         if (environment == nameof(AppEnvironment.Development))
@@ -22,6 +27,8 @@ public sealed class AndroidApp : App
                 $"appsettings.{environment}.json");
             configurationBuilder.AddJsonStream(environmentConfigurationSettingsFileStream);
         }
+        
+        ClearPushNotificationToken();
     }
 
     protected override void RegisterPlatformServices(IServiceCollection services)
@@ -30,5 +37,24 @@ public sealed class AndroidApp : App
         services.AddSingleton<IDeviceService, AndroidDeviceService>();
         services.AddSingleton<IStorageService, MauiStorageService>();
         services.AddSingleton<IUserPreferencesService, MauiUserPreferencesService>();
+        services.AddSingleton<ISecureUserStorageService, MauiSecureUserStorageService>();
+        services.AddSingleton<IDeviceInstallationService, AndroidNotificationDeviceInstallationService>();
+        services.AddSingleton<INotificationRegistrationService, NotificationRegistrationService>();
+    }
+
+    public static void SetPushNotificationToken(string token)
+    {
+        if (string.IsNullOrEmpty(token))
+        {
+            return;
+        }
+        
+        // Use Interlocked for thread safety
+        Interlocked.CompareExchange(ref s_pushNotificationToken, token, s_pushNotificationToken);
+    }
+    
+    public static void ClearPushNotificationToken()
+    {
+        Interlocked.Exchange(ref s_pushNotificationToken, null);
     }
 }

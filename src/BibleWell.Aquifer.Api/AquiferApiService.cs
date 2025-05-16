@@ -1,4 +1,4 @@
-﻿using BibleWell.Aquifer.API.Client;
+using BibleWell.Aquifer.API.Client;
 using BibleWell.Aquifer.API.Client.Models;
 using BibleWell.Utility;
 using Microsoft.Extensions.Logging;
