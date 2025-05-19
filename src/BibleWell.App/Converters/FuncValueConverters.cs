@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
-using Avalonia.Svg.Skia;
 
 namespace BibleWell.App.Converters;
 
@@ -30,13 +29,17 @@ public static class FuncValueConverters
 
                 return null;
             });
-    public static FuncValueConverter<string?, SvgSource?> StringToSvgSourceConverter { get; } =
+
+    /// <summary>
+    /// Gets a Converter that returns a parsed  for a given icon name input. Returns null if the input was not parsed successfully.
+    /// </summary>
+    public static FuncValueConverter<string?, DrawingBrush?> StringToDrawingBrushConverter { get; } =
         new(
             iconName =>
             {
                 if (iconName != null &&
                     Application.Current?.TryGetResource(iconName, out var resource) == true &&
-                    resource is SvgSource icon)
+                    resource is DrawingBrush icon)
                 {
                     return icon;
                 }

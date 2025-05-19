@@ -11,134 +11,95 @@
     x:Class="BibleWell.App.Views.Pages.HomePageView"
     d:DataContext="{x:Static vm:DesignData.DesignHomePageViewModel}"
     x:DataType="vm:Pages.HomePageViewModel">
-
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <ScrollViewer>
-            <StackPanel>
-                <Image
-                    Margin="30 40 30 50"
-                    Stretch="UniformToFill" >
-                    <Image.Source>
-                        <SvgImage Source="{DynamicResource HomePageLogo}" />
-                    </Image.Source>
-                </Image>
-                <StackPanel
-                    Orientation="Horizontal"
+    <Grid RowDefinitions="50*, auto, auto, auto, auto, 5*, auto, auto, auto, 50*" ColumnDefinitions="5*, 50*, 5*, 50*, 5*">
+        <Rectangle x:Name="WellLogo" Grid.Row="0" Grid.ColumnSpan="5" Margin="30 40 30 50" Stretch="UniformToFill" MinHeight="100"
+            Fill="{StaticResource BibleWellHomePageLogoBrush}" />
+        <StackPanel
+            Name="ExperienceStack"
+            Grid.Row="1"
+            Grid.ColumnSpan="5"
+            Grid.Column="0"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            Margin="0 0 0 10">
+            <TextBlock
+                Text="{x:Static resx:AppResources.HomePage_CurrentExperience}"
+                HorizontalAlignment="Center"
+                Classes="label" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                Padding="5 0 0 0"
+                Classes="label"
+                Text="{Binding CurrentExperience}" />
+        </StackPanel>
+        <Button
+            Name="ExperienceCard"
+            Grid.Row="2"
+            Grid.ColumnSpan="5"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            Margin="25 0 25 25"
+            Classes="transparent">
+            <StackPanel
+                Orientation="Horizontal"
+                HorizontalAlignment="Center">
+                <Rectangle Width="25" Height="25" Fill="{StaticResource HomePageUserExperienceBrush}" />
+                <TextBlock
                     HorizontalAlignment="Center"
-                    Margin="0 0 0 10">
-                    <TextBlock
-                        Text="{x:Static resx:AppResources.HomePage_CurrentExperience}"
-                        HorizontalAlignment="Center"
-                        Classes="label"/>
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        Padding="5 0 0 0"
-                        Classes="label"
-                        Text="{Binding CurrentExperience}" />
-                </StackPanel>
-                <Button
-                    HorizontalAlignment="Stretch"
-                    Margin="25 0 25 25"
-                    Padding="0 10"
-                    Classes="transparent">
-                    <StackPanel
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center">
-                        <Image Width="25" Height="25" HorizontalAlignment="Center">
-                            <Image.Source>
-                                <SvgImage Source="{DynamicResource HomePageUserExperience}" />
-                            </Image.Source>
-                        </Image>
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Padding="10 0 0 0"
-                            Classes="label"
-                            Text="{x:Static resx:AppResources.HomePage_ChangeExperience}" />
-                    </StackPanel>
-                </Button>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Classes="transparent card">
-                        <StackPanel>
-                            <Image
-                                Classes="card-icon">
-                                <Image.Source>
-                                    <SvgImage Source="{DynamicResource HomePageProfile}" />
-                                </Image.Source>
-                            </Image>
-                            <TextBlock
-                                Classes="card-text"
-                                Text="{x:Static resx:AppResources.HomePage_Profile}" />
-                        </StackPanel>
-                    </Button>
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Classes="transparent card">
-                        <StackPanel>
-                            <Image
-                                Classes="card-icon">
-                                <Image.Source>
-                                    <SvgImage Source="{DynamicResource HomePageResourceManager}" />
-                                </Image.Source>
-                            </Image>
-                            <TextBlock
-                                Classes="card-text"
-                                Text="{x:Static resx:AppResources.HomePage_ResourceManager}" />
-                        </StackPanel>
-                    </Button>
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Classes="transparent card">
-                        <StackPanel>
-                            <Image
-                                Classes="card-icon">
-                                <Image.Source>
-                                    <SvgImage Source="{DynamicResource HomePageFeedback}" />
-                                </Image.Source>
-                            </Image>
-                            <TextBlock
-                                Classes="card-text"
-                                Text="{x:Static resx:AppResources.HomePage_Feedback}" />
-                        </StackPanel>
-                    </Button>
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Classes="transparent card">
-                        <StackPanel>
-                            <Image
-                                Classes="card-icon">
-                                <Image.Source>
-                                    <SvgImage Source="{DynamicResource HomePageAbout}" />
-                                </Image.Source>
-                            </Image>
-                            <TextBlock
-                                Classes="card-text"
-                                Text="{x:Static resx:AppResources.HomePage_About}" />
-                        </StackPanel>
-                    </Button>
-                </Grid>
+                    VerticalAlignment="Center"
+                    Padding="10 0 0 0"
+                    Classes="label"
+                    Text="{x:Static resx:AppResources.HomePage_ChangeExperience}" />
             </StackPanel>
-        </ScrollViewer>
+        </Button>
+        <Button
+            Grid.Row="4"
+            Grid.Column="1"
+            Classes="transparent card">
+            <Grid RowDefinitions="*, *" ColumnDefinitions="*">
+                <Rectangle Grid.Row="0" Classes="card-icon" Fill="{StaticResource HomePageProfileBrush}" Stretch="UniformToFill" />
+                <TextBlock
+                    Grid.Row="1"
+                    Classes="card-text"
+                    Text="{x:Static resx:AppResources.HomePage_Profile}" />
+            </Grid>
+        </Button>
+        <Button
+            Grid.Row="4"
+            Grid.Column="3"
+            Classes="transparent card">
+            <Grid RowDefinitions="*, *" ColumnDefinitions="*">
+                <Rectangle Grid.Row="0" Classes="card-icon" Fill="{StaticResource HomePageResourceManagerBrush}"
+                    Stretch="UniformToFill" />
+                <TextBlock
+                    Grid.Row="1"
+                    Classes="card-text"
+                    Text="{x:Static resx:AppResources.HomePage_ResourceManager}" />
+            </Grid>
+        </Button>
+        <Button
+            Grid.Row="6"
+            Grid.Column="1"
+            Classes="transparent card">
+            <Grid RowDefinitions="*, *" ColumnDefinitions="*">
+                <Rectangle Grid.Row="0" Classes="card-icon" Fill="{StaticResource HomePageFeedbackBrush}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Classes="card-text"
+                    Text="{x:Static resx:AppResources.HomePage_Feedback}" />
+            </Grid>
+        </Button>
+        <Button
+            Grid.Row="6"
+            Grid.Column="3"
+            Classes="transparent card">
+            <Grid RowDefinitions="*, *" ColumnDefinitions="*">
+                <Rectangle Grid.Row="0" Classes="card-icon" Fill="{StaticResource HomePageAboutBrush}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Classes="card-text"
+                    Text="{x:Static resx:AppResources.HomePage_About}" />
+            </Grid>
+        </Button>
     </Grid>
 </UserControl>

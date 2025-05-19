@@ -81,7 +81,7 @@ public partial class MainViewModel : ViewModelBase
                 break;
             case AppExperience.Default:
                 NavMenuVisible = true;
-                MenuItems.Add(new MenuItemTemplate(typeof(HomePageViewModel), "WellIcon", true, "WellIconInactive"));
+                MenuItems.Add(new MenuItemTemplate(typeof(HomePageViewModel), "BibleWellIconBrush", true, "BibleWellIconOutlineBrush"));
                 MenuItems.Add(new MenuItemTemplate(typeof(BiblePageViewModel), "BookOpenRegular"));
                 MenuItems.Add(new MenuItemTemplate(typeof(GuidePageViewModel), "CompassNorthwestRegular"));
                 MenuItems.Add(new MenuItemTemplate(typeof(ResourcesPageViewModel), "ClipboardRegular"));
@@ -90,7 +90,7 @@ public partial class MainViewModel : ViewModelBase
                 break;
             case AppExperience.Fia:
                 NavMenuVisible = true;
-                MenuItems.Add(new MenuItemTemplate(typeof(HomePageViewModel), "WellIcon", true, "WellIconInactive"));
+                MenuItems.Add(new MenuItemTemplate(typeof(HomePageViewModel), "BibleWellIconBrush", true, "BibleWellIconOutlineBrush"));
                 MenuItems.Add(new MenuItemTemplate(typeof(BiblePageViewModel), "BookOpenRegular"));
                 MenuItems.Add(new MenuItemTemplate(typeof(GuidePageViewModel), "CompassNorthwestRegular"));
                 MenuItems.Add(new MenuItemTemplate(typeof(ResourcesPageViewModel), "ClipboardRegular"));
