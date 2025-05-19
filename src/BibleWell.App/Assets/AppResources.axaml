@@ -133,7 +133,7 @@
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <!-- Colors -->
-            <Color x:Key="Bw-Primary">#a0967e</Color>
+            <Color x:Key="Bw-Primary">#00ACC1</Color>
             <Color x:Key="Bw-PrimaryFocus">#0174a3</Color>
             <Color x:Key="Bw-PrimaryContent">#202020</Color>
 

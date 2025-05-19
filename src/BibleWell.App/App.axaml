@@ -28,5 +28,4 @@
         <StyleInclude Source="/Assets/AppStyles.axaml" />
         <StyleInclude Source="/Assets/Icons.axaml" />
     </Application.Styles>
-
 </Application>

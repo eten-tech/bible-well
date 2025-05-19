@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BibleWell.App.ViewModels;
 
-public partial class MenuItemTemplate(Type viewModelType, string iconName, bool isSvg = false, string? iconNameInactive = null)
+public partial class MenuItemTemplate(Type viewModelType, string iconName, bool isDrawingBrush = false, string? iconNameInactive = null)
     : ObservableObject
 {
 
@@ -19,9 +19,9 @@ public partial class MenuItemTemplate(Type viewModelType, string iconName, bool 
     public string IconName { get; } = iconName;
 
     public string? IconNameInactive { get; } = iconNameInactive ?? iconName;
-    public bool IsSvg { get; } = isSvg;
-    public bool ShowActiveIndicator => IsSvg && IsSelected;
-    public bool ShowInactiveIndicator => IsSvg && !IsSelected;
+    public bool IsDrawingBrush { get; } = isDrawingBrush;
+    public bool ShowActiveIndicator => IsDrawingBrush && IsSelected;
+    public bool ShowInactiveIndicator => IsDrawingBrush && !IsSelected;
 
     partial void OnIsSelectedChanged(bool oldValue, bool newValue)
     {
