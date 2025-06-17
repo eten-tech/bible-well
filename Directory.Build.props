@@ -7,11 +7,11 @@
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <GitHubOrganization>BiblioNexusStudio</GitHubOrganization>
+        <GitHubOrganization>eten-tech</GitHubOrganization>
         <RepositoryName>bible-well</RepositoryName>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/$(GitHubOrganization)/$(RepositoryName).git</RepositoryUrl>
-        <Authors>BiblioNexus</Authors>
+        <Authors>eten-tech</Authors>
         <Copyright>Copyright $(Authors)</Copyright>
         <IsPackable>false</IsPackable>
         <IsTestProject>false</IsTestProject>

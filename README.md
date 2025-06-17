@@ -135,4 +135,4 @@ Currently AppInsights will only log from a mobile device that is connected to th
 
 ## Testing
 
-See [https://github.com/BiblioNexusStudio/bible-well/blob/main/tests/readme.md](https://github.com/BiblioNexusStudio/bible-well/blob/main/tests/readme.md).  
+See [https://github.com/eten-tech/bible-well/blob/main/tests/readme.md](https://github.com/eten-tech/bible-well/blob/main/tests/readme.md).  

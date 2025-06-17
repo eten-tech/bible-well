@@ -34,7 +34,7 @@ You can also use an IDE to run one or more tests with results visible in the IDE
 
 ## Testing Philosophy
 
-See https://github.com/BiblioNexusStudio/aquifer-server/blob/master/tests/readme.md#testing-philosophy for basic philosophy.
+See https://github.com/eten-tech/aquifer-server/blob/master/tests/readme.md#testing-philosophy for basic philosophy.
 
 ### Avalonia UI Testing Philosophy
 
