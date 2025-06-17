@@ -11,7 +11,7 @@
         <RepositoryName>bible-well</RepositoryName>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/$(GitHubOrganization)/$(RepositoryName).git</RepositoryUrl>
-        <Authors>ETEN Tech</Authors>
+        <Authors>eten-tech</Authors>
         <Copyright>Copyright $(Authors)</Copyright>
         <IsPackable>false</IsPackable>
         <IsTestProject>false</IsTestProject>
